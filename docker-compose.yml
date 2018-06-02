@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  webclient:
+    image: ${DOCKER_REGISTRY}webclient
+    build:
+      context: .
+      dockerfile: web/WebClient/Dockerfile
+
+  driver:
+    image: ${DOCKER_REGISTRY}driver
+    build:
+      context: .
+      dockerfile: sources/Driver/Dockerfile
+
+
+  controller:
+    image: ${DOCKER_REGISTRY}controller
+    build:
+      context: .
+      dockerfile: service/Controller/Dockerfile
+
+
+  documents.api:
+    image: ${DOCKER_REGISTRY}documentsapi
+    build:
+      context: .
+      dockerfile: api/Documents.Api/Dockerfile
+
