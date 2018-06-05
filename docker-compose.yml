@@ -2,28 +2,61 @@ version: '3.4'
 
 services:
   webclient:
-    image: ${DOCKER_REGISTRY}webclient
+    image: webclient
     build:
       context: .
       dockerfile: web/WebClient/Dockerfile
+    container_name: webclient
+    ports: 
+      - "8080:80"
+    depends_on:
+      - documents.api
 
   driver:
-    image: ${DOCKER_REGISTRY}driver
+    image: driver
     build:
       context: .
       dockerfile: sources/Driver/Dockerfile
-
+    container_name: driver
+    depends_on:
+      - rabbitmq
 
   controller:
-    image: ${DOCKER_REGISTRY}controller
+    image: controller
     build:
       context: .
       dockerfile: service/Controller/Dockerfile
-
+    container_name: controller
+    depends_on:
+      - rabbitmq
 
   documents.api:
-    image: ${DOCKER_REGISTRY}documentsapi
+    image: documents.api
     build:
       context: .
       dockerfile: api/Documents.Api/Dockerfile
+    container_name: documents.api
+    ports: 
+      - "8081:80"
+    depends_on:
+      - sql.data
+      - rabbitmq
 
+  sql.data:
+    image: sql.data
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    ports:
+      - "5433:5432"
+    container_name: sql.data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    container_name: rabbitmq
