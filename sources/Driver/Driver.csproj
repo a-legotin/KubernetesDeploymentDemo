@@ -10,15 +10,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.0" />
-    <PackageReference Include="MassTransit" Version="5.1.5" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="5.1.5" />
+    <PackageReference Include="MassTransit" Version="5.0.2" />
+    <PackageReference Include="MassTransit.Extensions.Hosting" Version="1.0.1" />
+    <PackageReference Include="MassTransit.Extensions.Hosting.RabbitMq" Version="1.0.1" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="5.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\common\Bus.Events\Bus.Events.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MassTransit.Extensions.Hosting">
+      <HintPath>..\..\..\..\Users\legot\.nuget\packages\masstransit.extensions.hosting\1.0.1\lib\netstandard2.0\MassTransit.Extensions.Hosting.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

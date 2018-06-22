@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using MassTransit;
-using MassTransit.Util;
+using Driver.Messaging;
+using GreenPipes;
+using MassTransit.Extensions.Hosting;
+using MassTransit.Extensions.Hosting.RabbitMq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using RabbitMQ.Client;
 
-namespace Driver
+namespace Controller
 {
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -24,41 +17,39 @@ namespace Driver
             Configuration = configuration;
         }
 
-        public IContainer ApplicationContainer { get; private set; }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
 
-            var builder = new ContainerBuilder();
-            builder.Register(c =>
+            services.AddMassTransit(busBuilder =>
             {
-                return Bus.Factory.CreateUsingRabbitMq(sbc =>
+               
+                busBuilder.UseRabbitMq("driver-connection", new Uri("rabbitmq://rabbitmq/"), hostBuilder =>
                 {
-                    sbc.Host("rabbitmq", "/", h =>
+                    hostBuilder.UseUsername("admin");
+                    hostBuilder.UsePassword("admin");
+                    
+                    hostBuilder.AddReceiveEndpoint("docService" + Guid.NewGuid().ToString(), endpointBuilder =>
                     {
-                        h.Username("admin");
-                        h.Password("admin");
+                        endpointBuilder.AddConfigurator(configureEndpoint =>
+                        {
+                            configureEndpoint.UseRetry(r => r.Immediate(3));
+                        });
+
+                        endpointBuilder.AddConsumer<StartGeneratorConsumer>(configureConsumer =>
+                        {
+
+                        });
                     });
-
-                    sbc.ExchangeType = ExchangeType.Fanout;
                 });
-            })
-                .As<IBusControl>()
-                .As<IBus>()
-                .As<IPublishEndpoint>()
-                .SingleInstance();
-
-            ApplicationContainer = builder.Build();
-
-            return new AutofacServiceProvider(ApplicationContainer);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime lifetime)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -66,10 +57,6 @@ namespace Driver
             }
 
             app.UseMvc();
-
-            var bus = ApplicationContainer.Resolve<IBusControl>();
-            var busHandle = TaskUtil.Await(() => bus.StartAsync());
-            lifetime.ApplicationStopping.Register(() => busHandle.Stop());
         }
     }
 }

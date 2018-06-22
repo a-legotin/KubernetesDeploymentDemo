@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Driver.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ValuesController : Microsoft.AspNetCore.Mvc.Controller
     {
         // GET api/values
         [HttpGet]

@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Bus.Events
 {
-    class StartReceivingEvent : IntegrationEvent
+    public class StartReceivingEvent : IntegrationEvent
     {
-        
+        public int DocumentsAmount { get; set; }
     }
 }
