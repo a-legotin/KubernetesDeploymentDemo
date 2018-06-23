@@ -4,8 +4,10 @@ services:
   webclient:
     image: webclient
     build:
-      context: .
-      dockerfile: web/WebClient/Dockerfile
+      context: ./web/WebClient
+      dockerfile: Dockerfile
+    volumes: 
+      - ./web/WebClient/bin/pub/:/app
     container_name: webclient
     ports: 
       - "8080:80"

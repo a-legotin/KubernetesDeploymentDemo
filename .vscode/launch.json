@@ -1,0 +1,93 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "web",
+            "type": "coreclr",
+            "request": "launch",    
+            "preLaunchTask": "publish",   
+            "program": "/app/webclient.dll",
+            "sourceFileMap": {
+                "/app": "${workspaceRoot}/webclient"
+            },       
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeCwd": "${workspaceRoot}",
+                "pipeArgs": [
+                    "exec -i webclient"
+                ],
+                "debuggerPath": "/vsdbg/vsdbg",
+                "quoteArgs": false
+            }
+
+        },
+        {
+            "name": "documents-api",
+            "type": "coreclr",
+            "request": "launch",    
+            "preLaunchTask": "publish",   
+            "program": "/app/documents.api.dll",
+            "sourceFileMap": {
+                "/app": "${workspaceRoot}/documents.api"
+            },       
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeCwd": "${workspaceRoot}",
+                "pipeArgs": [
+                    "exec -i documents.api"
+                ],
+                "debuggerPath": "/vsdbg/vsdbg",
+                "quoteArgs": false
+            }
+        },
+        {
+            "name": "driver",
+            "type": "coreclr",
+            "request": "launch",    
+            "preLaunchTask": "publish",   
+            "program": "/app/driver.dll",
+            "sourceFileMap": {
+                "/app": "${workspaceRoot}/driver"
+            },       
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeCwd": "${workspaceRoot}",
+                "pipeArgs": [
+                    "exec -i driver"
+                ],
+                "debuggerPath": "/vsdbg/vsdbg",
+                "quoteArgs": false
+            }
+        },
+        {
+            "name": "controller",
+            "type": "coreclr",
+            "request": "launch",    
+            "preLaunchTask": "publish",   
+            "program": "/controller.dll",
+            "sourceFileMap": {
+                "/app": "${workspaceRoot}/controller.api"
+            },       
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeCwd": "${workspaceRoot}",
+                "pipeArgs": [
+                    "exec -i controller"
+                ],
+                "debuggerPath": "/vsdbg/vsdbg",
+                "quoteArgs": false
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "All Projects",
+            "configurations": [
+                "web",
+                "documents-api",
+                "driver",
+                "controller"
+            ]
+        }
+    ]
+}

@@ -1,19 +1,13 @@
-FROM microsoft/aspnetcore:2.0 AS base
-WORKDIR /app
-EXPOSE 80
+FROM microsoft/aspnetcore:latest
+RUN mkdir app
 
-FROM microsoft/aspnetcore-build:2.0 AS build
-WORKDIR /src
-COPY web/WebClient/WebClient.csproj web/WebClient/
-RUN dotnet restore web/WebClient/WebClient.csproj
-COPY . .
-WORKDIR /src/web/WebClient
-RUN dotnet build WebClient.csproj -c Release -o /app
+#Install debugger
+RUN apt-get update
+RUN apt-get install curl -y unzip
+RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
 
-FROM build AS publish
-RUN dotnet publish WebClient.csproj -c Release -o /app
+EXPOSE 80/tcp 
+WORKDIR app
 
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "WebClient.dll"]
+#Keep the debugger container on
+ENTRYPOINT ["tail", "-f", "/dev/null"]

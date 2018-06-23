@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "command": "dotnet",
+    "args": [],
+    "tasks": [
+        {
+            "label": "publish",
+            "args": [
+                "${workspaceRoot}/KubernetesDeploymentDemo.sln", "-c", "Debug", "-o", "bin/pub"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

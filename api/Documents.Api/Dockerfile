@@ -16,4 +16,10 @@ RUN dotnet publish Documents.Api.csproj -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
+
+#Install debugger
+RUN apt-get update
+RUN apt-get install curl -y unzip
+RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+
 ENTRYPOINT ["dotnet", "Documents.Api.dll"]
