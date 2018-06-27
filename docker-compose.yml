@@ -6,7 +6,7 @@ services:
     build:
       context: ./web/WebClient
       dockerfile: Dockerfile
-    volumes: 
+    volumes:
       - ./web/WebClient/bin/pub/:/app
     container_name: webclient
     ports: 
@@ -17,26 +17,36 @@ services:
   driver:
     image: driver
     build:
-      context: .
-      dockerfile: sources/Driver/Dockerfile
+      context: ./sources/Driver
+      dockerfile: Dockerfile
+    volumes:
+      - ./sources/Driver/bin/pub/:/app
     container_name: driver
+    ports: 
+      - "8082:80"
     depends_on:
       - rabbitmq
 
   controller:
     image: controller
     build:
-      context: .
-      dockerfile: service/Controller/Dockerfile
+      context: ./service/Controller
+      dockerfile: Dockerfile
+    volumes:
+      - ./service/Controller/bin/pub/:/app
     container_name: controller
+    ports: 
+      - "8083:80"
     depends_on:
       - rabbitmq
 
   documents.api:
     image: documents.api
     build:
-      context: .
-      dockerfile: api/Documents.Api/Dockerfile
+      context: ./api/Documents.Api
+      dockerfile: Dockerfile
+    volumes:
+      - ./api/Documents.Api/bin/pub/:/app
     container_name: documents.api
     ports: 
       - "8081:80"
