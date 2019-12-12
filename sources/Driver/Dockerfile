@@ -1,12 +1,19 @@
-FROM microsoft/aspnetcore:2.0 AS base
+FROM mcr.microsoft.com/dotnet/core/runtime:3.0-buster-slim AS base
 WORKDIR /app
 
-#Install debugger
-RUN apt-get update
-RUN apt-get install curl -y unzip
-RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
+WORKDIR /src
+COPY ["sources/Driver/Driver.csproj", "sources/Driver/"]
+COPY ["common/Bus.Events/Bus.Events.csproj", "common/Bus.Events/"]
+RUN dotnet restore "sources/Driver/Driver.csproj"
+COPY . .
+WORKDIR "/src/sources/Driver"
+RUN dotnet build "Driver.csproj" -c Release -o /app/build
 
-EXPOSE 80/tcp
+FROM build AS publish
+RUN dotnet publish "Driver.csproj" -c Release -o /app/publish
 
-#Keep the debugger container on
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Driver.dll"]

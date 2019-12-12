@@ -6,7 +6,7 @@
     <ProjectGuid>cad0f3ee-8377-44d4-928b-222a90216c7f</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>webclient</DockerServiceName>
+    <DockerServiceName>webapp</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

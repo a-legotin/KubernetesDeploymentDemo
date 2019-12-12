@@ -1,27 +1,27 @@
 version: '3.4'
 
 services:
-  webclient:
+  kdemo.webapp:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "80"
 
-  driver:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "80"
-
-
-  controller:
+  kdemo.driver:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "80"
 
 
-  documents.api:
+  kdemo.controller:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+
+  kdemo.documents.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:

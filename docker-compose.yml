@@ -1,74 +1,74 @@
 version: '3.4'
 
 services:
-  webclient:
-    image: webclient
+  kdemo.webapp:
+    image: kdemo.webapp
     build:
-      context: ./web/WebClient
+      context: ./web/WebApp
       dockerfile: Dockerfile
     volumes:
-      - ./web/WebClient/bin/pub/:/app
-    container_name: webclient
+      - ./web/WebApp/bin/pub/:/app
+    container_name: kdemo.webapp
     ports: 
       - "8080:80"
     depends_on:
-      - documents.api
+      - kdemo.documents.api
 
-  driver:
-    image: driver
+  kdemo.driver:
+    image: kdemo.driver
     build:
       context: ./sources/Driver
       dockerfile: Dockerfile
     volumes:
       - ./sources/Driver/bin/pub/:/app
-    container_name: driver
+    container_name: kdemo.driver
     ports: 
       - "8082:80"
     depends_on:
-      - rabbitmq
+      - kdemo.rabbitmq
 
-  controller:
-    image: controller
+  kdemo.controller:
+    image: kdemo.controller
     build:
       context: ./service/Controller
       dockerfile: Dockerfile
     volumes:
       - ./service/Controller/bin/pub/:/app
-    container_name: controller
+    container_name: kdemo.controller
     ports: 
       - "8083:80"
     depends_on:
-      - rabbitmq
+      - kdemo.rabbitmq
 
-  documents.api:
-    image: documents.api
+  kdemo.documents.api:
+    image: kdemo.documents.api
     build:
       context: ./api/Documents.Api
       dockerfile: Dockerfile
     volumes:
       - ./api/Documents.Api/bin/pub/:/app
-    container_name: documents.api
+    container_name: kdemo.documents.api
     ports: 
       - "8081:80"
     depends_on:
-      - sql.data
-      - rabbitmq
+      - kdemo.sql.data
+      - kdemo.rabbitmq
 
-  sql.data:
-    image: sql.data
+  kdemo.sql.data:
+    image: kdemo.sql.data
     build:
       context: ./database
       dockerfile: Dockerfile
     ports:
-      - "5433:5432"
-    container_name: sql.data
+      - "5432:5433"
+    container_name: kdemo.sql.data
 
-  rabbitmq:
+  kdemo.rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "15672:15672"
-      - "5672:5672"
+      - "15673:15672"
+      - "5673:5672"
     environment:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=admin
-    container_name: rabbitmq
+    container_name: kdemo.rabbitmq

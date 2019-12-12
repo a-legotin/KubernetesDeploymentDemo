@@ -1,12 +1,18 @@
-FROM microsoft/aspnetcore:2.0 AS base
+FROM mcr.microsoft.com/dotnet/core/runtime:3.0-buster-slim AS base
 WORKDIR /app
 
-#Install debugger
-RUN apt-get update
-RUN apt-get install curl -y unzip
-RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
+WORKDIR /src
+COPY ["service/Controller/Controller.csproj", "service/Controller/"]
+RUN dotnet restore "service/Controller/Controller.csproj"
+COPY . .
+WORKDIR "/src/service/Controller"
+RUN dotnet build "Controller.csproj" -c Release -o /app/build
 
-EXPOSE 80/tcp
+FROM build AS publish
+RUN dotnet publish "Controller.csproj" -c Release -o /app/publish
 
-#Keep the debugger container on
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Controller.dll"]
