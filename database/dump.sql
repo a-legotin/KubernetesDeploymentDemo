@@ -8,25 +8,6 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 
 --
--- Drop roles
---
-
-DROP ROLE admin;
-
-
---
--- Roles
---
-
-CREATE ROLE admin;
-ALTER ROLE admin WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS PASSWORD 'md5f6fdffe48c908deb0f4c3bd36c032e72';
-
-
-
-
-
-
---
 -- Database creation
 --
 

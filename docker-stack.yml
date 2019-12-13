@@ -1,0 +1,32 @@
+version: '3.3'
+
+services:
+  webapp:
+    image: kdemo.webapp
+    ports:
+     - "8080:80"
+
+  documents-api:
+    image: kdemo.documents.api
+    ports:
+     - "8081:80"
+
+  driver:
+    image: kdemo.driver
+
+  controller:
+    image: kdemo.controller
+
+  sql-data:
+    image: kdemo.sql.data
+    ports:
+      - "5433:5432"
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15673:15672"
+      - "5673:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin

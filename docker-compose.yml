@@ -4,55 +4,26 @@ services:
   kdemo.webapp:
     image: kdemo.webapp
     build:
-      context: ./web/WebApp
-      dockerfile: Dockerfile
-    volumes:
-      - ./web/WebApp/bin/pub/:/app
-    container_name: kdemo.webapp
-    ports: 
-      - "8080:80"
-    depends_on:
-      - kdemo.documents.api
-
-  kdemo.driver:
-    image: kdemo.driver
-    build:
-      context: ./sources/Driver
-      dockerfile: Dockerfile
-    volumes:
-      - ./sources/Driver/bin/pub/:/app
-    container_name: kdemo.driver
-    ports: 
-      - "8082:80"
-    depends_on:
-      - kdemo.rabbitmq
-
-  kdemo.controller:
-    image: kdemo.controller
-    build:
-      context: ./service/Controller
-      dockerfile: Dockerfile
-    volumes:
-      - ./service/Controller/bin/pub/:/app
-    container_name: kdemo.controller
-    ports: 
-      - "8083:80"
-    depends_on:
-      - kdemo.rabbitmq
-
+      context: .
+      dockerfile: web/WebApp/Dockerfile
+  
   kdemo.documents.api:
     image: kdemo.documents.api
     build:
-      context: ./api/Documents.Api
-      dockerfile: Dockerfile
-    volumes:
-      - ./api/Documents.Api/bin/pub/:/app
-    container_name: kdemo.documents.api
-    ports: 
-      - "8081:80"
-    depends_on:
-      - kdemo.sql.data
-      - kdemo.rabbitmq
+      context: .
+      dockerfile: api/Documents.Api/Dockerfile
+  
+  kdemo.controller:
+    image: kdemo.controller
+    build:
+      context: .
+      dockerfile: service/Controller/Dockerfile
+  
+  kdemo.driver:
+    image: kdemo.driver
+    build:
+      context: .
+      dockerfile: sources/Driver/Dockerfile
 
   kdemo.sql.data:
     image: kdemo.sql.data
@@ -60,8 +31,7 @@ services:
       context: ./database
       dockerfile: Dockerfile
     ports:
-      - "5432:5433"
-    container_name: kdemo.sql.data
+      - "5433:5432"
 
   kdemo.rabbitmq:
     image: rabbitmq:3-management
@@ -71,4 +41,3 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=admin
-    container_name: kdemo.rabbitmq
