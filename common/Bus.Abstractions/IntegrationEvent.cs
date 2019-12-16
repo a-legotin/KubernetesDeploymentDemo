@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bus.Events
+namespace Bus.Abstractions
 {
     public class IntegrationEvent
     {

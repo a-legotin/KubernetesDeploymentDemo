@@ -1,4 +1,6 @@
-﻿namespace Bus.Events
+﻿using Bus.Abstractions;
+
+namespace Bus.Events
 {
     public class DocumentReceivedEvent : IntegrationEvent
     {

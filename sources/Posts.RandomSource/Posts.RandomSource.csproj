@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="MassTransit" Version="5.0.2" />
     <PackageReference Include="MassTransit.Extensions.Hosting" Version="1.0.1" />
     <PackageReference Include="MassTransit.Extensions.Hosting.RabbitMq" Version="1.0.1" />
@@ -21,6 +23,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\common\Bus.Events\Bus.Events.csproj" />
+    <ProjectReference Include="..\..\common\Bus.RabbitMQ\Bus.RabbitMQ.csproj" />
   </ItemGroup>
 
   <ItemGroup>

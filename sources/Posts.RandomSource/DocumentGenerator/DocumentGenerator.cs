@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Posts.RandomSource.Model;
 
-namespace Driver.DocumentGenerator
+namespace Posts.RandomSource.DocumentGenerator
 {
     public class DocumentGenerator
     {
