@@ -11,8 +11,8 @@ services:
     ports:
      - "8081:80"
 
-  driver:
-    image: kdemo.driver
+  posts-randomsource:
+    image: kdemo.posts.randomsource
 
   controller:
     image: kdemo.controller

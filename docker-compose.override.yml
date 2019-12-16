@@ -12,6 +12,7 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      
   kdemo.documents.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -23,3 +24,16 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  kdemo.posts.randomsource:
+    environment:
+      - EventBusConnection=${SERVICE_BUS}
+      - EventBusUserName=${RABBIT_USERNAME}
+      - EventBusPassword=${RABBIT_PASS}
+      - EventBusPort=${RABBIT_PORT}
+      - EventBusRetryCount=${RABBIT_RETRY}
+      
+  kdemo.rabbitmq:
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBIT_USERNAME}
+      - RABBITMQ_DEFAULT_PASS=${RABBIT_PASS}

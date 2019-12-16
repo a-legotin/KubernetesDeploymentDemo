@@ -19,11 +19,13 @@ services:
       context: .
       dockerfile: service/Controller/Dockerfile
   
-  kdemo.driver:
-    image: kdemo.driver
+  kdemo.posts.randomsource:
+    image: kdemo.posts.randomsource
     build:
       context: .
-      dockerfile: sources/Driver/Dockerfile
+      dockerfile: sources/Posts.RandomSource/Dockerfile
+    depends_on:
+        - kdemo.rabbitmq
 
   kdemo.sql.data:
     image: kdemo.sql.data
@@ -37,7 +39,5 @@ services:
     image: rabbitmq:3-management
     ports:
       - "15673:15672"
-      - "5673:5672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=admin
+    expose:
+      - "5672"
