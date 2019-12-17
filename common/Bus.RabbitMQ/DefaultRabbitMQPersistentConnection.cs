@@ -3,7 +3,6 @@ using System.IO;
 using System.Net.Sockets;
 using Microsoft.Extensions.Logging;
 using Polly;
-using Polly.Retry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
@@ -15,10 +14,10 @@ namespace Bus.RabbitMQ
         private readonly IConnectionFactory _connectionFactory;
         private readonly ILogger<IRabbitMQPersistentConnection> _logger;
         private readonly int _retryCount;
-        IConnection _connection;
-        bool _disposed;
+        private IConnection _connection;
+        private bool _disposed;
 
-        object sync_root = new object();
+        private readonly object sync_root = new object();
 
         public DefaultRabbitMQPersistentConnection(IConnectionFactory connectionFactory,
             ILogger<IRabbitMQPersistentConnection> logger, int retryCount = 5)
@@ -28,17 +27,12 @@ namespace Bus.RabbitMQ
             _retryCount = retryCount;
         }
 
-        public bool IsConnected
-        {
-            get { return _connection != null && _connection.IsOpen && !_disposed; }
-        }
+        public bool IsConnected => _connection != null && _connection.IsOpen && !_disposed;
 
         public IModel CreateModel()
         {
             if (!IsConnected)
-            {
                 throw new InvalidOperationException("No RabbitMQ connections are available to perform this action");
-            }
 
             return _connection.CreateModel();
         }
@@ -65,7 +59,7 @@ namespace Bus.RabbitMQ
 
             lock (sync_root)
             {
-                var policy = RetryPolicy.Handle<SocketException>()
+                var policy = Policy.Handle<SocketException>()
                     .Or<BrokerUnreachableException>()
                     .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
                         (ex, time) =>
@@ -98,12 +92,10 @@ namespace Bus.RabbitMQ
 
                     return true;
                 }
-                else
-                {
-                    _logger.LogCritical("FATAL ERROR: RabbitMQ connections could not be created and opened");
 
-                    return false;
-                }
+                _logger.LogCritical("FATAL ERROR: RabbitMQ connections could not be created and opened");
+
+                return false;
             }
         }
 
@@ -116,7 +108,7 @@ namespace Bus.RabbitMQ
             TryConnect();
         }
 
-        void OnCallbackException(object sender, CallbackExceptionEventArgs e)
+        private void OnCallbackException(object sender, CallbackExceptionEventArgs e)
         {
             if (_disposed) return;
 
@@ -125,7 +117,7 @@ namespace Bus.RabbitMQ
             TryConnect();
         }
 
-        void OnConnectionShutdown(object sender, ShutdownEventArgs reason)
+        private void OnConnectionShutdown(object sender, ShutdownEventArgs reason)
         {
             if (_disposed) return;
 

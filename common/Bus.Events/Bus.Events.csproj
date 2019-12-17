@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bus.Abstractions\Bus.Abstractions.csproj" />
+    <ProjectReference Include="..\Common.Models\Common.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,26 +6,34 @@ services:
     build:
       context: .
       dockerfile: web/WebApp/Dockerfile
-  
-  kdemo.documents.api:
-    image: kdemo.documents.api
+
+  kdemo.posts.api:
+    image: kdemo.posts.api
     build:
       context: .
-      dockerfile: api/Documents.Api/Dockerfile
-  
+      dockerfile: api/Posts.API/Dockerfile
+
   kdemo.controller:
     image: kdemo.controller
     build:
       context: .
       dockerfile: service/Controller/Dockerfile
-  
-  kdemo.posts.randomsource:
-    image: kdemo.posts.randomsource
+
+  kdemo.posts.wiki:
+    image: kdemo.posts.wiki
     build:
       context: .
-      dockerfile: sources/Posts.RandomSource/Dockerfile
+      dockerfile: sources/Posts.Wiki/Dockerfile
     depends_on:
-        - kdemo.rabbitmq
+      - kdemo.rabbitmq
+
+  kdemo.posts.reddit:
+    image: kdemo.posts.reddit
+    build:
+      context: .
+      dockerfile: sources/Posts.Reddit/Dockerfile
+    depends_on:
+      - kdemo.rabbitmq
 
   kdemo.sql.data:
     image: kdemo.sql.data

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <UserSecretsId>dotnet-Posts.Reddit-29756236-9C0F-4CFC-A566-F838B15F1383</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <DockerfileContext>..\..</DockerfileContext>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\common\Bus.Events\Bus.Events.csproj" />
+      <ProjectReference Include="..\..\common\Bus.RabbitMQ\Bus.RabbitMQ.csproj" />
+      <ProjectReference Include="..\..\common\Common.Models\Common.Models.csproj" />
+      <ProjectReference Include="..\..\common\Http\Http.csproj" />
+    </ItemGroup>
+</Project>

@@ -7,7 +7,6 @@ using Bus.Abstractions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Polly;
-using Polly.Retry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
@@ -16,7 +15,7 @@ namespace Bus.RabbitMQ
 {
     internal class EventBusRabbitMQ : IEventBus, IDisposable
     {
-        const string BROKER_NAME = "demo_event_bus";
+        private const string BROKER_NAME = "demo_event_bus";
         private readonly ILifetimeScope _autofac;
         private readonly ILogger<IEventBus> _logger;
 
@@ -45,10 +44,7 @@ namespace Bus.RabbitMQ
 
         public void Dispose()
         {
-            if (_consumerChannel != null)
-            {
-                _consumerChannel.Dispose();
-            }
+            if (_consumerChannel != null) _consumerChannel.Dispose();
 
             _subsManager.Clear();
         }
@@ -69,17 +65,14 @@ namespace Bus.RabbitMQ
 
         public void Publish(IntegrationEvent @event)
         {
-            if (!_persistentConnection.IsConnected)
-            {
-                _persistentConnection.TryConnect();
-            }
+            if (!_persistentConnection.IsConnected) _persistentConnection.TryConnect();
 
-            var policy = RetryPolicy.Handle<BrokerUnreachableException>()
+            var policy = Policy.Handle<BrokerUnreachableException>()
                 .Or<SocketException>()
                 .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
                     (ex, time) =>
                     {
-                        LoggerExtensions.LogWarning((ILogger) _logger, (Exception) ex,
+                        _logger.LogWarning(ex,
                             "Could not publish event: {EventId} after {Timeout}s ({ExceptionMessage})", @event.Id,
                             $"{time.TotalSeconds:n1}", ex.Message);
                     });
@@ -93,7 +86,7 @@ namespace Bus.RabbitMQ
             {
                 _logger.LogTrace("Declaring RabbitMQ exchange to publish event: {EventId}", @event.Id);
 
-                channel.ExchangeDeclare(exchange: BROKER_NAME, type: "direct");
+                channel.ExchangeDeclare(BROKER_NAME, "direct");
 
                 var message = JsonConvert.SerializeObject(@event);
                 var body = Encoding.UTF8.GetBytes(message);
@@ -106,27 +99,24 @@ namespace Bus.RabbitMQ
                     _logger.LogTrace("Publishing event to RabbitMQ: {EventId}", @event.Id);
 
                     channel.BasicPublish(
-                        exchange: BROKER_NAME,
-                        routingKey: eventName,
-                        mandatory: true,
-                        basicProperties: properties,
-                        body: body);
+                        BROKER_NAME,
+                        eventName,
+                        true,
+                        properties,
+                        body);
                 });
             }
         }
 
         private void SubsManager_OnEventRemoved(object sender, string eventName)
         {
-            if (!_persistentConnection.IsConnected)
-            {
-                _persistentConnection.TryConnect();
-            }
+            if (!_persistentConnection.IsConnected) _persistentConnection.TryConnect();
 
             using (var channel = _persistentConnection.CreateModel())
             {
-                channel.QueueUnbind(queue: _queueName,
-                    exchange: BROKER_NAME,
-                    routingKey: eventName);
+                channel.QueueUnbind(_queueName,
+                    BROKER_NAME,
+                    eventName);
 
                 if (_subsManager.IsEmpty)
                 {
@@ -142,16 +132,13 @@ namespace Bus.RabbitMQ
             var containsKey = _subsManager.HasSubscriptionsForEvent(eventName);
             if (!containsKey)
             {
-                if (!_persistentConnection.IsConnected)
-                {
-                    _persistentConnection.TryConnect();
-                }
+                if (!_persistentConnection.IsConnected) _persistentConnection.TryConnect();
 
                 using (var channel = _persistentConnection.CreateModel())
                 {
-                    channel.QueueBind(queue: _queueName,
-                        exchange: BROKER_NAME,
-                        routingKey: eventName);
+                    channel.QueueBind(_queueName,
+                        BROKER_NAME,
+                        eventName);
                 }
             }
         }
@@ -179,9 +166,9 @@ namespace Bus.RabbitMQ
                 consumer.Received += Consumer_Received;
 
                 _consumerChannel.BasicConsume(
-                    queue: _queueName,
-                    autoAck: false,
-                    consumer: consumer);
+                    _queueName,
+                    false,
+                    consumer);
             }
             else
             {
@@ -197,9 +184,7 @@ namespace Bus.RabbitMQ
             try
             {
                 if (message.ToLowerInvariant().Contains("throw-fake-exception"))
-                {
                     throw new InvalidOperationException($"Fake exception requested: \"{message}\"");
-                }
 
                 await ProcessEvent(eventName, message);
             }
@@ -211,28 +196,25 @@ namespace Bus.RabbitMQ
             // Even on exception we take the message off the queue.
             // in a REAL WORLD app this should be handled with a Dead Letter Exchange (DLX). 
             // For more information see: https://www.rabbitmq.com/dlx.html
-            _consumerChannel.BasicAck(eventArgs.DeliveryTag, multiple: false);
+            _consumerChannel.BasicAck(eventArgs.DeliveryTag, false);
         }
 
         private IModel CreateConsumerChannel()
         {
-            if (!_persistentConnection.IsConnected)
-            {
-                _persistentConnection.TryConnect();
-            }
+            if (!_persistentConnection.IsConnected) _persistentConnection.TryConnect();
 
             _logger.LogTrace("Creating RabbitMQ consumer channel");
 
             var channel = _persistentConnection.CreateModel();
 
-            channel.ExchangeDeclare(exchange: BROKER_NAME,
-                type: "direct");
+            channel.ExchangeDeclare(BROKER_NAME,
+                "direct");
 
-            channel.QueueDeclare(queue: _queueName,
-                durable: true,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
+            channel.QueueDeclare(_queueName,
+                true,
+                false,
+                false,
+                null);
 
             channel.CallbackException += (sender, ea) =>
             {
@@ -251,7 +233,6 @@ namespace Bus.RabbitMQ
             _logger.LogTrace("Processing RabbitMQ event: {EventName}", eventName);
 
             if (_subsManager.HasSubscriptionsForEvent(eventName))
-            {
                 using (var scope = _autofac.BeginLifetimeScope(AUTOFAC_SCOPE_NAME))
                 {
                     var subscriptions = _subsManager.GetHandlersForEvent(eventName);
@@ -264,14 +245,11 @@ namespace Bus.RabbitMQ
                         var concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
 
                         await Task.Yield();
-                        await (Task) concreteType.GetMethod("Handle").Invoke(handler, new object[] {integrationEvent});
+                        await (Task) concreteType.GetMethod("Handle").Invoke(handler, new[] {integrationEvent});
                     }
                 }
-            }
             else
-            {
                 _logger.LogWarning("No subscription for RabbitMQ event: {EventName}", eventName);
-            }
         }
     }
 }

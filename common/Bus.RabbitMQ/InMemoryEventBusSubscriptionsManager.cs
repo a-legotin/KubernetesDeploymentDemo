@@ -27,12 +27,9 @@ namespace Bus.RabbitMQ
         {
             var eventName = GetEventKey<T>();
 
-            DoAddSubscription(typeof(TH), eventName, isDynamic: false);
+            DoAddSubscription(typeof(TH), eventName, false);
 
-            if (!_eventTypes.Contains(typeof(T)))
-            {
-                _eventTypes.Add(typeof(T));
-            }
+            if (!_eventTypes.Contains(typeof(T))) _eventTypes.Add(typeof(T));
         }
 
 
@@ -63,32 +60,20 @@ namespace Bus.RabbitMQ
 
         public Type GetEventTypeByName(string eventName) => _eventTypes.SingleOrDefault(t => t.Name == eventName);
 
-        public string GetEventKey<T>()
-        {
-            return typeof(T).Name;
-        }
+        public string GetEventKey<T>() => typeof(T).Name;
 
         private void DoAddSubscription(Type handlerType, string eventName, bool isDynamic)
         {
-            if (!HasSubscriptionsForEvent(eventName))
-            {
-                _handlers.Add(eventName, new List<SubscriptionInfo>());
-            }
+            if (!HasSubscriptionsForEvent(eventName)) _handlers.Add(eventName, new List<SubscriptionInfo>());
 
             if (_handlers[eventName].Any(s => s.HandlerType == handlerType))
-            {
                 throw new ArgumentException(
                     $"Handler Type {handlerType.Name} already registered for '{eventName}'", nameof(handlerType));
-            }
 
             if (isDynamic)
-            {
                 _handlers[eventName].Add(SubscriptionInfo.Dynamic(handlerType));
-            }
             else
-            {
                 _handlers[eventName].Add(SubscriptionInfo.Typed(handlerType));
-            }
         }
 
 
@@ -101,10 +86,7 @@ namespace Bus.RabbitMQ
                 {
                     _handlers.Remove(eventName);
                     var eventType = _eventTypes.SingleOrDefault(e => e.Name == eventName);
-                    if (eventType != null)
-                    {
-                        _eventTypes.Remove(eventType);
-                    }
+                    if (eventType != null) _eventTypes.Remove(eventType);
 
                     RaiseOnEventRemoved(eventName);
                 }
@@ -128,10 +110,7 @@ namespace Bus.RabbitMQ
 
         private SubscriptionInfo DoFindSubscriptionToRemove(string eventName, Type handlerType)
         {
-            if (!HasSubscriptionsForEvent(eventName))
-            {
-                return null;
-            }
+            if (!HasSubscriptionsForEvent(eventName)) return null;
 
             return _handlers[eventName].SingleOrDefault(s => s.HandlerType == handlerType);
         }
