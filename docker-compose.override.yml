@@ -1,47 +1,46 @@
 version: '3.4'
 
 services:
-  kdemo.webapp:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=44324
-    ports:
-      - "63641:80"
-      - "44324:443"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-      
-  kdemo.posts.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=44388
-    ports:
-      - "62857:80"
-      - "44388:443"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    kdemo.webapp:
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+      ports:
+        - "8080:80"
 
-  kdemo.posts.reddit:
-    environment:
-      - EventBusConnection=${SERVICE_BUS}
-      - EventBusUserName=${RABBIT_USERNAME}
-      - EventBusPassword=${RABBIT_PASS}
-      - EventBusPort=${RABBIT_PORT}
-      - EventBusRetryCount=${RABBIT_RETRY}
-    
-  kdemo.posts.wiki:
-    environment:
-      - EventBusConnection=${SERVICE_BUS}
-      - EventBusUserName=${RABBIT_USERNAME}
-      - EventBusPassword=${RABBIT_PASS}
-      - EventBusPort=${RABBIT_PORT}
-      - EventBusRetryCount=${RABBIT_RETRY}
-      
-  kdemo.rabbitmq:
-    environment:
-      - RABBITMQ_DEFAULT_USER=${RABBIT_USERNAME}
-      - RABBITMQ_DEFAULT_PASS=${RABBIT_PASS}
+    kdemo.posts.api:
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - EventBusConnection=${SERVICE_BUS}
+        - EventBusUserName=${RABBIT_USERNAME}
+        - EventBusPassword=${RABBIT_PASS}
+        - EventBusPort=${RABBIT_PORT}
+        - EventBusRetryCount=${RABBIT_RETRY}
+      ports:
+        - "8081:80"
+      depends_on:
+        - kdemo.rabbitmq
+
+    kdemo.posts.reddit:
+      environment:
+        - EventBusConnection=${SERVICE_BUS}
+        - EventBusUserName=${RABBIT_USERNAME}
+        - EventBusPassword=${RABBIT_PASS}
+        - EventBusPort=${RABBIT_PORT}
+        - EventBusRetryCount=${RABBIT_RETRY}
+      depends_on:
+        - kdemo.rabbitmq
+        
+    kdemo.posts.wiki:
+      environment:
+        - EventBusConnection=${SERVICE_BUS}
+        - EventBusUserName=${RABBIT_USERNAME}
+        - EventBusPassword=${RABBIT_PASS}
+        - EventBusPort=${RABBIT_PORT}
+        - EventBusRetryCount=${RABBIT_RETRY}
+      depends_on:
+        - kdemo.rabbitmq
+
+    kdemo.rabbitmq:
+      environment:
+        - RABBITMQ_DEFAULT_USER=${RABBIT_USERNAME}
+        - RABBITMQ_DEFAULT_PASS=${RABBIT_PASS}

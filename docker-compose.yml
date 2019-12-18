@@ -13,12 +13,6 @@ services:
       context: .
       dockerfile: api/Posts.API/Dockerfile
 
-  kdemo.controller:
-    image: kdemo.controller
-    build:
-      context: .
-      dockerfile: service/Controller/Dockerfile
-
   kdemo.posts.wiki:
     image: kdemo.posts.wiki
     build:
@@ -42,6 +36,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5433:5432"
+    expose:
+      - "5432"
 
   kdemo.rabbitmq:
     image: rabbitmq:3-management

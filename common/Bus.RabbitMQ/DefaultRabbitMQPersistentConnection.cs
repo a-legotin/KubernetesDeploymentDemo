@@ -45,7 +45,7 @@ namespace Bus.RabbitMQ
 
             try
             {
-                _connection.Dispose();
+                _connection?.Dispose();
             }
             catch (IOException ex)
             {

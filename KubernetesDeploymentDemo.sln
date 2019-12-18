@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sources", "sources", "{5B2376E4-79A9-4CCF-B999-6AE7479152F5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "service", "service", "{F552B54F-A033-4422-A64A-7985668E3CB1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{DF18FDA8-B222-40AB-AE3D-D620F39DF1A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Posts.Wiki", "sources\Posts.Wiki\Posts.Wiki.csproj", "{B95C4B96-0D4F-4D07-A20A-A6561A91E1AB}"
@@ -37,8 +35,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Posts.Reddit", "sources\Posts.Reddit\Posts.Reddit.csproj", "{3BCE9993-5574-4834-BEC5-9FE18F9101ED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Models", "common\Common.Models\Common.Models.csproj", "{993E3B80-CF34-4C6D-93D0-A68128321BA0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Posts.Service", "service\Posts.Service\Posts.Service.csproj", "{07514F65-7EA3-4852-868E-F18AA5C60A6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,10 +82,6 @@ Global
 		{993E3B80-CF34-4C6D-93D0-A68128321BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{993E3B80-CF34-4C6D-93D0-A68128321BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{993E3B80-CF34-4C6D-93D0-A68128321BA0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07514F65-7EA3-4852-868E-F18AA5C60A6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07514F65-7EA3-4852-868E-F18AA5C60A6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07514F65-7EA3-4852-868E-F18AA5C60A6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07514F65-7EA3-4852-868E-F18AA5C60A6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,7 +96,6 @@ Global
 		{53A5105E-3FC9-4038-90D8-79C1CCF35E14} = {71BC9F58-E89F-412F-B3EC-965DC896DCC0}
 		{3BCE9993-5574-4834-BEC5-9FE18F9101ED} = {5B2376E4-79A9-4CCF-B999-6AE7479152F5}
 		{993E3B80-CF34-4C6D-93D0-A68128321BA0} = {7E343EF0-5123-4F5C-8319-0C58C4FB9E31}
-		{07514F65-7EA3-4852-868E-F18AA5C60A6F} = {F552B54F-A033-4422-A64A-7985668E3CB1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC18734D-2DD3-4714-9B72-475A80C39C2B}
