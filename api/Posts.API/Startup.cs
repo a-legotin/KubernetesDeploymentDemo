@@ -45,12 +45,13 @@ namespace Posts.API
         
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
+            containerBuilder.RegisterType<PostsRepository>().As<IPostsRepository>();
+            containerBuilder.RegisterType<WebPostDownloadedEventHandler>().As<IIntegrationEventHandler<WebPostDownloadedEvent>>();
             containerBuilder.RegisterModule<RabbitIocModule>();
             containerBuilder
                 .RegisterType<PostDbContextDbContext>()
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
-            containerBuilder.RegisterType<PostsRepository>().As<IPostsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +72,7 @@ namespace Posts.API
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
 
-            eventBus.Subscribe<WebPostDownloadedEvent, WebPostDownloadedEventHandler>();
+            eventBus.Subscribe<WebPostDownloadedEvent, IIntegrationEventHandler<WebPostDownloadedEvent>>();
         }
     }
 }

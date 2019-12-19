@@ -12,6 +12,9 @@ services:
     build:
       context: .
       dockerfile: api/Posts.API/Dockerfile
+    depends_on:
+      - kdemo.rabbitmq
+      - kdemo.sql.data
 
   kdemo.posts.wiki:
     image: kdemo.posts.wiki
@@ -20,6 +23,7 @@ services:
       dockerfile: sources/Posts.Wiki/Dockerfile
     depends_on:
       - kdemo.rabbitmq
+      - kdemo.posts.api
 
   kdemo.posts.reddit:
     image: kdemo.posts.reddit
@@ -28,6 +32,7 @@ services:
       dockerfile: sources/Posts.Reddit/Dockerfile
     depends_on:
       - kdemo.rabbitmq
+      - kdemo.posts.api
 
   kdemo.sql.data:
     image: kdemo.sql.data

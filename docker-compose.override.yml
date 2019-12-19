@@ -17,8 +17,6 @@ services:
         - EventBusRetryCount=${RABBIT_RETRY}
       ports:
         - "8081:80"
-      depends_on:
-        - kdemo.rabbitmq
 
     kdemo.posts.reddit:
       environment:
@@ -27,8 +25,6 @@ services:
         - EventBusPassword=${RABBIT_PASS}
         - EventBusPort=${RABBIT_PORT}
         - EventBusRetryCount=${RABBIT_RETRY}
-      depends_on:
-        - kdemo.rabbitmq
         
     kdemo.posts.wiki:
       environment:
@@ -37,8 +33,6 @@ services:
         - EventBusPassword=${RABBIT_PASS}
         - EventBusPort=${RABBIT_PORT}
         - EventBusRetryCount=${RABBIT_RETRY}
-      depends_on:
-        - kdemo.rabbitmq
 
     kdemo.rabbitmq:
       environment:
