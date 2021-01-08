@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/dotnet/core/runtime:3.0-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1.10-buster-slim AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["sources/Posts.Wiki/Posts.Wiki.csproj", "sources/Posts.Wiki/"]
 COPY ["common/Bus.RabbitMQ/Bus.RabbitMQ.csproj", "common/Bus.RabbitMQ/"]
