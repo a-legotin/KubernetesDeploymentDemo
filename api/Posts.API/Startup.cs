@@ -10,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Posts.API.BusEventHandlers;
 using Posts.API.Repositories;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Posts.API
 {
@@ -32,11 +31,17 @@ namespace Posts.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var dbRetryCount = string.IsNullOrEmpty(Configuration["DB_RETRY"])
+                ? 1
+                : int.Parse(Configuration["DB_RETRY"]); 
             services.AddDbContext<PostDbContextDbContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("PostgreSQLConnection"),
-                    b => b.MigrationsAssembly("Posts.API")
-                )
+                    b =>
+                    {
+                        b.MigrationsAssembly("Posts.API");
+                        b.EnableRetryOnFailure(dbRetryCount);
+                    })
             );
             services.AddControllers();
             services.AddOptions();

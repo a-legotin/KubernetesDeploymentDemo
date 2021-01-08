@@ -1,25 +1,27 @@
 version: '3.4'
 
 services:
-    kdemo.webapp:
-      environment:
-        - ASPNETCORE_ENVIRONMENT=Development
-      ports:
-        - "8080:80"
+#    kdemo.webapp:
+#      environment:
+#        - ASPNETCORE_ENVIRONMENT=Production
+#      ports:
+#        - "8080:80"
 
     kdemo.posts.api:
       environment:
-        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_ENVIRONMENT=Production
         - EventBusConnection=${SERVICE_BUS}
         - EventBusUserName=${RABBIT_USERNAME}
         - EventBusPassword=${RABBIT_PASS}
         - EventBusPort=${RABBIT_PORT}
         - EventBusRetryCount=${RABBIT_RETRY}
+        - DbRetryCount=${DB_RETRY}
       ports:
         - "8081:80"
 
     kdemo.posts.reddit:
       environment:
+        - DOTNET_ENVIRONMENT=Production
         - EventBusConnection=${SERVICE_BUS}
         - EventBusUserName=${RABBIT_USERNAME}
         - EventBusPassword=${RABBIT_PASS}
@@ -28,6 +30,7 @@ services:
         
     kdemo.posts.wiki:
       environment:
+        - DOTNET_ENVIRONMENT=Production
         - EventBusConnection=${SERVICE_BUS}
         - EventBusUserName=${RABBIT_USERNAME}
         - EventBusPassword=${RABBIT_PASS}

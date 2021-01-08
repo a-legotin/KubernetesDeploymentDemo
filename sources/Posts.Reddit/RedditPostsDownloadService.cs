@@ -9,13 +9,13 @@ using Posts.Reddit.Downloader;
 
 namespace Posts.Reddit
 {
-    internal class RedditPostsDowloadService : BackgroundService
+    internal class RedditPostsDownloadService : BackgroundService
     {
         private readonly IEventBus _eventBus;
-        private readonly ILogger<RedditPostsDowloadService> _logger;
+        private readonly ILogger<RedditPostsDownloadService> _logger;
         private readonly IRedditPostsDownloader _redditPostsDownloader;
 
-        public RedditPostsDowloadService(ILogger<RedditPostsDowloadService> logger,
+        public RedditPostsDownloadService(ILogger<RedditPostsDownloadService> logger,
             IEventBus eventBus,
             IRedditPostsDownloader redditPostsDownloader)
         {
@@ -29,8 +29,10 @@ namespace Posts.Reddit
             while (!stoppingToken.IsCancellationRequested)
                 try
                 {
+                    _logger.LogDebug("Downloading random reddit post", DateTimeOffset.Now);
                     var post = await _redditPostsDownloader.GetRandomPostAsync();
                     _eventBus.Publish(new WebPostDownloadedEvent(post));
+                    _logger.LogDebug($"Reddit post {post.Subject} published");
                 }
                 catch (Exception e)
                 {

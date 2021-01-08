@@ -1,11 +1,11 @@
 version: '3.4'
 
 services:
-  kdemo.webapp:
-    image: kdemo.webapp
-    build:
-      context: .
-      dockerfile: web/WebApp/Dockerfile
+#  kdemo.webapp:
+#    image: kdemo.webapp
+#    build:
+#      context: .
+#      dockerfile: web/WebApp/Dockerfile
 
   kdemo.posts.api:
     image: kdemo.posts.api
@@ -15,6 +15,7 @@ services:
     depends_on:
       - kdemo.rabbitmq
       - kdemo.sql.data
+    restart: on-failure
 
   kdemo.posts.wiki:
     image: kdemo.posts.wiki
@@ -24,6 +25,7 @@ services:
     depends_on:
       - kdemo.rabbitmq
       - kdemo.posts.api
+    restart: on-failure
 
   kdemo.posts.reddit:
     image: kdemo.posts.reddit
@@ -33,6 +35,7 @@ services:
     depends_on:
       - kdemo.rabbitmq
       - kdemo.posts.api
+    restart: on-failure
 
   kdemo.sql.data:
     image: kdemo.sql.data
@@ -50,3 +53,8 @@ services:
       - "15673:15672"
     expose:
       - "5672"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 10

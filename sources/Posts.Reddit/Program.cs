@@ -34,7 +34,7 @@ namespace Posts.Reddit
 
         private static void ConfigureServices(HostBuilderContext builder, IServiceCollection services)
         {
-            services.AddHostedService<RedditPostsDowloadService>();
+            services.AddHostedService<RedditPostsDownloadService>();
         }
 
         private static void ConfigureContainer(ContainerBuilder containerBuilder)

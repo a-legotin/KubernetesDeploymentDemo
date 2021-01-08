@@ -28,11 +28,12 @@ namespace Posts.Wiki
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Downloading random wiki page", DateTimeOffset.Now);
+                _logger.LogDebug("Downloading random wiki page", DateTimeOffset.Now);
                 try
                 {
                     var page = await _wikiPageDownloader.GetRandomWikiPage();
                     _eventBus.Publish(new WebPostDownloadedEvent(page));
+                    _logger.LogDebug($"Wiki page {page.Subject} published");
                 }
                 catch (Exception e)
                 {
