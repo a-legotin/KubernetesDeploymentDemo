@@ -24,7 +24,7 @@ namespace Posts.API
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
-        
+
         public ILifetimeScope AutofacContainer { get; private set; }
         public IConfiguration Configuration { get; }
 
@@ -33,7 +33,7 @@ namespace Posts.API
         {
             var dbRetryCount = string.IsNullOrEmpty(Configuration["DB_RETRY"])
                 ? 1
-                : int.Parse(Configuration["DB_RETRY"]); 
+                : int.Parse(Configuration["DB_RETRY"]);
             services.AddDbContext<PostDbContextDbContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("PostgreSQLConnection"),
@@ -46,12 +46,13 @@ namespace Posts.API
             services.AddControllers();
             services.AddOptions();
         }
-        
-        
+
+
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<PostsRepository>().As<IPostsRepository>();
-            containerBuilder.RegisterType<WebPostDownloadedEventHandler>().As<IIntegrationEventHandler<WebPostDownloadedEvent>>();
+            containerBuilder.RegisterType<WebPostDownloadedEventHandler>()
+                .As<IIntegrationEventHandler<WebPostDownloadedEvent>>();
             containerBuilder.RegisterModule<RabbitIocModule>();
             containerBuilder
                 .RegisterType<PostDbContextDbContext>()
@@ -69,10 +70,10 @@ namespace Posts.API
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
+
             ConfigureEventBus(app);
         }
-        
+
         private void ConfigureEventBus(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();

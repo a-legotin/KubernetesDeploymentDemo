@@ -1,6 +1,4 @@
-using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Bus.RabbitMQ;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 

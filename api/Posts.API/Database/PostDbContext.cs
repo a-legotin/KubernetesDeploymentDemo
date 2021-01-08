@@ -1,18 +1,17 @@
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Posts.API
 {
     public class PostDbContextDbContext : DbContext
     {
-        public DbSet<PostDto> Posts { get; set; }
-       
         public PostDbContextDbContext(DbContextOptions options) : base(options)
         {
         }
-        
+
+        public DbSet<PostDto> Posts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<PostDto>().HasKey(m => m.Id);
@@ -20,7 +19,7 @@ namespace Posts.API
 
             base.OnModelCreating(builder);
         }
-        
+
         public override int SaveChanges()
         {
             ChangeTracker.DetectChanges();

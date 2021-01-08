@@ -13,16 +13,14 @@ namespace Posts.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy",
+                            NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Subject = table.Column<string>(nullable: true),
                     Body = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true),
                     UpdatedTime = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Posts", x => x.Id); });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

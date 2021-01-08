@@ -21,7 +21,7 @@ namespace Posts.API.BusEventHandlers
 
         public async Task Handle(WebPostDownloadedEvent postEvent)
         {
-            await Task.Run(() => _postsRepository.Insert(new PostDto()
+            await Task.Run(() => _postsRepository.Insert(new PostDto
             {
                 Body = postEvent.Post.Body,
                 Subject = postEvent.Post.Subject,

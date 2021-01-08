@@ -11,10 +11,7 @@ namespace Posts.Wiki.Downloader
     {
         private readonly IHttpClient _httpClient;
 
-        public WikiPageDownloader(IHttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
+        public WikiPageDownloader(IHttpClient httpClient) => _httpClient = httpClient;
 
         public async Task<WikiPage> GetRandomWikiPage()
         {

@@ -14,10 +14,10 @@ namespace Bus.RabbitMQ
         private readonly IConnectionFactory _connectionFactory;
         private readonly ILogger<IRabbitMQPersistentConnection> _logger;
         private readonly int _retryCount;
-        private IConnection _connection;
-        private bool _disposed;
 
         private readonly object sync_root = new object();
+        private IConnection _connection;
+        private bool _disposed;
 
         public DefaultRabbitMQPersistentConnection(IConnectionFactory connectionFactory,
             ILogger<IRabbitMQPersistentConnection> logger, int retryCount = 5)

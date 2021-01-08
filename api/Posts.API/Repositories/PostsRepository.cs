@@ -6,10 +6,7 @@ namespace Posts.API.Repositories
     {
         private readonly PostDbContextDbContext _dbContext;
 
-        public PostsRepository(PostDbContextDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        public PostsRepository(PostDbContextDbContext dbContext) => _dbContext = dbContext;
 
         public IEnumerable<PostDto> GetAll() => _dbContext.Posts;
 

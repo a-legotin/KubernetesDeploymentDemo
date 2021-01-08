@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Common.Models;
 
 namespace Posts.API.Repositories
 {
