@@ -16,6 +16,9 @@ services:
       - rabbitmq
       - sql-data
     restart: on-failure
+    env_file: .env
+    networks:
+      - main-network
 
   posts-wiki:
     image: posts-wiki
@@ -26,6 +29,9 @@ services:
       - rabbitmq
       - post-api
     restart: on-failure
+    env_file: .env
+    networks:
+      - main-network
 
   posts-reddit:
     image: posts-reddit
@@ -36,21 +42,25 @@ services:
       - rabbitmq
       - post-api
     restart: on-failure
+    env_file: .env
+    networks:
+      - main-network
 
   sql-data:
     image: sql-data
     build:
       context: ./database
       dockerfile: Dockerfile
-    ports:
-      - "5433:5432"
+    env_file: .env
+    networks:
+      - main-network
 
   rabbitmq:
     image: rabbitmq:3-management
-    ports:
-      - "15673:15672"
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
-      interval: 30s
-      timeout: 10s
-      retries: 10
+    env_file: .env
+    networks:
+      - main-network
+
+networks:
+  main-network:
+    driver: bridge
