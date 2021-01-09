@@ -7,52 +7,48 @@ services:
 #      context: .
 #      dockerfile: web/WebApp/Dockerfile
 
-  kdemo.posts.api:
-    image: kdemo.posts.api
+  post-api:
+    image: post-api
     build:
       context: .
       dockerfile: api/Posts.API/Dockerfile
     depends_on:
-      - kdemo.rabbitmq
-      - kdemo.sql.data
+      - rabbitmq
+      - sql-data
     restart: on-failure
 
-  kdemo.posts.wiki:
-    image: kdemo.posts.wiki
+  posts-wiki:
+    image: posts-wiki
     build:
       context: .
       dockerfile: sources/Posts.Wiki/Dockerfile
     depends_on:
-      - kdemo.rabbitmq
-      - kdemo.posts.api
+      - rabbitmq
+      - post-api
     restart: on-failure
 
-  kdemo.posts.reddit:
-    image: kdemo.posts.reddit
+  posts-reddit:
+    image: posts-reddit
     build:
       context: .
       dockerfile: sources/Posts.Reddit/Dockerfile
     depends_on:
-      - kdemo.rabbitmq
-      - kdemo.posts.api
+      - rabbitmq
+      - post-api
     restart: on-failure
 
-  kdemo.sql.data:
-    image: kdemo.sql.data
+  sql-data:
+    image: sql-data
     build:
       context: ./database
       dockerfile: Dockerfile
     ports:
       - "5433:5432"
-    expose:
-      - "5432"
 
-  kdemo.rabbitmq:
+  rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "15673:15672"
-    expose:
-      - "5672"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
       interval: 30s

@@ -7,7 +7,7 @@ services:
 #      ports:
 #        - "8080:80"
 
-    kdemo.posts.api:
+    post-api:
       environment:
         - ASPNETCORE_ENVIRONMENT=Production
         - EventBusConnection=${SERVICE_BUS}
@@ -19,7 +19,7 @@ services:
       ports:
         - "8081:80"
 
-    kdemo.posts.reddit:
+    posts-reddit:
       environment:
         - DOTNET_ENVIRONMENT=Production
         - EventBusConnection=${SERVICE_BUS}
@@ -28,7 +28,7 @@ services:
         - EventBusPort=${RABBIT_PORT}
         - EventBusRetryCount=${RABBIT_RETRY}
         
-    kdemo.posts.wiki:
+    posts-wiki:
       environment:
         - DOTNET_ENVIRONMENT=Production
         - EventBusConnection=${SERVICE_BUS}
@@ -37,7 +37,7 @@ services:
         - EventBusPort=${RABBIT_PORT}
         - EventBusRetryCount=${RABBIT_RETRY}
 
-    kdemo.rabbitmq:
+    rabbitmq:
       environment:
         - RABBITMQ_DEFAULT_USER=${RABBIT_USERNAME}
         - RABBITMQ_DEFAULT_PASS=${RABBIT_PASS}

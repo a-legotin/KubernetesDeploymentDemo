@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		docker-stack.yml = docker-stack.yml
 		.travis.yml = .travis.yml
+		.env = .env
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bus.Abstractions", "common\Bus.Abstractions\Bus.Abstractions.csproj", "{063585AB-E4ED-4013-B1AE-5E687823E72C}"

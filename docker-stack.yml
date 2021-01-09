@@ -18,7 +18,7 @@ services:
     image: kdemo.controller
 
   sql-data:
-    image: kdemo.sql.data
+    image: sql-data
     ports:
       - "5433:5432"
   
