@@ -1,4 +1,0 @@
-FROM postgres:10.5
-ENV POSTGRES_PASSWORD admin
-ENV POSTGRES_USER admin
-ADD posts-db.sql /docker-entrypoint-initdb.d/
