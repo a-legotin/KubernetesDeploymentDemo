@@ -11,6 +11,9 @@ services:
   - docker
 dist: bionic
 
+branches:
+  only:
+  - master
   
 before_install:
   - sudo rm /usr/local/bin/docker-compose
