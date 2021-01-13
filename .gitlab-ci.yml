@@ -1,0 +1,20 @@
+image: mcr.microsoft.com/dotnet/sdk:5.0
+
+stages:
+    - build
+only:
+    - feature-true-k8s
+before_script:
+    - apt update -y -q
+    - apt install build-essential -y -q
+    - apt install curl -y -q
+    - "curl -sL https://deb.nodesource.com/setup_14.x | bash -"
+    - apt install nodejs -y -q
+    - node --version
+    - npm --version
+    - "dotnet restore"
+
+build:
+    stage: build
+    script:
+        - "dotnet build"
