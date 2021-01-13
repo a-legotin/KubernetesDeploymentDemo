@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Common.Http
+﻿namespace Common.Http
 {
     public class Class1
     {
