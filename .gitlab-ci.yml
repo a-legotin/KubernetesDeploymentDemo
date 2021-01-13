@@ -2,8 +2,7 @@ image: mcr.microsoft.com/dotnet/sdk:5.0
 
 stages:
     - build
-only:
-    - feature-true-k8s
+
 before_script:
     - apt update -y -q
     - apt install build-essential -y -q
@@ -16,5 +15,8 @@ before_script:
 
 build:
     stage: build
+    only:
+        refs:
+            - feature-true-k8s
     script:
         - "dotnet build"
