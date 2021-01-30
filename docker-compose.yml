@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+ customer-api:
+    image: kdemo-customer-api
+    build:
+      context: .
+      dockerfile: api/CustomerService.Api/Dockerfile
+    restart: on-failure
+    env_file: .env
+    networks:
+      - main-network
+    ports:
+      - "8081:80"
+
+networks:
+   main-network:
+     driver: bridge
