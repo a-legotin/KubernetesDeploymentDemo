@@ -5,13 +5,25 @@ services:
     image: kdemo-customer-api
     build:
       context: .
-      dockerfile: api/CustomerService.Api/Dockerfile
+      dockerfile: api/Customer.Api/Dockerfile
     restart: on-failure
     env_file: .env
     networks:
       - main-network
     ports:
       - "8081:80"
+    depends_on:
+      - kdemo-customers-db
+ kdemo-customers-db:
+   image: kdemo-customers-db
+   build:
+     context: ./database/customers
+     dockerfile: Dockerfile
+   env_file: .env
+   networks:
+      - main-network
+   ports:
+     - "5432:5432"
 
 networks:
    main-network:

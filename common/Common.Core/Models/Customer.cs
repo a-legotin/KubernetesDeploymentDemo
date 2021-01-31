@@ -1,9 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Common.Core.Models
 {
     public class Customer
     {
+        [JsonPropertyName("guid")]
+        public Guid Guid { get; set; }
+
         [JsonPropertyName("first_name")]
         public string FirstName { get; set; }
 
