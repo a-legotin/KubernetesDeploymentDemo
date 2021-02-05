@@ -22,6 +22,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer.Api", "api\Custome
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "api\Catalog.Api\Catalog.Api.csproj", "{6CF3D48A-6C42-4760-AD96-463C4644E9EC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{96BA617C-B53F-430A-8469-964B3BD8A900}"
+ProjectSection(SolutionItems) = preProject
+	database\customers\Dockerfile = database\customers\Dockerfile
+	database\customers\init.sql = database\customers\init.sql
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
