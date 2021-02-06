@@ -5,6 +5,10 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 WORKDIR /src
 COPY ["api/Catalog.Api/Catalog.Api.csproj", "api/Catalog.Api/"]
 COPY ["common/Common.Core/Common.Core.csproj", "common/Common.Core/"]
+COPY ["common/Common.Bus.Abstractions/Common.Bus.Abstractions.csproj", "common/Common.Bus.Abstractions/"]
+COPY ["common/Common.Bus.Events/Common.Bus.Events.csproj", "common/Common.Bus.Events/"]
+COPY ["common/Common.Bus.RabbitMQ/Common.Bus.RabbitMQ.csproj", "common/Common.Bus.RabbitMQ/"]
+
 RUN dotnet restore "api/Catalog.Api/Catalog.Api.csproj"
 COPY . .
 WORKDIR "/src/api/Catalog.Api"

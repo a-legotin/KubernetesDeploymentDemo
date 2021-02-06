@@ -1,11 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kdemo-customer-api-service
+  name: kdemo-customer-api
+  labels:
+    app: kdemo
 spec:
   type: LoadBalancer
   selector:
-    app: kdemo-customer
+    app: kdemo-customer-api
   ports:
     - protocol: TCP
       port: 8081
@@ -14,11 +16,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kdemo-catalog-api-service
+  name: kdemo-catalog-api
+  labels:
+    app: kdemo
 spec:
   type: LoadBalancer
   selector:
-    app: kdemo-catalog
+    app: kdemo-catalog-api
   ports:
     - protocol: TCP
       port: 8082
@@ -27,11 +31,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kdemo-orders-api-service
+  name: kdemo-orders-api
+  labels:
+    app: kdemo
 spec:
   type: LoadBalancer
   selector:
-    app: kdemo-orders
+    app: kdemo-orders-api
   ports:
     - protocol: TCP
       port: 8083
@@ -40,10 +46,25 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kdemo-postgres-service
+  name: kdemo-db
+  labels:
+    app: kdemo
 spec:
   type: ClusterIP
   selector:
-    app: kdemo-postgres
+    app: kdemo-db
   ports:
     - port: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kdemo-rabbitmq
+  labels:
+    app: kdemo
+spec:
+  type: ClusterIP
+  selector:
+    app: kdemo-rabbitmq
+  ports:
+    - port: 5672

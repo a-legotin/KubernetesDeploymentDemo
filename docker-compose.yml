@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
- customer-api:
+  kdemo-customer-api:
     image: kdemo-customer-api
     build:
       context: .
@@ -14,7 +14,8 @@ services:
       - "8081:8081"
     depends_on:
       - kdemo-db
- catalog-api:
+      - kdemo-rabbitmq
+  kdemo-catalog-api:
    image: kdemo-catalog-api
    build:
      context: .
@@ -27,7 +28,8 @@ services:
      - "8082:8082"
    depends_on:
      - kdemo-db
- orders-api:
+     - kdemo-rabbitmq
+  kdemo-orders-api:
    image: kdemo-orders-api
    build:
      context: .
@@ -40,7 +42,20 @@ services:
      - "8083:8083"
    depends_on:
      - kdemo-db
- kdemo-db:
+     - kdemo-rabbitmq
+  kdemo-orders-service:
+   image: kdemo-orders-service
+   build:
+     context: .
+     dockerfile: services/Service.Orders/Dockerfile
+   restart: on-failure
+   env_file: .env
+   networks:
+     - main-network
+   depends_on:
+     - kdemo-db
+     - kdemo-rabbitmq
+  kdemo-db:
    image: kdemo-db
    build:
      context: ./database
@@ -50,6 +65,11 @@ services:
       - main-network
    ports:
      - "5432:5432"
+  kdemo-rabbitmq:
+     image: rabbitmq:3-management
+     env_file: .env
+     networks:
+       - main-network
 
 networks:
    main-network:

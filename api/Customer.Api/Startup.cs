@@ -77,11 +77,8 @@ namespace Customer.Api
                         var exceptionHandlerPathFeature =
                             context.Features.Get<IExceptionHandlerPathFeature>();
 
-                        if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
-                        {
-                            await context.Response.WriteAsync(
-                                "File error thrown!<br><br>\r\n");
-                        }
+                        await context.Response.WriteAsync(
+                            $"Exception: {exceptionHandlerPathFeature?.Error}<br><br>\r\n");
 
                         await context.Response.WriteAsync(
                             "<a href=\"/\">Home</a><br>\r\n");

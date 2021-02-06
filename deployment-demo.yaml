@@ -2,15 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kdemo-customer-deployment
+  labels:
+    app: kdemo
 spec:
   selector:
     matchLabels:
-      app: kdemo-customer
+      app: kdemo-customer-api
   replicas: 1
   template:
     metadata:
       labels:
-        app: kdemo-customer
+        app: kdemo-customer-api
     spec:
       containers:
       - name: kdemo-customer-api
@@ -23,15 +25,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kdemo-catalog-deployment
+  labels:
+    app: kdemo
 spec:
   selector:
     matchLabels:
-      app: kdemo-catalog
+      app: kdemo-catalog-api
   replicas: 1
   template:
     metadata:
       labels:
-        app: kdemo-catalog
+        app: kdemo-catalog-api
     spec:
       containers:
         - name: kdemo-catalog-api
@@ -44,15 +48,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kdemo-orders-deployment
+  labels:
+    app: kdemo
 spec:
   selector:
     matchLabels:
-      app: kdemo-orders
+      app: kdemo-orders-api
   replicas: 1
   template:
     metadata:
       labels:
-        app: kdemo-orders
+        app: kdemo-orders-api
     spec:
       containers:
         - name: kdemo-orders-api
@@ -64,20 +70,43 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kdemo-postgres-deployment
+  name: kdemo-orders--service-deployment
+  labels:
+    app: kdemo
 spec:
   selector:
     matchLabels:
-      app: kdemo-postgres
+      app: kdemo-orders-service
   replicas: 1
   template:
     metadata:
       labels:
-        app: kdemo-postgres
+        app: kdemo-orders-service
     spec:
       containers:
-        - name: postgres
-          image: kdemo-customers-db
+        - name: kdemo-orders-service
+          image: kdemo-orders-service:latest
+          imagePullPolicy: Never #to pull local image
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdemo-db-deployment
+  labels:
+    app: kdemo
+spec:
+  selector:
+    matchLabels:
+      app: kdemo-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kdemo-db
+    spec:
+      containers:
+        - name: kdemo-db
+          image: kdemo-db
           imagePullPolicy: Never #to pull local image
           ports:
             - containerPort: 5432
@@ -86,3 +115,30 @@ spec:
               value: admin
             - name: POSTGRES_PASSWORD
               value: admin!@#
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdemo-rabbitmq-deployment
+  labels:
+    app: kdemo
+spec:
+  selector:
+    matchLabels:
+      app: kdemo-rabbitmq
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kdemo-rabbitmq
+    spec:
+      containers:
+        - name: kdemo-rabbitmq
+          image: rabbitmq:3-management
+          ports:
+            - containerPort: 5672
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: admin
+            - name: RABBITMQ_DEFAULT_PASS
+              value: admin
