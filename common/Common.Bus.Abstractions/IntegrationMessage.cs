@@ -2,9 +2,9 @@
 
 namespace Common.Bus.Abstractions
 {
-    public class IntegrationEvent
+    public class IntegrationMessage
     {
-        public IntegrationEvent()
+        public IntegrationMessage()
         {
             Id = Guid.NewGuid();
             CreationDate = DateTime.UtcNow;

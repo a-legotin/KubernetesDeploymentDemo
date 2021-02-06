@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Orders.Api.Database.Models;
 
@@ -25,6 +27,13 @@ namespace Orders.Api.Database
             ChangeTracker.DetectChanges();
             updateUpdatedProperty<OrderDto>();
             return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+                ChangeTracker.DetectChanges();
+                updateUpdatedProperty<OrderDto>();
+                return base.SaveChangesAsync(cancellationToken);
         }
 
         private void updateUpdatedProperty<T>() where T : class

@@ -24,10 +24,10 @@ namespace Orders.Api.EventHandlers
             _mapper = mapper;
         }
 
-        public async Task Handle(OrderPostedEvent postEvent)
+        public async Task Handle(OrderPostedEvent request)
         {
-            _logger.LogTrace($"Got an event {postEvent.Id} created at {postEvent.CreationDate}");
-            await _postsRepository.InsertAsync(_mapper.Map<OrderDto>(postEvent.Order));
+            _logger.LogTrace($"Got an event {request.Id} created at {request.CreationDate}");
+            await _postsRepository.InsertAsync(_mapper.Map<OrderDto>(request.Order));
         }
     }
 }

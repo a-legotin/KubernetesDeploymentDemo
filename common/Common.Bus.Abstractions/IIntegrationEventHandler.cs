@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 namespace Common.Bus.Abstractions
 {
     public interface IIntegrationEventHandler<in TIntegrationEvent> : IIntegrationEventHandler
-        where TIntegrationEvent : IntegrationEvent
+        where TIntegrationEvent : IntegrationMessage
     {
-        Task Handle(TIntegrationEvent @event);
+        Task Handle(TIntegrationEvent request);
     }
 
     public interface IIntegrationEventHandler

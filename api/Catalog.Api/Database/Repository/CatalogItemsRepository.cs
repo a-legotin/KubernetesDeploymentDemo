@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Catalog.Api.Database.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Catalog.Api.Database.Repository
@@ -17,8 +18,8 @@ namespace Catalog.Api.Database.Repository
 
         public IEnumerable<CatalogItemDto> GetAll()
         {
-            _logger.LogTrace("Getting all catalog items");
-            return _dbContext.Items;
+            _logger.LogTrace("Getting all catalog items with category");
+            return _dbContext.Items.Include(dto => dto.Category);
         }
 
         public void Insert(CatalogItemDto catalogItem)

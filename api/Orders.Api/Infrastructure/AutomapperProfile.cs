@@ -17,6 +17,8 @@ namespace Orders.Api.Infrastructure
                     dest => dest.ItemGuids,
                     opt => opt.MapFrom(src => src.Items.Select(item => item.Guid).ToArray())
                 );
+            
+            CreateMap<OrderDto, Common.Core.Models.Order>();
         }
     }
 }

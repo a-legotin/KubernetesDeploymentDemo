@@ -1,8 +1,13 @@
 using System.IO;
 using System.Reflection;
+using Autofac;
 using AutoMapper;
+using Common.Bus.Abstractions;
+using Common.Bus.Events;
+using Common.Bus.RabbitMQ;
 using Customer.Api.Database;
 using Customer.Api.Database.Repository;
+using Customer.Api.EventHandlers;
 using Customer.Api.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -35,11 +40,6 @@ namespace Customer.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddTransient<ICustomerRepository, CustomerRepository>();
-
-            var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutomapperProfile()); });
-            var mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
 
             var dbRetryCount = string.IsNullOrEmpty(Configuration["DbRetryCount"])
                 ? 3
@@ -97,11 +97,29 @@ namespace Customer.Api
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetService<CustomerDbContext>();
-                context?.Database.CanConnect();
-            }
+            ConfigureEventBus(app);
+        }
+
+        public void ConfigureContainer(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<CustomerRepository>()
+                .As<ICustomerRepository>();
+            containerBuilder.RegisterType<RandomCustomerRequestEventHandler>()
+                .As<IIntegrationEventHandler<RandomCustomerRequest>>();
+            containerBuilder.RegisterModule<RabbitIocModule>();
+            containerBuilder
+                .RegisterType<CustomerDbContext>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+            var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutomapperProfile()); });
+            var mapper = mapperConfig.CreateMapper();
+            containerBuilder.RegisterInstance(mapper);
+        }
+
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<RandomCustomerRequest, IIntegrationEventHandler<RandomCustomerRequest>>();
         }
     }
 }

@@ -2,10 +2,10 @@ namespace Common.Bus.Abstractions
 {
     public interface IEventBus
     {
-        void Publish(IntegrationEvent @event);
+        void Publish(IntegrationMessage message);
 
         void Subscribe<T, TH>()
-            where T : IntegrationEvent
+            where T : IntegrationMessage
             where TH : IIntegrationEventHandler<T>;
     }
 }

@@ -15,14 +15,14 @@ namespace Common.Bus.RabbitMQ
 {
     internal class EventBusRabbitMQ : IEventBus, IDisposable
     {
-        private const string BROKER_NAME = "demo_event_bus";
+        private const string BROKER_NAME = "kdemo_bus";
         private readonly ILifetimeScope _autofac;
         private readonly ILogger<IEventBus> _logger;
 
         private readonly IRabbitMQPersistentConnection _persistentConnection;
         private readonly int _retryCount;
         private readonly IEventBusSubscriptionsManager _subsManager;
-        private readonly string AUTOFAC_SCOPE_NAME = "kubernetes_demo";
+        private readonly string AUTOFAC_SCOPE_NAME = "kdemo";
 
         private IModel _consumerChannel;
         private string _queueName;
@@ -50,7 +50,7 @@ namespace Common.Bus.RabbitMQ
         }
 
         public void Subscribe<T, TH>()
-            where T : IntegrationEvent
+            where T : IntegrationMessage
             where TH : IIntegrationEventHandler<T>
         {
             var eventName = _subsManager.GetEventKey<T>();
@@ -63,7 +63,7 @@ namespace Common.Bus.RabbitMQ
             StartBasicConsume();
         }
 
-        public void Publish(IntegrationEvent @event)
+        public void Publish(IntegrationMessage message)
         {
             if (!_persistentConnection.IsConnected) _persistentConnection.TryConnect();
 
@@ -73,30 +73,30 @@ namespace Common.Bus.RabbitMQ
                     (ex, time) =>
                     {
                         _logger.LogWarning(ex,
-                            "Could not publish event: {EventId} after {Timeout}s ({ExceptionMessage})", @event.Id,
+                            "Could not publish event: {EventId} after {Timeout}s ({ExceptionMessage})", message.Id,
                             $"{time.TotalSeconds:n1}", ex.Message);
                     });
 
-            var eventName = @event.GetType().Name;
+            var eventName = message.GetType().Name;
 
-            _logger.LogTrace("Creating RabbitMQ channel to publish event: {EventId} ({EventName})", @event.Id,
+            _logger.LogTrace("Creating RabbitMQ channel to publish event: {EventId} ({EventName})", message.Id,
                 eventName);
 
             using (var channel = _persistentConnection.CreateModel())
             {
-                _logger.LogTrace("Declaring RabbitMQ exchange to publish event: {EventId}", @event.Id);
+                _logger.LogTrace("Declaring RabbitMQ exchange to publish event: {EventId}", message.Id);
 
                 channel.ExchangeDeclare(BROKER_NAME, "direct");
 
-                var message = JsonConvert.SerializeObject(@event);
-                var body = Encoding.UTF8.GetBytes(message);
+                var messageSerialized = JsonConvert.SerializeObject(message);
+                var body = Encoding.UTF8.GetBytes(messageSerialized);
 
                 policy.Execute(() =>
                 {
                     var properties = channel.CreateBasicProperties();
                     properties.DeliveryMode = 2; // persistent
 
-                    _logger.LogTrace("Publishing event to RabbitMQ: {EventId}", @event.Id);
+                    _logger.LogTrace("Publishing event to RabbitMQ: {EventId}", message.Id);
 
                     channel.BasicPublish(
                         BROKER_NAME,
@@ -144,7 +144,7 @@ namespace Common.Bus.RabbitMQ
         }
 
         public void Unsubscribe<T, TH>()
-            where T : IntegrationEvent
+            where T : IntegrationMessage
             where TH : IIntegrationEventHandler<T>
         {
             var eventName = _subsManager.GetEventKey<T>();

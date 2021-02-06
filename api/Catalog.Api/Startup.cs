@@ -1,9 +1,14 @@
 using System.IO;
 using System.Reflection;
+using Autofac;
 using AutoMapper;
 using Catalog.Api.Database;
 using Catalog.Api.Database.Repository;
+using Catalog.Api.EventHandlers;
 using Catalog.Api.Infrastructure;
+using Common.Bus.Abstractions;
+using Common.Bus.Events;
+using Common.Bus.RabbitMQ;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -35,12 +40,6 @@ namespace Catalog.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddTransient<ICatalogItemsRepository, CatalogItemsRepository>();
-            services.AddTransient<ICatalogCategoryRepository, CatalogCategoryRepository>();
-
-            var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutomapperProfile()); });
-            var mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
 
             var dbRetryCount = string.IsNullOrEmpty(Configuration["DbRetryCount"])
                 ? 3
@@ -98,11 +97,31 @@ namespace Catalog.Api
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetService<CatalogDbContext>();
-                context?.Database.CanConnect();
-            }
+            ConfigureEventBus(app);
+        }
+
+        public void ConfigureContainer(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<RandomCatalogItemsRequestEventHandler>()
+                .As<IIntegrationEventHandler<RandomCatalogItemsRequest>>();
+            containerBuilder.RegisterType<CatalogCategoryRepository>()
+                .As<ICatalogCategoryRepository>();
+            containerBuilder.RegisterType<CatalogItemsRepository>()
+                .As<ICatalogItemsRepository>();
+            containerBuilder.RegisterModule<RabbitIocModule>();
+            containerBuilder
+                .RegisterType<CatalogDbContext>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+            var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutomapperProfile()); });
+            var mapper = mapperConfig.CreateMapper();
+            containerBuilder.RegisterInstance(mapper);
+        }
+
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<RandomCatalogItemsRequest, IIntegrationEventHandler<RandomCatalogItemsRequest>>();
         }
     }
 }

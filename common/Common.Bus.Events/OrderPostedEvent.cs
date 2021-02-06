@@ -3,7 +3,7 @@ using Common.Core.Models;
 
 namespace Common.Bus.Events
 {
-    public class OrderPostedEvent : IntegrationEvent
+    public class OrderPostedEvent : IntegrationMessage
     {
         public Order Order { get; set; }
     }
