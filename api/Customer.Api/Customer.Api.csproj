@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>CustomerService.Api</RootNamespace>
+        <RootNamespace>Customer.Api</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -45,10 +45,5 @@
 
     <ItemGroup>
         <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
-    </ItemGroup>
-
-
-    <ItemGroup>
-      <Folder Include="Database\SeedData" />
     </ItemGroup>
 </Project>

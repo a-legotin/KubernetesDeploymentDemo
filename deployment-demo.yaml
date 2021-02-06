@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kdemo-deployment
+  name: kdemo-customer-deployment
 spec:
   selector:
     matchLabels:
-      app: kdemo
+      app: kdemo-customer
   replicas: 1
   template:
     metadata:
       labels:
-        app: kdemo
+        app: kdemo-customer
     spec:
       containers:
       - name: kdemo-customer-api
@@ -18,6 +18,48 @@ spec:
         imagePullPolicy: Never #to pull local image
         ports:
         - containerPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdemo-catalog-deployment
+spec:
+  selector:
+    matchLabels:
+      app: kdemo-catalog
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kdemo-catalog
+    spec:
+      containers:
+        - name: kdemo-catalog-api
+          image: kdemo-catalog-api:latest
+          imagePullPolicy: Never #to pull local image
+          ports:
+            - containerPort: 8082
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdemo-orders-deployment
+spec:
+  selector:
+    matchLabels:
+      app: kdemo-orders
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kdemo-orders
+    spec:
+      containers:
+        - name: kdemo-orders-api
+          image: kdemo-orders-api:latest
+          imagePullPolicy: Never #to pull local image
+          ports:
+            - containerPort: 8083
 ---
 apiVersion: apps/v1
 kind: Deployment

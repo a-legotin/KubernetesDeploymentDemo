@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <UserSecretsId>dotnet-Service.Orders-46CB175B-3CD7-419B-9107-E05421B77EE4</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\common\Common.Bus.Events\Common.Bus.Events.csproj" />
+      <ProjectReference Include="..\..\common\Common.Bus.RabbitMQ\Common.Bus.RabbitMQ.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="appsettings.Development.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="appsettings.Production.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+</Project>

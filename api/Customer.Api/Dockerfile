@@ -5,7 +5,6 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 WORKDIR /src
 COPY ["api/Customer.Api/Customer.Api.csproj", "api/Customer.Api/"]
 COPY ["common/Common.Core/Common.Core.csproj", "common/Common.Core/"]
-COPY ["common/Common.Http/Common.Http.csproj", "common/Common.Http/"]
 RUN dotnet restore "api/Customer.Api/Customer.Api.csproj"
 COPY . .
 WORKDIR "/src/api/Customer.Api"

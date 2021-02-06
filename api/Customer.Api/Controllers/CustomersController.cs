@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Common.Core.Models;
-using CustomerService.Api.Database.Repository;
+using Customer.Api.Database.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CustomerService.Api.Controllers
+namespace Customer.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -21,6 +20,7 @@ namespace CustomerService.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Customer> Get() => _customerRepository.GetAll().Select(customer => _mapper.Map<Customer>(customer));
+        public IEnumerable<Common.Core.Models.Customer> Get() => _customerRepository.GetAll()
+            .Select(customer => _mapper.Map<Common.Core.Models.Customer>(customer));
     }
 }

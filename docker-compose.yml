@@ -11,13 +11,39 @@ services:
     networks:
       - main-network
     ports:
-      - "8081:80"
+      - "8081:8081"
     depends_on:
-      - kdemo-customers-db
- kdemo-customers-db:
-   image: kdemo-customers-db
+      - kdemo-db
+ catalog-api:
+   image: kdemo-catalog-api
    build:
-     context: ./database/customers
+     context: .
+     dockerfile: api/Catalog.Api/Dockerfile
+   restart: on-failure
+   env_file: .env
+   networks:
+     - main-network
+   ports:
+     - "8082:8082"
+   depends_on:
+     - kdemo-db
+ orders-api:
+   image: kdemo-orders-api
+   build:
+     context: .
+     dockerfile: api/Orders.Api/Dockerfile
+   restart: on-failure
+   env_file: .env
+   networks:
+     - main-network
+   ports:
+     - "8083:8083"
+   depends_on:
+     - kdemo-db
+ kdemo-db:
+   image: kdemo-db
+   build:
+     context: ./database
      dockerfile: Dockerfile
    env_file: .env
    networks:

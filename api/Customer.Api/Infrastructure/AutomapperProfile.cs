@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
-using Common.Core.Models;
-using CustomerService.Api.Database.Models;
+using Customer.Api.Database.Models;
 
-namespace CustomerService.Api.Infrastructure
+namespace Customer.Api.Infrastructure
 {
     public class AutomapperProfile : Profile
     {
         public AutomapperProfile()
         {
-            CreateMap<Customer, CustomerDto>();
-            CreateMap<CustomerDto, Customer>();
+            CreateMap<Common.Core.Models.Customer, CustomerDto>();
+            CreateMap<CustomerDto, Common.Core.Models.Customer>();
         }
     }
 }

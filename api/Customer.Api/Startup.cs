@@ -1,10 +1,9 @@
 using System.IO;
 using System.Reflection;
 using AutoMapper;
-using CustomerService.Api.Database;
-using CustomerService.Api.Database.Models;
-using CustomerService.Api.Database.Repository;
-using CustomerService.Api.Infrastructure;
+using Customer.Api.Database;
+using Customer.Api.Database.Repository;
+using Customer.Api.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -14,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace CustomerService.Api
+namespace Customer.Api
 {
     public class Startup
     {
@@ -27,23 +26,20 @@ namespace CustomerService.Api
             Configuration = builder.Build();
         }
 
-        public IConfiguration Configuration { get; }
-
         public Startup(IConfiguration configuration) => Configuration = configuration;
+
+        public IConfiguration Configuration { get; }
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.Configure<DatabaseOptions>(Configuration.GetSection(DatabaseOptions.Key));
             services.AddTransient<ICustomerRepository, CustomerRepository>();
 
             var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutomapperProfile()); });
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
-            
-            services.AddSingleton<ISeedDataProvider<CustomerDto>, SeedDataProvider>();
 
             var dbRetryCount = string.IsNullOrEmpty(Configuration["DbRetryCount"])
                 ? 3
@@ -90,7 +86,7 @@ namespace CustomerService.Api
                         await context.Response.WriteAsync(
                             "<a href=\"/\">Home</a><br>\r\n");
                         await context.Response.WriteAsync("</body></html>\r\n");
-                        await context.Response.WriteAsync(new string(' ', 512)); 
+                        await context.Response.WriteAsync(new string(' ', 512));
                     });
                 });
             }
@@ -100,7 +96,7 @@ namespace CustomerService.Api
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
+
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<CustomerDbContext>();

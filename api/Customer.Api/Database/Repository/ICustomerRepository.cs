@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using CustomerService.Api.Database.Models;
+using Customer.Api.Database.Models;
 
-namespace CustomerService.Api.Database.Repository
+namespace Customer.Api.Database.Repository
 {
     public interface ICustomerRepository
     {
