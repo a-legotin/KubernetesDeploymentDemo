@@ -11,12 +11,9 @@ before_script:
     - apt install nodejs -y -q
     - node --version
     - npm --version
-    - "dotnet restore"
+    - "dotnet restore KubernetesDeploymentDemo.sln"
 
 build:
     stage: build
-    only:
-        refs:
-            - feature-true-k8s
     script:
-        - "dotnet build"
+        - "dotnet build KubernetesDeploymentDemo.sln"
