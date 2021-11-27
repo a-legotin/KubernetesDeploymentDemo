@@ -22,11 +22,11 @@ build:
         - echo "Building docker images"
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - docker-compose build
-        - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-        - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE:latest
+        - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE-kdemo-postgres:$CI_COMMIT_SHA
+        - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE-kdemo-postgres:latest
         - echo "Pushing docker images to registry"
-        - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-        - docker push $CI_REGISTRY_IMAGE:latest
+        - docker push $CI_REGISTRY_IMAGE-kdemo-postgres:$CI_COMMIT_SHA
+        - docker push $CI_REGISTRY_IMAGE-kdemo-postgres:latest
 deploy:
     stage: deploy
     image: bitnami/kubectl:latest
@@ -38,3 +38,5 @@ deploy:
         - echo "Creating namespace, it might exists already"
         - cd deploy
         - kubectl apply -f kdemo-namespace.yaml
+        - kubectl delete secret docker-registry registry-credentials --ignore-not-found --namespace=kdemo
+        - kubectl create secret docker-registry registry-credentials --docker-server=$CI_REGISTRY --docker-username=$CG_DEPLOY_USR --docker-password=$CG_DEPLOY_PWD --docker-email=$GITLAB_USER_EMAIL --namespace=kdemo
