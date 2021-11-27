@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdemo-customer-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kdemo-customer-api
+  template:
+    metadata:
+      labels:
+        app: kdemo-customer-api
+    spec:
+      containers:
+        - name: kdemo-customer-api
+          image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-customer-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: registry-credentials
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdemo-catalog-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kdemo-catalog-api
+  template:
+    metadata:
+      labels:
+        app: kdemo-catalog-api
+    spec:
+      containers:
+        - name: kdemo-catalog-api
+          image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-catalog-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: registry-credentials
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdemo-orders-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kdemo-orders-api
+  template:
+    metadata:
+      labels:
+        app: kdemo-orders-api
+    spec:
+      containers:
+        - name: kdemo-orders-api
+          image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-orders-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: registry-credentials

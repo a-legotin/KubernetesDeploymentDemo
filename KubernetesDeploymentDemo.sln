@@ -45,6 +45,8 @@ ProjectSection(SolutionItems) = preProject
 	deploy\kdemo-namespace.yaml = deploy\kdemo-namespace.yaml
 	deploy\rabbit-configmap.yaml = deploy\rabbit-configmap.yaml
 	deploy\rabbit-deployment.yaml = deploy\rabbit-deployment.yaml
+	deploy\services-deployment.yaml = deploy\services-deployment.yaml
+	deploy\api-deployment.yaml = deploy\api-deployment.yaml
 EndProjectSection
 EndProject
 Global

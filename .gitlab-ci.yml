@@ -60,3 +60,5 @@ deploy:
         - kubectl apply -f postgres-configmap.yaml -f postgres-storage.yaml -f postgres-deployment.yaml -f postgres-service.yaml --namespace=kdemo
         - echo "Creating RabbitMQ entries"
         - kubectl apply -f rabbit-configmap.yaml -f rabbit-deployment.yaml --namespace=kdemo
+        - echo "Creating API services"
+        - kubectl apply -f api-deployment.yaml --namespace=kdemo
