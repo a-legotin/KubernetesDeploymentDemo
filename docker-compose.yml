@@ -13,7 +13,7 @@ services:
     ports:
       - "8081:8081"
     depends_on:
-      - kdemo-db
+      - kdemo-postgres
       - kdemo-rabbitmq
   kdemo-catalog-api:
    image: kdemo-catalog-api
@@ -27,7 +27,7 @@ services:
    ports:
      - "8082:8082"
    depends_on:
-     - kdemo-db
+     - kdemo-postgres
      - kdemo-rabbitmq
   kdemo-orders-api:
    image: kdemo-orders-api
@@ -41,7 +41,7 @@ services:
    ports:
      - "8083:8083"
    depends_on:
-     - kdemo-db
+     - kdemo-postgres
      - kdemo-rabbitmq
   kdemo-orders-service:
    image: kdemo-orders-service
@@ -53,10 +53,10 @@ services:
    networks:
      - main-network
    depends_on:
-     - kdemo-db
+     - kdemo-postgres
      - kdemo-rabbitmq
-  kdemo-db:
-   image: kdemo-db
+  kdemo-postgres:
+   image: kdemo-postgres
    build:
      context: ./database
      dockerfile: Dockerfile
@@ -65,6 +65,8 @@ services:
       - main-network
    ports:
      - "5432:5432"
+   volumes:
+     - "kdemo-postgres-data:/var/lib/postgresql/data"
   kdemo-rabbitmq:
      image: rabbitmq:3-management
      env_file: .env
@@ -74,3 +76,11 @@ services:
 networks:
    main-network:
      driver: bridge
+     
+volumes:
+  kdemo-postgres-data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ~/dev/projects-data/kdemo

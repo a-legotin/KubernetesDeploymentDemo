@@ -38,6 +38,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Orders", "services\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Bus.RabbitMQ", "common\Common.Bus.RabbitMQ\Common.Bus.RabbitMQ.csproj", "{C72D15C4-2A85-48F9-9A09-AAD5D33B744B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{472F6578-69FE-4AEE-8A2E-57268996ADB1}"
+ProjectSection(SolutionItems) = preProject
+	deploy\postgres-configmap.yaml = deploy\postgres-configmap.yaml
+	deploy\postgres-deployment.yaml = deploy\postgres-deployment.yaml
+	deploy\postgres-service.yaml = deploy\postgres-service.yaml
+	deploy\postgres-storage.yaml = deploy\postgres-storage.yaml
+	deploy\kdemo-namespace.yaml = deploy\kdemo-namespace.yaml
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,5 +95,6 @@ Global
 		{395DDA24-69BF-4FD4-8A3D-B0BD03354F60} = {150EB040-BF76-404D-AE59-8C5A0E2556FE}
 		{91FF6FE1-25B5-463E-9A6B-1749CA1DE665} = {57C375AC-E2B3-4ADF-ACE2-8662162DF2BC}
 		{C72D15C4-2A85-48F9-9A09-AAD5D33B744B} = {150EB040-BF76-404D-AE59-8C5A0E2556FE}
+		{472F6578-69FE-4AEE-8A2E-57268996ADB1} = {9D5BF602-52F0-4D21-AA4E-03A747428E69}
 	EndGlobalSection
 EndGlobal

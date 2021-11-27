@@ -17,7 +17,7 @@ spec:
       containers:
       - name: kdemo-customer-api
         image: kdemo-customer-api:latest
-        imagePullPolicy: Never #to pull local image
+        imagePullPolicy: Always
         ports:
         - containerPort: 8081
 ---
@@ -40,7 +40,7 @@ spec:
       containers:
         - name: kdemo-catalog-api
           image: kdemo-catalog-api:latest
-          imagePullPolicy: Never #to pull local image
+          imagePullPolicy: Always
           ports:
             - containerPort: 8082
 ---
@@ -63,7 +63,7 @@ spec:
       containers:
         - name: kdemo-orders-api
           image: kdemo-orders-api:latest
-          imagePullPolicy: Never #to pull local image
+          imagePullPolicy: Always
           ports:
             - containerPort: 8083
 ---
@@ -86,7 +86,7 @@ spec:
       containers:
         - name: kdemo-orders-service
           image: kdemo-orders-service:latest
-          imagePullPolicy: Never #to pull local image
+          imagePullPolicy: Always
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -107,7 +107,7 @@ spec:
       containers:
         - name: kdemo-db
           image: kdemo-db
-          imagePullPolicy: Never #to pull local image
+          imagePullPolicy: Always
           ports:
             - containerPort: 5432
           env:
