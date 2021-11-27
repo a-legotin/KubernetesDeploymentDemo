@@ -30,8 +30,8 @@ namespace Common.Bus.RabbitMQ
                         retryCount = int.Parse(config["EventBusRetryCount"]);
 
                     var logger = componentContext.Resolve<ILogger<IRabbitMQPersistentConnection>>();
+                    logger?.LogInformation($"Connecting to bus at {factory.Endpoint}");
                     return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
-                    ;
                 })
                 .As<IRabbitMQPersistentConnection>()
                 .SingleInstance();
