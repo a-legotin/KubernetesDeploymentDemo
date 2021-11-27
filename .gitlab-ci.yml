@@ -30,7 +30,7 @@ build:
         - docker tag kdemo-orders-api:latest $CI_REGISTRY_IMAGE/kdemo-orders-api:$CI_COMMIT_SHA
         - docker tag kdemo-orders-service:latest $CI_REGISTRY_IMAGE/kdemo-orders-service:$CI_COMMIT_SHA
         - docker tag kdemo-customer-api:latest $CI_REGISTRY_IMAGE/kdemo-customer-api:latest
-        - docker tag kdemo-orders-api:latest $CI_REGISTRY_IMAGE/kkdemo-orders-api:latest
+        - docker tag kdemo-orders-api:latest $CI_REGISTRY_IMAGE/kdemo-orders-api:latest
         - docker tag kdemo-catalog-api:latest $CI_REGISTRY_IMAGE/kdemo-catalog-api:latest
         - docker tag kdemo-orders-service:latest $CI_REGISTRY_IMAGE/kdemo-orders-service:latest
         - echo "Pushing docker images to registry"
@@ -56,3 +56,5 @@ deploy:
         - kubectl apply -f kdemo-namespace.yaml
         - kubectl delete secret docker-registry registry-credentials --ignore-not-found --namespace=kdemo
         - kubectl create secret docker-registry registry-credentials --docker-server=$CI_REGISTRY --docker-username=$CG_DEPLOY_USR --docker-password=$CG_DEPLOY_PWD --docker-email=$GITLAB_USER_EMAIL --namespace=kdemo
+        - echo "Creating PostgreSQL entries"
+        - kubectl apply -f postgres-configmap.yaml -f postgres-storage.yaml -f postgres-deployment.yaml -f postgres-service.yaml --namespace=kdemo
