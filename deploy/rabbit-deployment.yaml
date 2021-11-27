@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdemo-rabbitmq-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kdemo-rabbitmq
+  template:
+    metadata:
+      labels:
+        app: kdemo-rabbitmq
+    spec:
+      containers:
+        - name: kdemo-rabbitmq
+          image: rabbitmq:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5672
+          envFrom:
+            - configMapRef:
+                name: kdemo-rabbitmq-config

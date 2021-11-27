@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kdemo-rabbitmq-config
+  labels:
+    app: kdemo-rabbitmq
+data:
+  RABBITMQ_DEFAULT_USER: admin
+  RABBITMQ_DEFAULT_PASS: Admin!p@sS
+  RABBIT_PORT: "5672"

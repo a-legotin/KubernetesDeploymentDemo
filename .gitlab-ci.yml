@@ -58,3 +58,5 @@ deploy:
         - kubectl create secret docker-registry registry-credentials --docker-server=$CI_REGISTRY --docker-username=$CG_DEPLOY_USR --docker-password=$CG_DEPLOY_PWD --docker-email=$GITLAB_USER_EMAIL --namespace=kdemo
         - echo "Creating PostgreSQL entries"
         - kubectl apply -f postgres-configmap.yaml -f postgres-storage.yaml -f postgres-deployment.yaml -f postgres-service.yaml --namespace=kdemo
+        - echo "Creating RabbitMQ entries"
+        - kubectl apply -f rabbit-configmap.yaml -f rabbit-deployment.yaml --namespace=kdemo

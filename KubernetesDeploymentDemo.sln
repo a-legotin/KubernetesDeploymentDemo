@@ -10,8 +10,6 @@ ProjectSection(SolutionItems) = preProject
 	.gitlab-ci.yml = .gitlab-ci.yml
 	.env = .env
 	docker-compose.yml = docker-compose.yml
-	deployment-demo.yaml = deployment-demo.yaml
-	service-demo.yaml = service-demo.yaml
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{9C14FE55-4E6C-4F31-A191-251E6DD33EE7}"
@@ -45,6 +43,8 @@ ProjectSection(SolutionItems) = preProject
 	deploy\postgres-service.yaml = deploy\postgres-service.yaml
 	deploy\postgres-storage.yaml = deploy\postgres-storage.yaml
 	deploy\kdemo-namespace.yaml = deploy\kdemo-namespace.yaml
+	deploy\rabbit-configmap.yaml = deploy\rabbit-configmap.yaml
+	deploy\rabbit-deployment.yaml = deploy\rabbit-deployment.yaml
 EndProjectSection
 EndProject
 Global
