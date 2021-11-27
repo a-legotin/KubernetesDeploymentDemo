@@ -2,6 +2,7 @@ image: mcr.microsoft.com/dotnet/sdk:5.0
 
 stages:
     - build
+    - build-app
     - deploy
 
 variables:
@@ -44,6 +45,25 @@ build:
         - docker push $CI_REGISTRY_IMAGE/kdemo-catalog-api:latest
         - docker push $CI_REGISTRY_IMAGE/kdemo-orders-service:latest
         - docker push $CI_REGISTRY_IMAGE/kdemo-orders-api:latest
+        
+build-app:
+    stage: build-app-image
+    tags:
+        - k8s
+    image: docker:stable
+    before_script:
+        - apk add --no-cache docker-compose
+        - docker info
+    script:
+        - cd web
+        - echo "Building docker images"
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t kdemo-web . -f prod.dockerfile
+        - docker tag kdemo-web:latest $CI_REGISTRY_IMAGE/kdemo-web:$CI_COMMIT_SHA
+        - docker tag kdemo-web:latest $CI_REGISTRY_IMAGE/kdemo-web:latest
+        - echo "Pushing docker image to registry"
+        - docker push $CI_REGISTRY_IMAGE/kdemo-web:$CI_COMMIT_SHA
+        - docker push $CI_REGISTRY_IMAGE/kdemo-web:latest
 
 deploy:
     stage: deploy
@@ -66,3 +86,5 @@ deploy:
         - kubectl apply -f api-deployment.yaml --namespace=kdemo
         - echo "Creating worker services"
         - kubectl apply -f services-deployment.yaml --namespace=kdemo
+        - echo "Creating web application"
+        - kubectl apply -f web-deployment.yaml -f web-service.yaml --namespace=kdemo

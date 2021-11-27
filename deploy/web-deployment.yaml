@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdemo-web-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kdemo-web
+  template:
+    metadata:
+      labels:
+        app: kdemo-web
+    spec:
+      containers:
+        - name: kdemo-web
+          image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-web:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: registry-credentials
