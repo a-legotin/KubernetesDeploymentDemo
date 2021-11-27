@@ -22,11 +22,12 @@ build:
         - echo "Building docker images"
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - docker-compose build
-        - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE-kdemo-postgres:$CI_COMMIT_SHA
-        - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE-kdemo-postgres:latest
+        - echo $CI_REGISTRY_IMAGE
+        - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE/kdemo-postgres:$CI_COMMIT_SHA
+        - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE/kdemo-postgres:latest
         - echo "Pushing docker images to registry"
-        - docker push $CI_REGISTRY_IMAGE-kdemo-postgres:$CI_COMMIT_SHA
-        - docker push $CI_REGISTRY_IMAGE-kdemo-postgres:latest
+        - docker push $CI_REGISTRY_IMAGE/kdemo-postgres:$CI_COMMIT_SHA
+        - docker push $CI_REGISTRY_IMAGE/kdemo-postgres:latest
 deploy:
     stage: deploy
     image: bitnami/kubectl:latest
