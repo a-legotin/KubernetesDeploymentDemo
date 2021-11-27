@@ -25,9 +25,24 @@ build:
         - echo $CI_REGISTRY_IMAGE
         - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE/kdemo-postgres:$CI_COMMIT_SHA
         - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE/kdemo-postgres:latest
+        - docker tag kdemo-customer-api:latest $CI_REGISTRY_IMAGE/kdemo-customer-api:$CI_COMMIT_SHA
+        - docker tag kdemo-catalog-api:latest $CI_REGISTRY_IMAGE/kdemo-catalog-api:$CI_COMMIT_SHA
+        - docker tag kdemo-orders-api:latest $CI_REGISTRY_IMAGE/kdemo-orders-api:$CI_COMMIT_SHA
+        - docker tag kdemo-orders-service:latest $CI_REGISTRY_IMAGE/kdemo-orders-service:$CI_COMMIT_SHA
+        - docker tag kdemo-customer-api:latest $CI_REGISTRY_IMAGE/kdemo-customer-api:latest
+        - docker tag kdemo-orders-api:latest $CI_REGISTRY_IMAGE/kkdemo-orders-api:latest
+        - docker tag kdemo-catalog-api:latest $CI_REGISTRY_IMAGE/kdemo-catalog-api:latest
+        - docker tag kdemo-orders-service:latest $CI_REGISTRY_IMAGE/kdemo-orders-service:latest
         - echo "Pushing docker images to registry"
         - docker push $CI_REGISTRY_IMAGE/kdemo-postgres:$CI_COMMIT_SHA
+        - docker push $CI_REGISTRY_IMAGE/kdemo-customer-api:$CI_COMMIT_SHA
+        - docker push $CI_REGISTRY_IMAGE/kdemo-catalog-api:$CI_COMMIT_SHA
+        - docker push $CI_REGISTRY_IMAGE/kdemo-orders-api:$CI_COMMIT_SHA
+        - docker push $CI_REGISTRY_IMAGE/kdemo-orders-service:$CI_COMMIT_SHA
         - docker push $CI_REGISTRY_IMAGE/kdemo-postgres:latest
+        - docker push $CI_REGISTRY_IMAGE/kdemo-customer-api:latest
+        - docker push $CI_REGISTRY_IMAGE/kdemo-catalog-api:latest
+        - docker push $CI_REGISTRY_IMAGE/kdemo-orders-service:latest
 deploy:
     stage: deploy
     image: bitnami/kubectl:latest

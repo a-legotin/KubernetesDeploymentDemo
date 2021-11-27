@@ -13,9 +13,9 @@ spec:
         app: kdemo-postgres
     spec:
       containers:
-        - name: postgres
-          image: postgres:latest
-          imagePullPolicy: IfNotPresent
+        - name: kdemo-postgres
+          image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-postgres:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 5432
           envFrom:
@@ -24,6 +24,8 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgredb
+      imagePullSecrets:
+        - name: registry-credentials
       volumes:
         - name: postgredb
           persistentVolumeClaim:

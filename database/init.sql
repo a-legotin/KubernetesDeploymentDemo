@@ -18,23 +18,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-do
-$$
-    declare
-        l_count integer;
-    begin
-
-        select count(*)
-        into l_count
-        from pg_database
-        where datname = 'kdemo-customers' or datname = 'kdemo-catalog';
-
-        if (l_count > 0) then
-            raise exception 'Databases already there!';
-        end if;
-    end;
-$$;
-
 DROP DATABASE IF EXISTS "kdemo-customers";
 --
 -- TOC entry 2950 (class 1262 OID 16710)
