@@ -64,3 +64,5 @@ deploy:
         - kubectl apply -f rabbit-configmap.yaml -f rabbit-deployment.yaml -f rabbit-service.yaml --namespace=kdemo
         - echo "Creating API services"
         - kubectl apply -f api-deployment.yaml --namespace=kdemo
+        - echo "Creating worker services"
+        - kubectl apply -f services-deployment.yaml --namespace=kdemo

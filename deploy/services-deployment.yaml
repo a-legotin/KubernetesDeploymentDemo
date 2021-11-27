@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdemo-orders-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kdemo-orders-service
+  template:
+    metadata:
+      labels:
+        app: kdemo-orders-service
+    spec:
+      containers:
+        - name: kdemo-orders-service
+          image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-orders-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: registry-credentials

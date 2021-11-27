@@ -42,7 +42,7 @@ namespace Service.Orders
                 {
                     Order = order
                 });
-                await Task.Delay(10000, stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
         }
     }
