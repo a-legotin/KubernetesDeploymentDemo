@@ -55,7 +55,7 @@ namespace Common.Bus.RabbitMQ
 
         public bool TryConnect()
         {
-            _logger.LogInformation($"RabbitMQ Client is trying to connect to {_connectionFactory?.Uri}");
+            _logger.LogInformation($"RabbitMQ Client is trying to connect to {(_connectionFactory as ConnectionFactory)?.Endpoint}");
 
             lock (sync_root)
             {
