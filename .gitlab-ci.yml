@@ -47,7 +47,7 @@ build:
         - docker push $CI_REGISTRY_IMAGE/kdemo-orders-api:latest
         
 build-app:
-    stage: build-app-image
+    stage: build-app
     tags:
         - k8s
     image: docker:stable
