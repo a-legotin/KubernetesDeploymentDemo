@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kdemo-rabbitmq-service
+  labels:
+    app: kdemo-rabbitmq
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5672
+  selector:
+    app: kdemo-rabbitmq

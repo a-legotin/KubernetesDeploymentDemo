@@ -43,6 +43,8 @@ build:
         - docker push $CI_REGISTRY_IMAGE/kdemo-customer-api:latest
         - docker push $CI_REGISTRY_IMAGE/kdemo-catalog-api:latest
         - docker push $CI_REGISTRY_IMAGE/kdemo-orders-service:latest
+        - docker push $CI_REGISTRY_IMAGE/kdemo-orders-api:latest
+
 deploy:
     stage: deploy
     image: bitnami/kubectl:latest
@@ -59,6 +61,6 @@ deploy:
         - echo "Creating PostgreSQL entries"
         - kubectl apply -f postgres-configmap.yaml -f postgres-storage.yaml -f postgres-deployment.yaml -f postgres-service.yaml --namespace=kdemo
         - echo "Creating RabbitMQ entries"
-        - kubectl apply -f rabbit-configmap.yaml -f rabbit-deployment.yaml --namespace=kdemo
+        - kubectl apply -f rabbit-configmap.yaml -f rabbit-deployment.yaml -f rabbit-service.yaml --namespace=kdemo
         - echo "Creating API services"
         - kubectl apply -f api-deployment.yaml --namespace=kdemo

@@ -47,6 +47,7 @@ ProjectSection(SolutionItems) = preProject
 	deploy\rabbit-deployment.yaml = deploy\rabbit-deployment.yaml
 	deploy\services-deployment.yaml = deploy\services-deployment.yaml
 	deploy\api-deployment.yaml = deploy\api-deployment.yaml
+	deploy\rabbit-service.yaml = deploy\rabbit-service.yaml
 EndProjectSection
 EndProject
 Global
