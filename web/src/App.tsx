@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import "./App.css";
 import Home from "./components/home.component";
 

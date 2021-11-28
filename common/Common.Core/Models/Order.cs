@@ -5,6 +5,9 @@ namespace Common.Core.Models
 {
     public class Order
     {
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
+        
         [JsonPropertyName("guid")]
         public Guid Guid { get; set; }
 

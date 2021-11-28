@@ -18,5 +18,8 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: kdemo-web-config
       imagePullSecrets:
         - name: registry-credentials

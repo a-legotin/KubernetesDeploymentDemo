@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Common.Core.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,20 @@ namespace Orders.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Order> Get() => _ordersRepository.GetAll().Select(customer => _mapper.Map<Order>(customer));
+        public async Task<Order[]> Get() => (await _ordersRepository.GetAll())
+            .Select(customer => _mapper.Map<Order>(customer))
+            .ToArray();
+        
+        [HttpGet("latest")]
+        public async Task<Order[]> GetLatest([FromQuery] int portion)
+        {
+            if (portion < 1)
+            {
+                portion = 1;
+            }
+            return (await _ordersRepository.GetLatest(portion))
+                .Select(customer => _mapper.Map<Order>(customer))
+                .ToArray();
+        }
     }
 }

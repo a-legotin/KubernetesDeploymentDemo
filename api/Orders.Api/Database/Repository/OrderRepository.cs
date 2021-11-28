@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,10 +18,11 @@ namespace Orders.Api.Database.Repository
             _logger = logger;
         }
 
-        public IEnumerable<OrderDto> GetAll()
+        public Task<List<OrderDto>> GetAll()
         {
             _logger.LogTrace("Getting all orders");
-            return _dbContext.Orders;
+            return _dbContext.Orders
+                .ToListAsync();
         }
 
         public async Task InsertAsync(OrderDto order)
@@ -28,6 +30,15 @@ namespace Orders.Api.Database.Repository
             _logger.LogTrace($"Inserting order {order.Guid}");
             await _dbContext.Orders.AddAsync(order);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public Task<List<OrderDto>> GetLatest(int portion)
+        {
+            _logger.LogTrace($"Getting {portion} latest orders");
+            return _dbContext.Orders
+                .OrderByDescending(dto => dto.Id)
+                .Take(portion)
+                .ToListAsync();
         }
     }
 }

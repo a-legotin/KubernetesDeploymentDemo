@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kdemo-web-config
+  labels:
+    app: kdemo-web
+data:
+  REACT_APP_API_URL: kdemo-nginx

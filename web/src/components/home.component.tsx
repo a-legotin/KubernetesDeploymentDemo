@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {Card} from "./orders-card.component";
-import {LatestOrders} from "./latest-orders.component";
+import LatestOrders from "./latest-orders.component";
 
 type Props = {};
 
