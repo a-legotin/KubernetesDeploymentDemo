@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdemo-nginx-deployment
+  labels:
+    app: kdemo-nginx
+spec:
+  selector:
+    matchLabels:
+      app: kdemo-nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kdemo-nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: kdemo-nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+            - name: kdemo-nginx-config
+              mountPath: /etc/nginx/proxy.conf
+              subPath: proxy.conf
+              readOnly: true
+      volumes:
+        - name: kdemo-nginx-config
+          configMap:
+            name: kdemo-nginx-config
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+              - key: proxy.conf
+                path: proxy.conf

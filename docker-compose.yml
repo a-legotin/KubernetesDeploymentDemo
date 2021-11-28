@@ -55,6 +55,35 @@ services:
    depends_on:
      - kdemo-postgres
      - kdemo-rabbitmq
+  kdemo-nginx:
+    image: nginx:alpine
+    hostname: 'nginx'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/proxy.conf:/etc/nginx/proxy.conf:ro
+      - ./nginx/logs/:/var/log/nginx/
+    ports:
+      - '10101:80'
+    depends_on:
+      - kdemo-orders-api
+      - kdemo-catalog-api
+      - kdemo-customer-api
+    restart: always
+    networks:
+      - main-network
+  kdemo-web:
+    image: demo-web
+    build:
+      context: web
+      dockerfile: prod.dockerfile
+    restart: on-failure
+    ports:
+      - '10100:80'
+    depends_on:
+      - kdemo-nginx
+    networks:
+      - main-network
+
   kdemo-postgres:
    image: kdemo-postgres
    build:

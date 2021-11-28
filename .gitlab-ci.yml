@@ -83,8 +83,10 @@ deploy:
         - echo "Creating RabbitMQ entries"
         - kubectl apply -f rabbit-configmap.yaml -f rabbit-deployment.yaml -f rabbit-service.yaml --namespace=kdemo
         - echo "Creating API services"
-        - kubectl apply -f api-deployment.yaml --namespace=kdemo
+        - kubectl apply -f api-deployment.yaml -f api-services.yaml --namespace=kdemo
         - echo "Creating worker services"
         - kubectl apply -f services-deployment.yaml --namespace=kdemo
+        - echo "Creating nginx API gateway"
+        - kubectl apply -f nginx-configmap.yaml -f nginx-deployment.yaml -f nginx-service.yaml --namespace=kdemo
         - echo "Creating web application"
         - kubectl apply -f web-deployment.yaml -f web-service.yaml -f web-ingress.yaml --namespace=kdemo

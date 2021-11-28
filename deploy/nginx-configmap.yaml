@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kdemo-nginx-config
+data:
+  proxy.conf: |
+    proxy_redirect          off;
+    proxy_http_version      1.1;
+    proxy_set_header        Upgrade             $http_upgrade;
+    proxy_cache_bypass      $http_upgrade;
+    proxy_set_header        Connection          keep-alive;
+    proxy_set_header        Host $host;
+    proxy_set_header        X-Real-IP           $remote_addr;
+    proxy_set_header        X-Forwarded-For     $proxy_add_x_forwarded_for;
+    proxy_set_header        X-Forwarded-Proto   $scheme;
+    proxy_set_header        X-Forwarded-Host    $server_name;
+
+  nginx.conf: |
+    user nginx;
+
+    worker_processes    auto;
+
+    events { worker_connections 1024; }
+
+    http {
+        include             /etc/nginx/proxy.conf;
+        include             /etc/nginx/mime.types;
+
+        upstream customer-api {
+            server          kdemo-customer-api;
+        }
+
+        upstream orders-api {
+            server          kdemo-orders-api;
+        }
+
+        upstream catalog-api {
+            server          kdemo-catalog-api;
+        }
+
+        server {
+            listen          80;
+            server_name     $hostname;
+
+            location /customers {
+                resolver 127.0.0.11 ipv6=off;
+                proxy_pass  http://customer-api;
+            }
+
+            location /orders {
+                resolver 127.0.0.11 ipv6=off;
+                proxy_pass  http://orders-api;
+            }
+
+            location /catalog {
+                resolver 127.0.0.11 ipv6=off;
+                proxy_pass  http://catalog-api;
+            }        
+        }
+    }

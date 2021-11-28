@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kdemo-nginx
+  labels:
+    app: kdemo-nginx
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+  selector:
+    app: kdemo-nginx
