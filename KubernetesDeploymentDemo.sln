@@ -50,6 +50,16 @@ ProjectSection(SolutionItems) = preProject
 	deploy\rabbit-service.yaml = deploy\rabbit-service.yaml
 	deploy\web-deployment.yaml = deploy\web-deployment.yaml
 	deploy\web-service.yaml = deploy\web-service.yaml
+	deploy\nginx-configmap.yaml = deploy\nginx-configmap.yaml
+	deploy\nginx-deployment.yaml = deploy\nginx-deployment.yaml
+	deploy\nginx-service.yaml = deploy\nginx-service.yaml
+	deploy\web-ingress.yaml = deploy\web-ingress.yaml
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx", "nginx", "{2039CF7E-DBC9-413E-8AA5-69DFA1D743C9}"
+ProjectSection(SolutionItems) = preProject
+	nginx\nginx.conf = nginx\nginx.conf
+	nginx\proxy.conf = nginx\proxy.conf
 EndProjectSection
 EndProject
 Global
@@ -101,5 +111,6 @@ Global
 		{91FF6FE1-25B5-463E-9A6B-1749CA1DE665} = {57C375AC-E2B3-4ADF-ACE2-8662162DF2BC}
 		{C72D15C4-2A85-48F9-9A09-AAD5D33B744B} = {150EB040-BF76-404D-AE59-8C5A0E2556FE}
 		{472F6578-69FE-4AEE-8A2E-57268996ADB1} = {9D5BF602-52F0-4D21-AA4E-03A747428E69}
+		{2039CF7E-DBC9-413E-8AA5-69DFA1D743C9} = {9D5BF602-52F0-4D21-AA4E-03A747428E69}
 	EndGlobalSection
 EndGlobal
