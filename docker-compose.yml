@@ -57,7 +57,7 @@ services:
      - kdemo-rabbitmq
   kdemo-nginx:
     image: nginx:alpine
-    hostname: 'nginx'
+    hostname: 'kdemo-nginx'
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/proxy.conf:/etc/nginx/proxy.conf:ro
