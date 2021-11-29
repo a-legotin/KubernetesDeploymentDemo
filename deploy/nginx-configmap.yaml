@@ -26,6 +26,10 @@ data:
         include             /etc/nginx/proxy.conf;
         include             /etc/nginx/mime.types;
 
+        upstream frontend {
+                server          kdemo-web;
+        }
+    
         upstream customer-api {
             server          kdemo-customer-api;
         }
@@ -55,6 +59,11 @@ data:
             location /catalog {
                 resolver 127.0.0.11 ipv6=off;
                 proxy_pass  http://catalog-api;
-            }        
+            }
+            
+            location / {
+                 resolver 127.0.0.11 ipv6=off;
+                        proxy_pass  http://frontend;
+            }    
         }
     }

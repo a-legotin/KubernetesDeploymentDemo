@@ -2,3 +2,4 @@
 node_modules
 deploy
 build
+package-lock.json

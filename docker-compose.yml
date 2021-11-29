@@ -10,8 +10,6 @@ services:
     env_file: .env
     networks:
       - main-network
-    ports:
-      - "8081:80"
     depends_on:
       - kdemo-postgres
       - kdemo-rabbitmq
@@ -24,8 +22,6 @@ services:
    env_file: .env
    networks:
      - main-network
-   ports:
-     - "8082:80"
    depends_on:
      - kdemo-postgres
      - kdemo-rabbitmq
@@ -38,8 +34,6 @@ services:
    env_file: .env
    networks:
      - main-network
-   ports:
-     - "8083:80"
    depends_on:
      - kdemo-postgres
      - kdemo-rabbitmq
@@ -63,7 +57,7 @@ services:
       - ./nginx/proxy.conf:/etc/nginx/proxy.conf:ro
       - ./nginx/logs/:/var/log/nginx/
     ports:
-      - '10101:80'
+      - '10100:80'
     depends_on:
       - kdemo-orders-api
       - kdemo-catalog-api
@@ -74,11 +68,12 @@ services:
   kdemo-web:
     image: demo-web
     build:
+      args:
+        - REACT_APP_API_URL=kdemo-nginx
       context: web
       dockerfile: prod.dockerfile
+    env_file: .env
     restart: on-failure
-    ports:
-      - '10100:80'
     depends_on:
       - kdemo-nginx
     networks:
@@ -92,8 +87,6 @@ services:
    env_file: .env
    networks:
       - main-network
-   ports:
-     - "5432:5432"
    volumes:
      - "kdemo-postgres-data:/var/lib/postgresql/data"
   kdemo-rabbitmq:

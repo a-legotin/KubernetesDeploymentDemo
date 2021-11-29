@@ -29,8 +29,9 @@ export default class LatestOrders extends Component<Props, State>{
     }
 
     retrieveLatestOrders() {
-        console.log("API url is " + process.env.REACT_APP_API_URL);
-        axios.get<Array<IOrder>>('http://' + process.env.REACT_APP_API_URL + `/orders/latest?portion=10`)
+        let baseUrl = window.location.origin;
+        console.log("API url is " + baseUrl);
+        axios.get<Array<IOrder>>(baseUrl + `/orders/latest?portion=10`)
             .then((response: any) => {
                 this.setState({
                     orders: response.data

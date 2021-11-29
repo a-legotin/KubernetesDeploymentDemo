@@ -13,6 +13,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: kdemo-web
+                name: kdemo-nginx
                 port:
                   number: 80
