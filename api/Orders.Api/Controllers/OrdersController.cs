@@ -8,7 +8,7 @@ using Orders.Api.Database.Repository;
 namespace Orders.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
         private readonly IMapper _mapper;
