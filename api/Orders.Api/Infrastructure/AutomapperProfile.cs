@@ -11,6 +11,14 @@ namespace Orders.Api.Infrastructure
             CreateMap<Common.Core.Models.Order, OrderDto>()
                 .ForMember(
                     dest => dest.Guid,
+                    opt => opt.MapFrom(src => src.Guid)
+                )
+                .ForMember(
+                    dest => dest.CustomerName,
+                    opt => opt.MapFrom(src => $"{src.Customer.FirstName} {src.Customer.LastName}")
+                )
+                .ForMember(
+                    dest => dest.CustomerGuid,
                     opt => opt.MapFrom(src => src.Customer.Guid)
                 )
                 .ForMember(
@@ -19,6 +27,9 @@ namespace Orders.Api.Infrastructure
                 );
             
             CreateMap<OrderDto, Common.Core.Models.Order>();
+            
+            CreateMap<Common.Core.Models.OrderPreview, OrderDto>();
+            CreateMap<OrderDto, Common.Core.Models.OrderPreview>();
         }
     }
 }

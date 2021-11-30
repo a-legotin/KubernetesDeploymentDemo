@@ -57,7 +57,7 @@ namespace Orders.Api
                         b.EnableRetryOnFailure(dbRetryCount);
                     })
             );
-            
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
@@ -105,6 +105,14 @@ namespace Orders.Api
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             ConfigureEventBus(app);
+            ApplyMigrations(app);
+        }
+
+        private void ApplyMigrations(IApplicationBuilder applicationBuilder)
+        {
+            using var scope = applicationBuilder.ApplicationServices.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<OrdersDbContext>();
+            db.Database.Migrate();
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)

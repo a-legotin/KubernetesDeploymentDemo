@@ -1,11 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
-
-
-export default interface IOrder {
-    id?: any | null,
-    guid: string
-}
+import IOrder from "../models/order";
 
 
 type Props = {};
@@ -31,7 +26,7 @@ export default class LatestOrders extends Component<Props, State>{
     retrieveLatestOrders() {
         let baseUrl = window.location.origin;
         console.log("API url is " + baseUrl);
-        axios.get<Array<IOrder>>(baseUrl + `/orders/latest?portion=10`)
+        axios.get<Array<IOrder>>(`http://localhost:10100/orders/latest?portion=10`)
             .then((response: any) => {
                 this.setState({
                     orders: response.data
@@ -55,8 +50,8 @@ export default class LatestOrders extends Component<Props, State>{
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Guid</th>
-                            <th scope="col">Header</th>
-                            <th scope="col">Header</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Items</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
@@ -66,8 +61,8 @@ export default class LatestOrders extends Component<Props, State>{
                             <tr>
                                 <td>{order.id}</td>
                                 <td>{order.guid}</td>
-                                <td>data</td>
-                                <td>placeholder</td>
+                                <td>{order.customerName}</td>
+                                <td>{order.itemGuids.length}</td>
                                 <td><i className="bi bi-arrow-right-circle"></i></td>
                             </tr>
                         ))}
