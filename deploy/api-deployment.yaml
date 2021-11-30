@@ -17,7 +17,7 @@ spec:
           image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-customer-api:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8080
       imagePullSecrets:
         - name: registry-credentials
 ---
@@ -40,7 +40,7 @@ spec:
           image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-catalog-api:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8080
       imagePullSecrets:
         - name: registry-credentials
 ---
@@ -63,6 +63,6 @@ spec:
           image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-orders-api:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8080
       imagePullSecrets:
         - name: registry-credentials
