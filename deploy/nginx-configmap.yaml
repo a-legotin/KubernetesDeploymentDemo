@@ -25,38 +25,40 @@ data:
     http {
         include             /etc/nginx/proxy.conf;
         include             /etc/nginx/mime.types;
-
+        access_log /dev/stdout;
+        error_log /dev/stdout;
+        
         upstream frontend {
                 server          kdemo-web;
         }
     
         upstream customer-api {
-            server          kdemo-customer-api;
+            server          kdemo-customer-api:8080;
         }
 
         upstream orders-api {
-            server          kdemo-orders-api;
+            server          kdemo-orders-api:8080;
         }
 
         upstream catalog-api {
-            server          kdemo-catalog-api;
+            server          kdemo-catalog-api:8080;
         }
 
         server {
             listen          80;
             server_name     $hostname;
 
-            location /customers {
+            location /api/customers {
                 resolver 127.0.0.11 ipv6=off;
                 proxy_pass  http://customer-api;
             }
 
-            location /orders {
+            location /api/orders {
                 resolver 127.0.0.11 ipv6=off;
                 proxy_pass  http://orders-api;
             }
 
-            location /catalog {
+            location /api/catalog {
                 resolver 127.0.0.11 ipv6=off;
                 proxy_pass  http://catalog-api;
             }
