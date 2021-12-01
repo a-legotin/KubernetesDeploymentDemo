@@ -9,5 +9,6 @@ namespace Orders.Api.Database.Repository
         Task<List<OrderDto>> GetAll();
         Task InsertAsync(OrderDto order);
         Task<List<OrderDto>> GetLatest(int portion);
+        Task<int> GetOrdersCount();
     }
 }

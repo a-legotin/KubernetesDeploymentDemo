@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Catalog.Api.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -24,8 +25,15 @@ namespace Catalog.Api.Database.Repository
 
         public void Insert(CatalogItemDto catalogItem)
         {
+            _logger.LogTrace("Inserting new catalog item");
             _dbContext.Items.Add(catalogItem);
             _dbContext.SaveChanges();
+        }
+
+        public async Task<int> GetCatalogItemsCount()
+        {
+            _logger.LogTrace("Getting all catalog items count");
+            return await _dbContext.Items.CountAsync();
         }
     }
 }

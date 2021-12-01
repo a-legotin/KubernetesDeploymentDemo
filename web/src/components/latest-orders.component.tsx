@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import axios from "axios";
 import IOrder from "../models/order";
+import { fetchLatestOrders } from "../services/orders.service";
 
 
 type Props = {};
@@ -12,31 +12,22 @@ type State = {
 export default class LatestOrders extends Component<Props, State>{
     constructor(props: Props) {
         super(props);
-        this.retrieveLatestOrders = this.retrieveLatestOrders.bind(this);
-
         this.state = {
             orders: []
         };
     }
 
     componentDidMount() {
-        this.retrieveLatestOrders();
+        const fetchData = async () => {
+            const orders = await fetchLatestOrders();
+            this.setState({
+                orders: orders
+            });
+        };
+
+        fetchData().then(r => console.log("Loaded latest orders"));
     }
 
-    retrieveLatestOrders() {
-        let baseUrl = window.location.origin;
-        console.log("API url is " + baseUrl);
-        axios.get<Array<IOrder>>(baseUrl.replace(/\/$/, '') + `/api/orders/latest?portion=10`)
-            .then((response: any) => {
-                this.setState({
-                    orders: response.data
-                });
-                console.log(response.data);
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
-    }
 
     render() {
         const {  orders } = this.state;
@@ -56,8 +47,7 @@ export default class LatestOrders extends Component<Props, State>{
                         </tr>
                         </thead>
                         <tbody>
-                        {orders &&
-                        orders.map((order: IOrder) => (
+                        {orders && orders.map((order: IOrder) => (
                             <tr>
                                 <td>{order.id}</td>
                                 <td>{order.guid}</td>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Catalog.Api.Database.Repository;
 using Common.Core.Models;
@@ -23,5 +24,8 @@ namespace Catalog.Api.Controllers
         [HttpGet]
         public IEnumerable<CatalogItem> Get() =>
             _catalogItemsRepository.GetAll().Select(item => _mapper.Map<CatalogItem>(item));
+        
+        [HttpGet("count")]
+        public async Task<int> GetCatalogItemsCount() => (await _catalogItemsRepository.GetCatalogItemsCount());
     }
 }

@@ -36,5 +36,8 @@ namespace Orders.Api.Controllers
                 .Select(customer => _mapper.Map<OrderPreview>(customer))
                 .ToArray();
         }
+        
+        [HttpGet("count")]
+        public async Task<int> GetOrdersCount() => (await _ordersRepository.GetOrdersCount());
     }
 }

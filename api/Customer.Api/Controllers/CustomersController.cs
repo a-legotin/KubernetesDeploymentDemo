@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Customer.Api.Database.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -22,5 +23,8 @@ namespace Customer.Api.Controllers
         [HttpGet]
         public IEnumerable<Common.Core.Models.Customer> Get() => _customerRepository.GetAll()
             .Select(customer => _mapper.Map<Common.Core.Models.Customer>(customer));
+        
+        [HttpGet("count")]
+        public async Task<int> GetCustomerCount() => (await _customerRepository.GetCustomerCount());
     }
 }
