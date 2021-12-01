@@ -19,11 +19,14 @@ class Http {
         return this.instance != null ? this.instance : this.initHttp();
     }
 
+    getBaseUri () {
+        return window.location.origin
+    }
+
     initHttp() {
         const http = axios.create({
-            baseURL: 'http://localhost:10100',
-            headers,
-            withCredentials: true,
+            baseURL: this.getBaseUri(),
+            headers
         });
 
         http.interceptors.response.use(
