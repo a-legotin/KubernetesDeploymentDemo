@@ -69,8 +69,6 @@ class Http {
         return this.http.delete<T, R>(url, config);
     }
 
-    // Handle global app errors
-    // We can handle generic app errors depending on the status code
     private handleError(error: any) {
         if (error === undefined)
             return;

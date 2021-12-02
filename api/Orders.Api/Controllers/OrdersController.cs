@@ -25,6 +25,9 @@ namespace Orders.Api.Controllers
             .Select(customer => _mapper.Map<OrderPreview>(customer))
             .ToArray();
         
+        [HttpGet("{orderId:int}")]
+        public async Task<OrderPreview> GetById(int orderId) => _mapper.Map<OrderPreview>(await _ordersRepository.GetById(orderId));
+        
         [HttpGet("latest")]
         public async Task<OrderPreview[]> GetLatest([FromQuery] int portion)
         {

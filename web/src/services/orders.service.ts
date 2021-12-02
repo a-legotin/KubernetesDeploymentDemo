@@ -6,6 +6,11 @@ export const fetchLatestOrders = async (): Promise<IOrder[]> => {
     return data;
 };
 
+export const getOrderById = async (orderId: number): Promise<IOrder> => {
+    const { data } = await http.get<IOrder>(`/api/orders/${orderId}`);
+    return data;
+};
+
 export const getTotalOrdersCount = async (): Promise<number> => {
     const { data } = await http.get<number>("/api/orders/count");
     return data;

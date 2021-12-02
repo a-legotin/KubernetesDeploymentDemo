@@ -45,27 +45,45 @@ export default class Home extends Component<Props, State> {
     render() {
         const {totalOrders, totalCatalogItems, totalCustomers} = this.state;
 
+        const renderLoader = () => {
+          return <div className="text-center">
+              <div className="spinner-border" role="status" />
+          </div>
+        }
+
+        const renderOrdersTotal = () => {
+            if (totalOrders){
+                return <div className="col-sm-6">
+                    <Card title="Orders total" value={this.state.totalOrders}/>
+                </div>
+            }
+            else return renderLoader();
+        }
+
+        const renderCustomersTotal = () => {
+            if (totalOrders){
+                return <div className="col-sm-6">
+                    <Card title="Customers total" value={totalCustomers}/>
+            </div>
+            }
+            else return renderLoader();
+        }
+
+        const renderCatalogItemsTotal = () => {
+            if (totalOrders){
+                return <div className="col-sm-6">
+                    <Card title="Items in the catalog" value={totalCatalogItems}/>
+                </div>
+            }
+            else return renderLoader();
+        }
+
         return (
             <div className="container">
                 <div className="row row-cols-1 row-cols-md-3 mb-3 text-center">
-                    {totalOrders &&
-                    <div className="col-sm-6">
-                        <Card title="Orders total" value={this.state.totalOrders}/>
-                    </div>
-                    }
-
-                    {totalCustomers &&
-                    <div className="col-sm-6">
-                        <Card title="Customers total" value={totalCustomers}/>
-                    </div>
-                    }
-
-                    {totalCatalogItems &&
-                    <div className="col-sm-6">
-                        <Card title="Items in the catalog" value={totalCatalogItems}/>
-                    </div>
-                    }
-
+                    {renderOrdersTotal()}
+                    {renderCustomersTotal()}
+                    {renderCatalogItemsTotal()}
                 </div>
                 <LatestOrders/>
             </div>

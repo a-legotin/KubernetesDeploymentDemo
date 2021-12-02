@@ -10,5 +10,6 @@ namespace Orders.Api.Database.Repository
         Task InsertAsync(OrderDto order);
         Task<List<OrderDto>> GetLatest(int portion);
         Task<int> GetOrdersCount();
+        Task<OrderDto> GetById(int orderId);
     }
 }

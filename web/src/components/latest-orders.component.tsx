@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import IOrder from "../models/order";
 import { fetchLatestOrders } from "../services/orders.service";
-
+import {
+    Link,
+} from "react-router-dom";
 
 type Props = {};
 
@@ -48,12 +50,12 @@ export default class LatestOrders extends Component<Props, State>{
                         </thead>
                         <tbody>
                         {orders && orders.map((order: IOrder) => (
-                            <tr>
+                            <tr key={order.id}>
                                 <td>{order.id}</td>
                                 <td>{order.guid}</td>
                                 <td>{order.customerName}</td>
                                 <td>{order.itemGuids.length}</td>
-                                <td><i className="bi bi-arrow-right-circle"></i></td>
+                                <td><Link to={`order/${order.id}`}><i className="bi bi-arrow-right-circle"></i></Link></td>
                             </tr>
                         ))}
 

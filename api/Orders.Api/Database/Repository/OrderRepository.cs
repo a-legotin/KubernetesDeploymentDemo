@@ -46,5 +46,10 @@ namespace Orders.Api.Database.Repository
             _logger.LogTrace($"Getting orders count");
             return await _dbContext.Orders.CountAsync();
         }
+
+        public async Task<OrderDto> GetById(int orderId)
+        {
+            _logger.LogTrace($"Getting order by id {orderId}");
+            return await _dbContext.Orders.FirstOrDefaultAsync(order => order.Id == orderId);        }
     }
 }

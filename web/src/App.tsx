@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import "./App.css";
 import Home from "./components/home.component";
+import OrderComponent from "./components/order";
+import Order from "./components/order";
 
 type Props = {};
 
@@ -38,6 +40,7 @@ class App extends Component<Props, State> {
             <div className="container mt-3">
                 <Switch>
                     <Route exact path={["/", "/home"]} component={Home} />
+                    <Route path="/order/:orderId" component={Order} />
                 </Switch>
             </div>
         </div>
