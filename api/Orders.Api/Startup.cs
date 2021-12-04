@@ -102,6 +102,7 @@ namespace Orders.Api
                 .AllowAnyHeader());
             
             app.UseRouting();
+            app.UseSentryTracing();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             ConfigureEventBus(app);

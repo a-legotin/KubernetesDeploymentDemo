@@ -95,7 +95,7 @@ namespace Catalog.Api
             }
 
             app.UseRouting();
-
+            app.UseSentryTracing();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

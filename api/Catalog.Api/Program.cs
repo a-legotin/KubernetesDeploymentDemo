@@ -20,6 +20,10 @@ namespace Catalog.Api
                     logging.ClearProviders();
                     logging.AddConsole();
                 })
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseSentry();
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
