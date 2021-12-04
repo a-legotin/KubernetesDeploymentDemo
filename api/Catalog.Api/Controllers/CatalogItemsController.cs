@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -25,6 +26,12 @@ namespace Catalog.Api.Controllers
         public IEnumerable<CatalogItem> Get() =>
             _catalogItemsRepository.GetAll().Select(item => _mapper.Map<CatalogItem>(item));
         
+        [HttpGet("{itemId:int}")]
+        public async Task<CatalogItem> GetById(int itemId) => _mapper.Map<CatalogItem>(await _catalogItemsRepository.GetById(itemId));
+        
+        [HttpGet("{itemGuid:guid}")]
+        public async Task<CatalogItem> GetById(Guid itemGuid) => _mapper.Map<CatalogItem>(await _catalogItemsRepository.GetByGuid(itemGuid));
+
         [HttpGet("count")]
         public async Task<int> GetCatalogItemsCount() => (await _catalogItemsRepository.GetCatalogItemsCount());
     }

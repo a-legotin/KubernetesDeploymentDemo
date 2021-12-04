@@ -4,8 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import "./App.css";
 import Home from "./components/home.component";
-import OrderComponent from "./components/order";
-import Order from "./components/order";
+import Order from "./functions/order";
 
 type Props = {};
 

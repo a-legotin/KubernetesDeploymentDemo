@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Link, useParams} from "react-router-dom";
-import {getOrderById} from "../services/orders.service";
+import { useParams } from "react-router-dom";
+import { getOrderById } from "../services/orders.service";
 import IOrder from "../models/order";
+import OrderItemsComponent from "../components/order-items.component";
 
 export default function Order()  {
     const {orderId} = useParams<{ orderId: string }>();
@@ -29,6 +30,10 @@ export default function Order()  {
     return <div>
         {order && (
             <h2>Order #{order.id}</h2>
+        )}
+
+        {order && (
+            <OrderItemsComponent  order={order}/>
         )}
     </div>;
 }

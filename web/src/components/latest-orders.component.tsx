@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import IOrder from "../models/order";
 import { fetchLatestOrders } from "../services/orders.service";
 import {
     Link,
 } from "react-router-dom";
+import IOrder from "../models/order";
 
 type Props = {};
 
@@ -27,7 +27,7 @@ export default class LatestOrders extends Component<Props, State>{
             });
         };
 
-        fetchData().then(r => console.log("Loaded latest orders"));
+        fetchData().then(_ => console.log("Loaded latest orders"));
     }
 
 
@@ -45,7 +45,7 @@ export default class LatestOrders extends Component<Props, State>{
                             <th scope="col">Guid</th>
                             <th scope="col">Customer</th>
                             <th scope="col">Items</th>
-                            <th scope="col"></th>
+                            <th scope="col">Details</th>
                         </tr>
                         </thead>
                         <tbody>

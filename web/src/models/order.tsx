@@ -5,3 +5,4 @@ export default interface IOrder {
     itemGuids: string[],
     updatedAt: string
 }
+

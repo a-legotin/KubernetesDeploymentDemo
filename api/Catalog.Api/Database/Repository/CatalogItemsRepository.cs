@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Catalog.Api.Database.Models;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,20 @@ namespace Catalog.Api.Database.Repository
         {
             _logger.LogTrace("Getting all catalog items count");
             return await _dbContext.Items.CountAsync();
+        }
+
+        public async Task<CatalogItemDto> GetById(int itemId)
+        {
+            _logger.LogTrace($"Getting catalog item by id {itemId}");
+            return await _dbContext.Items.FirstOrDefaultAsync(item => item.Id == itemId);
+        }
+        
+        public async Task<CatalogItemDto> GetByGuid(Guid itemGuid)
+        {
+            _logger.LogTrace($"Getting catalog item by guid {itemGuid}");
+            return await _dbContext.Items
+                .Include(item => item.Category)
+                .FirstOrDefaultAsync(item => item.Guid == itemGuid);
         }
     }
 }
