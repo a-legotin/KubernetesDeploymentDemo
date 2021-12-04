@@ -51,36 +51,28 @@ export default class Home extends Component<Props, State> {
           </div>
         }
 
+        const renderCard = (title: string, value: number) => {
+            return <div className="col">
+                <Card title={title} value={value}/>
+            </div>
+        }
+
         const renderOrdersTotal = () => {
-            if (totalOrders){
-                return <div className="col-sm-6">
-                    <Card title="Orders total" value={this.state.totalOrders}/>
-                </div>
-            }
-            else return renderLoader();
+            return totalOrders ? renderCard("Orders total", this.state.totalOrders) : renderLoader();
         }
 
         const renderCustomersTotal = () => {
-            if (totalOrders){
-                return <div className="col-sm-6">
-                    <Card title="Customers total" value={totalCustomers}/>
-            </div>
-            }
-            else return renderLoader();
+            return totalCustomers ? renderCard("Customers total", this.state.totalCustomers) : renderLoader();
+
         }
 
         const renderCatalogItemsTotal = () => {
-            if (totalOrders){
-                return <div className="col-sm-6">
-                    <Card title="Items in the catalog" value={totalCatalogItems}/>
-                </div>
-            }
-            else return renderLoader();
+            return totalCatalogItems ? renderCard("Catalog items", this.state.totalCatalogItems) : renderLoader();
         }
 
         return (
             <div className="container">
-                <div className="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                <div className="row row-cols-1 row-cols-md-3 mb-3">
                     {renderOrdersTotal()}
                     {renderCustomersTotal()}
                     {renderCatalogItemsTotal()}

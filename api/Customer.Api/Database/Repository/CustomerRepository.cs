@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Customer.Api.Database.Models;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,18 @@ namespace Customer.Api.Database.Repository
         {
             _logger.LogTrace("Getting total customers count");
             return await _dbContext.Customers.CountAsync();
+        }
+
+        public async Task<CustomerDto> GetById(int customerId)
+        {
+            _logger.LogTrace("Getting customer by id {customerId}");
+            return await _dbContext.Customers.FirstOrDefaultAsync(customer => customer.Id == customerId);
+        }
+
+        public async Task<CustomerDto> GetByGuid(Guid customerGuid)
+        {
+            _logger.LogTrace("Getting customer by guid {customerGuid}");
+            return await _dbContext.Customers.FirstOrDefaultAsync(customer => customer.Guid == customerGuid);
         }
     }
 }

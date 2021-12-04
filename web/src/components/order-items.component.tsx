@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import IOrder from "../models/order";
 import ICatalogItem from "../models/catalogItem";
-import {getCatalogItemByGuid} from "../services/customers.service";
+import {getCatalogItemByGuid} from "../services/catalog.service";
 
 type Props = {
     order: IOrder

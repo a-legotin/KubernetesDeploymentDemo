@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Customer.Api.Database.Models;
 
@@ -8,5 +9,7 @@ namespace Customer.Api.Database.Repository
     {
         IEnumerable<CustomerDto> GetAll();
         Task<int> GetCustomerCount();
+        Task<CustomerDto> GetById(int customerId);
+        Task<CustomerDto> GetByGuid(Guid customerGuid);
     }
 }

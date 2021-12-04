@@ -20,6 +20,8 @@ class Http {
     }
 
     getBaseUri () {
+        if(process.env.REACT_APP_STAGE === 'dev')
+            return 'http://localhost:10100'
         return window.location.origin
     }
 

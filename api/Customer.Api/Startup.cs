@@ -94,6 +94,11 @@ namespace Customer.Api
                 });
             }
 
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            
             app.UseRouting();
             app.UseSentryTracing();
             app.UseAuthorization();

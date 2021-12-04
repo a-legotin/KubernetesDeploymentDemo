@@ -2,6 +2,7 @@ import { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'bootswatch/dist/zephyr/bootstrap.min.css';
 import "./App.css";
 import Home from "./components/home.component";
 import Order from "./functions/order";

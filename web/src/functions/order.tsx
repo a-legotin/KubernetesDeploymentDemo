@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getOrderById } from "../services/orders.service";
 import IOrder from "../models/order";
 import OrderItemsComponent from "../components/order-items.component";
+import CustomerComponent from "../components/customer.component";
 
 export default function Order()  {
     const {orderId} = useParams<{ orderId: string }>();
@@ -33,7 +34,14 @@ export default function Order()  {
         )}
 
         {order && (
-            <OrderItemsComponent  order={order}/>
+            <div>
+                <div className="row">
+                <CustomerComponent order={order}/>
+                </div>
+                <div className="row">
+                <OrderItemsComponent  order={order}/>
+                </div>
+            </div>
         )}
     </div>;
 }

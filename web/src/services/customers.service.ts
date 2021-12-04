@@ -1,12 +1,12 @@
 import {http} from "./http/http";
-import ICatalogItem from "../models/catalogItem";
+import ICustomer from "../models/customer";
 
 export const getTotalCustomersCount = async (): Promise<number> => {
     const { data } = await http.get<number>("/api/customers/count");
     return data;
 };
 
-export const getCatalogItemByGuid = async (itemGuid: string): Promise<ICatalogItem> => {
-    const { data } = await http.get<ICatalogItem>(`/api/catalog/items/${itemGuid}`);
+export const getCustomerByGuid = async (customerGuid: string): Promise<ICustomer> => {
+    const { data } = await http.get<ICustomer>(`/api/customers/${customerGuid}`);
     return data;
 };
