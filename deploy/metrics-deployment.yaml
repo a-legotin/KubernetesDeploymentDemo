@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: kdemo-elastic
-          image: docker.elastic.co/kibana/kibana:7.14.2
+          image: docker.elastic.co/elasticsearch/elasticsearch:7.14.2
           imagePullPolicy: Always
           ports:
             - containerPort: 9200
@@ -22,16 +22,16 @@ spec:
             - name: "ES_JAVA_OPTS"
               value: "-Xms256m -Xmx256m"
             - name: "xpack.monitoring.enabled"
-                value: "true"
+              value: "true"
             - name: "xpack.watcher.enabled"
-                value: "false"
+              value: "false"
             - name: "discovery.type"
-                value: "single-node"
+              value: "single-node"
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
               name: elastic-data
       volumes:
-        - name: kdemo-elastic-data
+        - name: elastic-data
           persistentVolumeClaim:
             claimName: kdemo-elastic-pv-claim
 ---

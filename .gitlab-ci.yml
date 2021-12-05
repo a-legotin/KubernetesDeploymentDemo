@@ -75,6 +75,6 @@ deploy:
         - echo "Creating web application"
         - kubectl apply -f web-configmap.yaml -f web-deployment.yaml -f web-service.yaml -f web-ingress.yaml --namespace=kdemo
         - echo "Creating metrics apps"
-        - kubectl apply -f metrics-configmap.yaml -f metrics-storage.yaml -f metrics-deployment.yaml -f metrics-service.yaml -f metrics-ingress.yaml --namespace=kdemo
+        - kubectl apply -f metrics-configmap.yaml -f metrics-storage.yaml -f metrics-deployment.yaml -f metrics-service.yaml --namespace=kdemo
         - echo "Rolling update"
         - kubectl rollout restart deployment -n kdemo
