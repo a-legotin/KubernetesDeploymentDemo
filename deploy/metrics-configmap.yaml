@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: kdemo-kibana-config
-  labels:
-    app: kdemo-kibana
-data:
-  ELASTICSEARCH_URL: http://kdemo-elastic:9200

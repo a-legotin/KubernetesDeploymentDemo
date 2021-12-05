@@ -56,7 +56,6 @@ ProjectSection(SolutionItems) = preProject
 	deploy\web-ingress.yaml = deploy\web-ingress.yaml
 	deploy\api-services.yaml = deploy\api-services.yaml
 	deploy\web-configmap.yaml = deploy\web-configmap.yaml
-	deploy\metrics-configmap.yaml = deploy\metrics-configmap.yaml
 	deploy\metrics-deployment.yaml = deploy\metrics-deployment.yaml
 	deploy\metrics-ingress.yaml = deploy\metrics-ingress.yaml
 	deploy\metrics-service.yaml = deploy\metrics-service.yaml
