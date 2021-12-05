@@ -56,6 +56,11 @@ ProjectSection(SolutionItems) = preProject
 	deploy\web-ingress.yaml = deploy\web-ingress.yaml
 	deploy\api-services.yaml = deploy\api-services.yaml
 	deploy\web-configmap.yaml = deploy\web-configmap.yaml
+	deploy\metrics-configmap.yaml = deploy\metrics-configmap.yaml
+	deploy\metrics-deployment.yaml = deploy\metrics-deployment.yaml
+	deploy\metrics-ingress.yaml = deploy\metrics-ingress.yaml
+	deploy\metrics-service.yaml = deploy\metrics-service.yaml
+	deploy\metrics-storage.yaml = deploy\metrics-storage.yaml
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx", "nginx", "{2039CF7E-DBC9-413E-8AA5-69DFA1D743C9}"

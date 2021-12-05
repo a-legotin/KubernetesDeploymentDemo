@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kdemo-kibana
+  labels:
+    app: kdemo-kibana
+spec:
+  type: NodePort
+  ports:
+    - port: 5601
+  selector:
+    app: kdemo-kibana

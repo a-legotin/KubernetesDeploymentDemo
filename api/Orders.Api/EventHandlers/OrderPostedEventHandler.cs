@@ -26,7 +26,7 @@ namespace Orders.Api.EventHandlers
 
         public async Task Handle(OrderPostedEvent request)
         {
-            _logger.LogTrace($"Got an event {request.Id} created at {request.CreationDate}");
+            _logger.LogTrace("Got an event {request.Id} created at {request.CreationDate}");
             await _postsRepository.InsertAsync(_mapper.Map<OrderDto>(request.Order));
         }
     }

@@ -31,7 +31,7 @@ namespace Service.Orders
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogTrace("Worker running at: {time}", DateTimeOffset.Now);
+                _logger.LogTrace("Orders worker running at: {Time}", DateTimeOffset.Now);
                 _eventBus.Publish(new RandomCustomerRequest());
                 _eventBus.Publish(new RandomCatalogItemsRequest());
 
@@ -42,6 +42,8 @@ namespace Service.Orders
                 {
                     Order = order
                 });
+                _logger.LogTrace("Created order {CustomerGuid} for {CustomerName}", order.Guid, order.Customer);
+
                 await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
         }

@@ -27,14 +27,14 @@ namespace Orders.Api.Database.Repository
 
         public async Task InsertAsync(OrderDto order)
         {
-            _logger.LogTrace($"Inserting order {order.Guid}");
+            _logger.LogTrace("Inserting order {OrderGuid}", order.Guid);
             await _dbContext.Orders.AddAsync(order);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<List<OrderDto>> GetLatest(int portion)
         {
-            _logger.LogTrace($"Getting {portion} latest orders");
+            _logger.LogTrace("Getting {Portion} latest orders", portion);
             return await _dbContext.Orders
                 .OrderByDescending(dto => dto.Id)
                 .Take(portion)
@@ -43,13 +43,13 @@ namespace Orders.Api.Database.Repository
 
         public async Task<int> GetOrdersCount()
         {
-            _logger.LogTrace($"Getting orders count");
+            _logger.LogTrace("Getting orders count");
             return await _dbContext.Orders.CountAsync();
         }
 
         public async Task<OrderDto> GetById(int orderId)
         {
-            _logger.LogTrace($"Getting order by id {orderId}");
+            _logger.LogTrace("Getting order by id {OrderId}", orderId);
             return await _dbContext.Orders.FirstOrDefaultAsync(order => order.Id == orderId);        }
     }
 }

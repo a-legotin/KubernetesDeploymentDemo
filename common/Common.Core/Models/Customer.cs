@@ -25,5 +25,10 @@ namespace Common.Core.Models
         
         [JsonPropertyName("updatedAt")]
         public DateTime UpdatedAt { get; set; }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }

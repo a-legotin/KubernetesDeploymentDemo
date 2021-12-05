@@ -32,7 +32,7 @@ namespace Catalog.Api.EventHandlers
             _logger.LogTrace("Got random catalog items request");
             var catalogItemDtos = _catalogItemsRepository.GetAll().ToArray();
             var randomItems = catalogItemDtos.OrderBy(c => Guid.NewGuid())
-                .Take(new Random(DateTime.Now.Millisecond).Next(2, 10))
+                .Take(new Random(DateTime.Now.Millisecond).Next(2, 25))
                 .ToArray();
             _eventBus.Publish(new RandomCatalogItemsPostedEvent
             {

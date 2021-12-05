@@ -39,13 +39,13 @@ namespace Catalog.Api.Database.Repository
 
         public async Task<CatalogItemDto> GetById(int itemId)
         {
-            _logger.LogTrace($"Getting catalog item by id {itemId}");
+            _logger.LogTrace("Getting catalog item by id {ItemId}", itemId);
             return await _dbContext.Items.FirstOrDefaultAsync(item => item.Id == itemId);
         }
         
         public async Task<CatalogItemDto> GetByGuid(Guid itemGuid)
         {
-            _logger.LogTrace($"Getting catalog item by guid {itemGuid}");
+            _logger.LogTrace("Getting catalog item by guid {ItemGuid}", itemGuid);
             return await _dbContext.Items
                 .Include(item => item.Category)
                 .FirstOrDefaultAsync(item => item.Guid == itemGuid);

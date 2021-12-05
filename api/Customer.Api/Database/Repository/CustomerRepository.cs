@@ -32,13 +32,13 @@ namespace Customer.Api.Database.Repository
 
         public async Task<CustomerDto> GetById(int customerId)
         {
-            _logger.LogTrace("Getting customer by id {customerId}");
+            _logger.LogTrace("Getting customer by id {CustomerId}", customerId);
             return await _dbContext.Customers.FirstOrDefaultAsync(customer => customer.Id == customerId);
         }
 
         public async Task<CustomerDto> GetByGuid(Guid customerGuid)
         {
-            _logger.LogTrace("Getting customer by guid {customerGuid}");
+            _logger.LogTrace("Getting customer by guid {CustomerGuid}", customerGuid);
             return await _dbContext.Customers.FirstOrDefaultAsync(customer => customer.Guid == customerGuid);
         }
     }
