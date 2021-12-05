@@ -18,12 +18,15 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 9200
-          envFrom:
-            - configMapRef:
-                name: kdemo-elastic-config
           env:
             - name: "ES_JAVA_OPTS"
               value: "-Xms256m -Xmx256m"
+            - name: "xpack.monitoring.enabled"
+                value: "true"
+            - name: "xpack.watcher.enabled"
+                value: "false"
+            - name: "discovery.type"
+                value: "single-node"
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
               name: elastic-data
