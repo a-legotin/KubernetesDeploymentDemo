@@ -57,6 +57,7 @@ deploy:
     tags:
         - k8s
     script:
+        - kubectl get nodes
         - echo "Creating namespace, it might exists already"
         - cd deploy
         - kubectl apply -f kdemo-namespace.yaml
