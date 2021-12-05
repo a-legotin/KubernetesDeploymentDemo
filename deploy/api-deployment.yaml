@@ -18,6 +18,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          env:
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: Production
       imagePullSecrets:
         - name: registry-credentials
 ---
@@ -41,6 +44,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          env:
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: Production
       imagePullSecrets:
         - name: registry-credentials
 ---
@@ -64,5 +70,8 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          env:
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: Production
       imagePullSecrets:
         - name: registry-credentials
