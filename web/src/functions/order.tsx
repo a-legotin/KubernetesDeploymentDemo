@@ -16,7 +16,7 @@ export default function Order()  {
                  console.log(`Loaded order by id ${o.id} with ${o?.itemGuids.length} items`);
                  setOrder(o);
              });
-    }, []);
+    });
 
     const orderDetails = async () => {
         return await getOrderById(parseInt(orderId))

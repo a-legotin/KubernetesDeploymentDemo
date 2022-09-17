@@ -1,7 +1,5 @@
 import IOrder from "../models/order";
-import ICatalogItem from "../models/catalogItem";
-import React, {Component} from "react";
-import {getCatalogItemByGuid} from "../services/catalog.service";
+import {Component} from "react";
 import ICustomer from "../models/customer";
 import {getCustomerByGuid} from "../services/customers.service";
 
@@ -14,9 +12,6 @@ type State = {
 };
 
 export default class CustomerComponent extends Component<Props, State>{
-    constructor(props: Props) {
-        super(props);
-    }
 
     componentDidMount() {
         const fetchData = async () => {
