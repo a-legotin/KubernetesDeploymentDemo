@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import {Component} from "react";
 import {Card} from "./orders-card.component";
 import LatestOrders from "./latest-orders.component";
 import {getTotalOrdersCount} from "../services/orders.service";
@@ -16,8 +16,8 @@ type State = {
 
 export default class Home extends Component<Props, State> {
     constructor(props: Props) {
-        super(props);
-
+      super(props);
+      
         this.state = {
             content: "",
             totalOrders: 0,
