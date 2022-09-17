@@ -30,7 +30,7 @@ class App extends Component<Props, State> {
 
           <ul className="nav nav-pills">
             <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
+              <Link to={"/"} className="nav-link">
                 Home
               </Link>
             </li>
