@@ -4,6 +4,8 @@ import {
     Link,
 } from "react-router-dom";
 import IOrder from "../models/order";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'bootswatch/dist/zephyr/bootstrap.min.css';
 
 type Props = {};
 
