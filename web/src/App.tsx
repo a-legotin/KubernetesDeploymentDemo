@@ -35,9 +35,9 @@ class App extends Component<Props, State> {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={"metrics.kdemo.staging.codegarage.ru"} className="nav-link">
+              <a href="https://metrics.kdemo.staging.codegarage.ru/">
                 Go to kibana
-              </Link>
+              </a>
             </li>
           </ul>
         </header>

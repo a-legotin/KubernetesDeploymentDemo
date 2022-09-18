@@ -94,3 +94,5 @@ spec:
               value: "http://kdemo-elastic:9200"
             - name: ELASTICSEARCH_HOSTS
               value: "http://kdemo-elastic:9200"
+            - name: SERVER_PUBLICBASEURL
+              value: "https://metrics.kdemo.staging.codegarage.ru/"  
