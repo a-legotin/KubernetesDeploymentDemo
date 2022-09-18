@@ -44,7 +44,7 @@ namespace Service.Orders
                 });
                 _logger.LogTrace("Created order {CustomerGuid} for {CustomerName}", order.Guid, order.Customer);
 
-                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
             }
         }
     }

@@ -21,7 +21,7 @@ metadata:
   labels:
     app: kdemo-kibana
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 5601
   selector:
