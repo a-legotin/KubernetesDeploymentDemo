@@ -59,6 +59,8 @@ spec:
               value: "-Xms256m -Xmx256m"
             - name: "xpack.watcher.enabled"
               value: "false"
+            - name: "xpack.security.enabled"
+              value: "false"
             - name: "discovery.type"
               value: "single-node"
           volumeMounts:
@@ -89,6 +91,12 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5601
+          readinessProbe:
+            httpGet:
+              path: /api/status
+              port: http
+            initialDelaySeconds: 20
+            timeoutSeconds: 5
           env:
             - name: ELASTICSEARCH_URL
               value: "http://kdemo-elastic:9200"
