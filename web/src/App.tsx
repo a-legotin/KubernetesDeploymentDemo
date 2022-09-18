@@ -34,6 +34,11 @@ class App extends Component<Props, State> {
                 Home
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to={"/kibana"} className="nav-link">
+                Go to kibana
+              </Link>
+            </li>
           </ul>
         </header>
         <main>

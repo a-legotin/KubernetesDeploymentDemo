@@ -57,8 +57,6 @@ spec:
           env:
             - name: "ES_JAVA_OPTS"
               value: "-Xms256m -Xmx256m"
-            - name: "xpack.monitoring.enabled"
-              value: "true"
             - name: "xpack.watcher.enabled"
               value: "false"
             - name: "discovery.type"
