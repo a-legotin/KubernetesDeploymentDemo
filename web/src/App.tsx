@@ -35,7 +35,7 @@ class App extends Component<Props, State> {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={{ pathname: "https://metrics.kdemo.staging.codegarage.ru"}} className="nav-link">
+              <Link to={{ pathname: "https://metrics.kdemo.staging.codegarage.ru"}} target="_blank" className="nav-link">
                 Go to kibana
               </Link>
             </li>

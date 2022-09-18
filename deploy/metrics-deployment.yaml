@@ -91,12 +91,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5601
-          readinessProbe:
-            httpGet:
-              path: /api/status
-              port: http
-            initialDelaySeconds: 20
-            timeoutSeconds: 5
           env:
             - name: ELASTICSEARCH_URL
               value: "http://kdemo-elastic:9200"
