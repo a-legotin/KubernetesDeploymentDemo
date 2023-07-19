@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kdemo-rabbitmq
+  namespace: kdemo
   labels:
     app: kdemo-rabbitmq
 spec:

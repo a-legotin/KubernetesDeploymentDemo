@@ -25,10 +25,10 @@ namespace Catalog.Api.Controllers
         [HttpGet]
         public IEnumerable<CatalogItem> Get() =>
             _catalogItemsRepository.GetAll().Select(item => _mapper.Map<CatalogItem>(item));
-        
+
         [HttpGet("{itemId:int}")]
         public async Task<CatalogItem> GetById(int itemId) => _mapper.Map<CatalogItem>(await _catalogItemsRepository.GetById(itemId));
-        
+
         [HttpGet("{itemGuid:guid}")]
         public async Task<CatalogItem> GetById(Guid itemGuid) => _mapper.Map<CatalogItem>(await _catalogItemsRepository.GetByGuid(itemGuid));
 

@@ -31,9 +31,9 @@ namespace Orders.Api.Database
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-                ChangeTracker.DetectChanges();
-                updateUpdatedProperty<OrderDto>();
-                return base.SaveChangesAsync(cancellationToken);
+            ChangeTracker.DetectChanges();
+            updateUpdatedProperty<OrderDto>();
+            return base.SaveChangesAsync(cancellationToken);
         }
 
         private void updateUpdatedProperty<T>() where T : class

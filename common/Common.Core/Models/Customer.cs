@@ -7,7 +7,7 @@ namespace Common.Core.Models
     {
         [JsonPropertyName("id")]
         public long Id { get; set; }
-        
+
         [JsonPropertyName("guid")]
         public Guid Guid { get; set; }
 
@@ -22,7 +22,7 @@ namespace Common.Core.Models
 
         [JsonPropertyName("gender")]
         public string Gender { get; set; }
-        
+
         [JsonPropertyName("updatedAt")]
         public DateTime UpdatedAt { get; set; }
 

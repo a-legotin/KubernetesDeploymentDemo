@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kdemo-customer-api-deployment
+  namespace: kdemo
 spec:
   replicas: 1
   selector:
@@ -14,7 +15,7 @@ spec:
     spec:
       containers:
         - name: kdemo-customer-api
-          image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-customer-api:latest
+          image: registry.ezlab.ru/ezlab/kubernetesdeploymentdemo/kdemo-customer-api:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -28,6 +29,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kdemo-catalog-api-deployment
+  namespace: kdemo
 spec:
   replicas: 1
   selector:
@@ -40,7 +42,7 @@ spec:
     spec:
       containers:
         - name: kdemo-catalog-api
-          image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-catalog-api:latest
+          image: registry.ezlab.ru/ezlab/kubernetesdeploymentdemo/kdemo-catalog-api:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -54,6 +56,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kdemo-orders-api-deployment
+  namespace: kdemo
 spec:
   replicas: 1
   selector:
@@ -66,7 +69,7 @@ spec:
     spec:
       containers:
         - name: kdemo-orders-api
-          image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-orders-api:latest
+          image: registry.ezlab.ru/ezlab/kubernetesdeploymentdemo/kdemo-orders-api:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

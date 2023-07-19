@@ -38,8 +38,6 @@ namespace Orders.Api
 
         public IConfiguration Configuration { get; }
 
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -85,9 +83,9 @@ namespace Orders.Api
                         var exceptionHandlerPathFeature =
                             context.Features.Get<IExceptionHandlerPathFeature>();
 
-                       await context.Response.WriteAsync(
-                                $"Exception: {exceptionHandlerPathFeature?.Error}<br><br>\r\n");
-                       
+                        await context.Response.WriteAsync(
+                                 $"Exception: {exceptionHandlerPathFeature?.Error}<br><br>\r\n");
+
                         await context.Response.WriteAsync(
                             "<a href=\"/\">Home</a><br>\r\n");
                         await context.Response.WriteAsync("</body></html>\r\n");
@@ -100,7 +98,7 @@ namespace Orders.Api
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-            
+
             app.UseRouting();
             app.UseSentryTracing();
             app.UseAuthorization();

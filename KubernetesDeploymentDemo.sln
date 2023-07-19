@@ -1,16 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{150EB040-BF76-404D-AE59-8C5A0E2556FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Core", "common\Common.Core\Common.Core.csproj", "{86052B66-DEB1-4D70-9032-C5DA5D3BE119}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "environment", "environment", "{9D5BF602-52F0-4D21-AA4E-03A747428E69}"
-ProjectSection(SolutionItems) = preProject
-	.travis.yml = .travis.yml
-	.gitlab-ci.yml = .gitlab-ci.yml
-	.env = .env
-	docker-compose.yml = docker-compose.yml
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		.gitlab-ci.yml = .gitlab-ci.yml
+		.env = .env
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{9C14FE55-4E6C-4F31-A191-251E6DD33EE7}"
 EndProject
@@ -19,10 +19,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "api\Catalog.Api\Catalog.Api.csproj", "{6CF3D48A-6C42-4760-AD96-463C4644E9EC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{96BA617C-B53F-430A-8469-964B3BD8A900}"
-ProjectSection(SolutionItems) = preProject
-	database\Dockerfile = database\Dockerfile
-	database\init.sql = database\init.sql
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		database\Dockerfile = database\Dockerfile
+		database\init.sql = database\init.sql
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Api", "api\Orders.Api\Orders.Api.csproj", "{53C698E4-DF49-42D2-A650-993CB643909B}"
 EndProject
@@ -37,36 +37,32 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Bus.RabbitMQ", "common\Common.Bus.RabbitMQ\Common.Bus.RabbitMQ.csproj", "{C72D15C4-2A85-48F9-9A09-AAD5D33B744B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{472F6578-69FE-4AEE-8A2E-57268996ADB1}"
-ProjectSection(SolutionItems) = preProject
-	deploy\postgres-configmap.yaml = deploy\postgres-configmap.yaml
-	deploy\postgres-deployment.yaml = deploy\postgres-deployment.yaml
-	deploy\postgres-service.yaml = deploy\postgres-service.yaml
-	deploy\postgres-storage.yaml = deploy\postgres-storage.yaml
-	deploy\kdemo-namespace.yaml = deploy\kdemo-namespace.yaml
-	deploy\rabbit-configmap.yaml = deploy\rabbit-configmap.yaml
-	deploy\rabbit-deployment.yaml = deploy\rabbit-deployment.yaml
-	deploy\services-deployment.yaml = deploy\services-deployment.yaml
-	deploy\api-deployment.yaml = deploy\api-deployment.yaml
-	deploy\rabbit-service.yaml = deploy\rabbit-service.yaml
-	deploy\web-deployment.yaml = deploy\web-deployment.yaml
-	deploy\web-service.yaml = deploy\web-service.yaml
-	deploy\nginx-configmap.yaml = deploy\nginx-configmap.yaml
-	deploy\nginx-deployment.yaml = deploy\nginx-deployment.yaml
-	deploy\nginx-service.yaml = deploy\nginx-service.yaml
-	deploy\web-ingress.yaml = deploy\web-ingress.yaml
-	deploy\api-services.yaml = deploy\api-services.yaml
-	deploy\web-configmap.yaml = deploy\web-configmap.yaml
-	deploy\metrics-deployment.yaml = deploy\metrics-deployment.yaml
-	deploy\metrics-ingress.yaml = deploy\metrics-ingress.yaml
-	deploy\metrics-service.yaml = deploy\metrics-service.yaml
-	deploy\metrics-storage.yaml = deploy\metrics-storage.yaml
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		deploy\postgres-configmap.yaml = deploy\postgres-configmap.yaml
+		deploy\postgres-deployment.yaml = deploy\postgres-deployment.yaml
+		deploy\postgres-service.yaml = deploy\postgres-service.yaml
+		deploy\postgres-storage.yaml = deploy\postgres-storage.yaml
+		deploy\kdemo-namespace.yaml = deploy\kdemo-namespace.yaml
+		deploy\rabbit-configmap.yaml = deploy\rabbit-configmap.yaml
+		deploy\rabbit-deployment.yaml = deploy\rabbit-deployment.yaml
+		deploy\services-deployment.yaml = deploy\services-deployment.yaml
+		deploy\api-deployment.yaml = deploy\api-deployment.yaml
+		deploy\rabbit-service.yaml = deploy\rabbit-service.yaml
+		deploy\web-deployment.yaml = deploy\web-deployment.yaml
+		deploy\web-service.yaml = deploy\web-service.yaml
+		deploy\nginx-configmap.yaml = deploy\nginx-configmap.yaml
+		deploy\nginx-deployment.yaml = deploy\nginx-deployment.yaml
+		deploy\nginx-service.yaml = deploy\nginx-service.yaml
+		deploy\web-ingress.yaml = deploy\web-ingress.yaml
+		deploy\api-services.yaml = deploy\api-services.yaml
+		deploy\web-configmap.yaml = deploy\web-configmap.yaml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx", "nginx", "{2039CF7E-DBC9-413E-8AA5-69DFA1D743C9}"
-ProjectSection(SolutionItems) = preProject
-	nginx\nginx.conf = nginx\nginx.conf
-	nginx\proxy.conf = nginx\proxy.conf
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		nginx\nginx.conf = nginx\nginx.conf
+		nginx\proxy.conf = nginx\proxy.conf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -16,7 +16,7 @@ namespace Customer.Api.Infrastructure
                 .ForMember(
                     dest => dest.UpdatedAt,
                     opt => opt.MapFrom(src => src.UpdatedTime)
-                );;
+                ); ;
         }
     }
 }

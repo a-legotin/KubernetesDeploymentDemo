@@ -1,15 +1,14 @@
-image: mcr.microsoft.com/dotnet/sdk:5.0
-
 stages:
     - build
     - deploy
 
 variables:
-    DOCKER_DRIVER: overlay2
-    DOCKER_HOST: tcp://localhost:2375
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
 
 services:
-    - docker:18.09.7-dind
+    - docker:23.0.6-dind
+
 build:
     stage: build
     image: docker:stable
@@ -17,7 +16,7 @@ build:
         - apk add --no-cache docker-compose
         - docker info
     tags:
-        - k8s
+        - k8s, docker
     script:
         - echo "Building docker images"
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -55,27 +54,10 @@ deploy:
     environment:
         name: staging
     tags:
-        - k8s
+        - k8s, docker
     script:
-        - kubectl get nodes
-        - echo "Creating namespace, it might exists already"
-        - cd deploy
-        - kubectl apply -f kdemo-namespace.yaml
+        - kubectl config get-contexts
+        - kubectl config use-context ezlab/kubernetes-agent:leo
+        - kubectl apply -f deploy/kdemo-namespace.yaml
         - kubectl delete secret docker-registry registry-credentials --ignore-not-found --namespace=kdemo
-        - kubectl create secret docker-registry registry-credentials --docker-server=$CI_REGISTRY --docker-username=$CG_DEPLOY_USR --docker-password=$CG_DEPLOY_PWD --docker-email=$GITLAB_USER_EMAIL --namespace=kdemo
-        - echo "Creating PostgreSQL entries"
-        - kubectl apply -f postgres-configmap.yaml -f postgres-storage.yaml -f postgres-deployment.yaml -f postgres-service.yaml --namespace=kdemo
-        - echo "Creating RabbitMQ entries"
-        - kubectl apply -f rabbit-configmap.yaml -f rabbit-deployment.yaml -f rabbit-service.yaml --namespace=kdemo
-        - echo "Creating API services"
-        - kubectl apply -f api-deployment.yaml -f api-services.yaml --namespace=kdemo
-        - echo "Creating worker services"
-        - kubectl apply -f services-deployment.yaml --namespace=kdemo
-        - echo "Creating nginx API gateway"
-        - kubectl apply -f nginx-configmap.yaml -f nginx-deployment.yaml -f nginx-service.yaml --namespace=kdemo
-        - echo "Creating web application"
-        - kubectl apply -f web-configmap.yaml -f web-deployment.yaml -f web-service.yaml -f web-ingress.yaml --namespace=kdemo
-        - echo "Creating metrics apps"
-        - kubectl apply -f metrics-storage.yaml -f metrics-deployment.yaml -f metrics-service.yaml --namespace=kdemo
-        - echo "Rolling update"
-        - kubectl rollout restart deployment -n kdemo
+        - kubectl create secret docker-registry registry-credentials --docker-server=$CI_REGISTRY --docker-username=$EZLAB_DEPLOY_USER --docker-password=$EZLAB_DEPLOY_PWD --namespace=kdemo

@@ -26,7 +26,7 @@ namespace Customer.Api.Migrations
 
             migrationBuilder.InsertData(
                 table: "Customers",
-                columns: new[] {"Id", "Email", "FirstName", "Gender", "Guid", "LastName", "UpdatedTime"},
+                columns: new[] { "Id", "Email", "FirstName", "Gender", "Guid", "LastName", "UpdatedTime" },
                 values: new object[,]
                 {
                     {

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kdemo-orders-service-deployment
+  namespace: kdemo
 spec:
   replicas: 1
   selector:
@@ -14,7 +15,7 @@ spec:
     spec:
       containers:
         - name: kdemo-orders-service
-          image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-orders-service:latest
+          image: registry.ezlab.ru/ezlab/kubernetesdeploymentdemo/kdemo-orders-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80

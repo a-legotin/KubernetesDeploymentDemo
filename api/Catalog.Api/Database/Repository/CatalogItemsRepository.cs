@@ -42,7 +42,7 @@ namespace Catalog.Api.Database.Repository
             _logger.LogTrace("Getting catalog item by id {ItemId}", itemId);
             return await _dbContext.Items.FirstOrDefaultAsync(item => item.Id == itemId);
         }
-        
+
         public async Task<CatalogItemDto> GetByGuid(Guid itemGuid)
         {
             _logger.LogTrace("Getting catalog item by guid {ItemGuid}", itemGuid);

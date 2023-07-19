@@ -24,10 +24,10 @@ namespace Orders.Api.Controllers
         public async Task<OrderPreview[]> Get() => (await _ordersRepository.GetAll())
             .Select(customer => _mapper.Map<OrderPreview>(customer))
             .ToArray();
-        
+
         [HttpGet("{orderId:int}")]
         public async Task<OrderPreview> GetById(int orderId) => _mapper.Map<OrderPreview>(await _ordersRepository.GetById(orderId));
-        
+
         [HttpGet("latest")]
         public async Task<OrderPreview[]> GetLatest([FromQuery] int portion)
         {
@@ -39,7 +39,7 @@ namespace Orders.Api.Controllers
                 .Select(customer => _mapper.Map<OrderPreview>(customer))
                 .ToArray();
         }
-        
+
         [HttpGet("count")]
         public async Task<int> GetOrdersCount() => (await _ordersRepository.GetOrdersCount());
     }

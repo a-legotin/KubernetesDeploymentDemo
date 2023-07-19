@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kdemo-web-deployment
+  namespace: kdemo
 spec:
   replicas: 1
   selector:
@@ -14,7 +15,7 @@ spec:
     spec:
       containers:
         - name: kdemo-web
-          image: registry.codegarage.ru/codegarage/kubernetesdeploymentdemo/kdemo-web:latest
+          image: registry.ezlab.ru/ezlab/kubernetesdeploymentdemo/kdemo-web:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80

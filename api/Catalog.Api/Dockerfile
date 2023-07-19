@@ -1,7 +1,7 @@
-﻿FROM  mcr.microsoft.com/dotnet/aspnet:5.0.2-alpine3.12 AS base
+﻿FROM  mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
-FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["api/Catalog.Api/Catalog.Api.csproj", "api/Catalog.Api/"]
 COPY ["common/Common.Core/Common.Core.csproj", "common/Common.Core/"]

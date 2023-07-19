@@ -24,13 +24,13 @@ namespace Customer.Api.Controllers
         [HttpGet]
         public IEnumerable<Common.Core.Models.Customer> Get() => _customerRepository.GetAll()
             .Select(customer => _mapper.Map<Common.Core.Models.Customer>(customer));
-        
+
         [HttpGet("{customerId:int}")]
         public async Task<Common.Core.Models.Customer> GetById(int customerId) => _mapper.Map<Common.Core.Models.Customer>(await _customerRepository.GetById(customerId));
-        
+
         [HttpGet("{customerGuid:guid}")]
         public async Task<Common.Core.Models.Customer> GetById(Guid customerGuid) => _mapper.Map<Common.Core.Models.Customer>(await _customerRepository.GetByGuid(customerGuid));
-        
+
         [HttpGet("count")]
         public async Task<int> GetCustomerCount() => (await _customerRepository.GetCustomerCount());
     }

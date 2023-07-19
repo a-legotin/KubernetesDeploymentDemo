@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kdemo-nginx-config
+  namespace: kdemo
 data:
   proxy.conf: |
     proxy_redirect          off;
@@ -43,10 +44,6 @@ data:
         upstream catalog-api {
             server          kdemo-catalog-api:8080;
         }
-       
-        upstream kibana {
-            server          kdemo-kibana:5601;
-        }
 
         server {
             listen          80;
@@ -71,15 +68,5 @@ data:
                  resolver 127.0.0.11 ipv6=off;
                         proxy_pass  http://frontend;
             }    
-        }
-        
-        server {
-          listen          8080;
-          server_name     $hostname;
-
-           location / {
-               resolver 127.0.0.11 ipv6=off;
-               proxy_pass http://kibana;
-           }
         }
     }

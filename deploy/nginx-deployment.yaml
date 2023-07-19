@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kdemo-nginx-deployment
+  namespace: kdemo
   labels:
     app: kdemo-nginx
 spec:

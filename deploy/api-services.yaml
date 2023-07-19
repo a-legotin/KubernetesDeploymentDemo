@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kdemo-customer-api
+  namespace: kdemo
   labels:
     app: kdemo-customer-api
 spec:
@@ -15,6 +16,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kdemo-catalog-api
+  namespace: kdemo
   labels:
     app: kdemo-catalog-api
 spec:
@@ -28,6 +30,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kdemo-orders-api
+  namespace: kdemo
   labels:
     app: kdemo-orders-api
 spec:

@@ -25,12 +25,12 @@ namespace Service.Orders
                 {
                     logging.ClearProviders();
                     logging.AddConsole();
-                    
+
                     var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
                     var configuration = new ConfigurationBuilder()
                         .AddJsonFile($"appsettings.{environment}.json")
                         .Build();
-                    
+
                     var logger = new LoggerConfiguration()
                         .Enrich.FromLogContext()
                         .Enrich.WithMachineName()
@@ -44,16 +44,16 @@ namespace Service.Orders
                         .Enrich.WithProperty("Environment", environment)
                         .ReadFrom.Configuration(configuration)
                         .CreateLogger();
-                    
+
                     logging.AddSerilog(logger, dispose: true);
                 })
                 .ConfigureAppConfiguration(builder =>
                 {
-                  
+
                 })
                 .ConfigureContainer<ContainerBuilder>(builder => { builder.ConfigureBuilder(); })
                 .ConfigureServices((_, services) => { services.ConfigureWorker(); });
     }
-    
-    
+
+
 }

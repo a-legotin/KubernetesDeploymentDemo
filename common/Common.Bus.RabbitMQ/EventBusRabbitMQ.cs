@@ -245,7 +245,7 @@ namespace Common.Bus.RabbitMQ
                         var concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
 
                         await Task.Yield();
-                        await (Task) concreteType.GetMethod("Handle").Invoke(handler, new[] {integrationEvent});
+                        await (Task)concreteType.GetMethod("Handle").Invoke(handler, new[] { integrationEvent });
                     }
                 }
             else

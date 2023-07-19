@@ -50,6 +50,7 @@ namespace Orders.Api.Database.Repository
         public async Task<OrderDto> GetById(int orderId)
         {
             _logger.LogTrace("Getting order by id {OrderId}", orderId);
-            return await _dbContext.Orders.FirstOrDefaultAsync(order => order.Id == orderId);        }
+            return await _dbContext.Orders.FirstOrDefaultAsync(order => order.Id == orderId);
+        }
     }
 }

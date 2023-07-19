@@ -55,7 +55,7 @@ namespace Catalog.Api
                         b.EnableRetryOnFailure(dbRetryCount);
                     })
             );
-            
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
@@ -98,7 +98,7 @@ namespace Catalog.Api
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-            
+
             app.UseRouting();
             app.UseSentryTracing();
             app.UseAuthorization();

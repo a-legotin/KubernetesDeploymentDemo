@@ -9,6 +9,9 @@
 *.userosscache
 *.sln.docstates
 *.gitconfig
+.DS_Store
+.AppleDouble
+.LSOverride
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

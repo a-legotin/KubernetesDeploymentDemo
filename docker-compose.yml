@@ -93,27 +93,6 @@ services:
      env_file: .env
      networks:
        - main-network
-  kdemo-elastic:
-    container_name: elasticsearch
-    image: elasticsearch:8.4.1
-    volumes:
-      - kdemo-elastic-data:/usr/share/elasticsearch/data
-    environment:
-      - xpack.monitoring.enabled=true
-      - xpack.watcher.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=single-node
-    networks:
-      - main-network
-  kdemo-kibana:
-    container_name: kibana
-    image: kibana:8.4.1
-    depends_on:
-      - kdemo-elastic
-    environment:
-      - ELASTICSEARCH_URL=http://kdemo-elastic:9200
-    networks:
-      - main-network
 
 networks:
    main-network:
@@ -125,10 +104,4 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ~/dev/projects-data/kdemo-postgres
-  kdemo-elastic-data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ~/dev/projects-data/kdemo-elastic
+      device: ~/dev/data/kdemo-postgres

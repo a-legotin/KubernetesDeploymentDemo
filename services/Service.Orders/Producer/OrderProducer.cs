@@ -6,7 +6,7 @@ namespace Service.Orders.Producer
 {
     public class OrderProducer : IOrderProducer
     {
-        private readonly int _blockingTimeOutMilliseconds = (int) TimeSpan.FromSeconds(10).TotalMilliseconds;
+        private readonly int _blockingTimeOutMilliseconds = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
         private readonly CancellationToken _cancellationToken;
         private readonly ICatalogItemsStorage _catalogItems;
         private readonly ICustomersStorage _customers;

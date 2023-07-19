@@ -25,9 +25,9 @@ namespace Orders.Api.Infrastructure
                     dest => dest.ItemGuids,
                     opt => opt.MapFrom(src => src.Items.Select(item => item.Guid).ToArray())
                 );
-            
+
             CreateMap<OrderDto, Common.Core.Models.Order>();
-            
+
             CreateMap<Common.Core.Models.OrderPreview, OrderDto>();
             CreateMap<OrderDto, Common.Core.Models.OrderPreview>();
         }
