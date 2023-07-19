@@ -16,7 +16,7 @@ build:
         - apk add --no-cache docker-compose
         - docker info
     tags:
-        - k8s, docker
+        - docker
     script:
         - echo "Building docker images"
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -54,7 +54,7 @@ deploy:
     environment:
         name: staging
     tags:
-        - k8s, docker
+        - docker
     script:
         - kubectl config get-contexts
         - kubectl config use-context ezlab/kubernetes-agent:leo
