@@ -7,11 +7,11 @@ variables:
   DOCKER_TLS_CERTDIR: ""
 
 services:
-  - docker:23.0.6-dind
+  - docker:28.0.1-dind
 
 build:
   stage: build
-  image: docker:stable
+  image: docker:latest
   before_script:
     - apk add --no-cache docker-compose
     - docker info
