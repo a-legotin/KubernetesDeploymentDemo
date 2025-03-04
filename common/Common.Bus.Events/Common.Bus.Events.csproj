@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Common.Bus.Abstractions\Common.Bus.Abstractions.csproj" />
-      <ProjectReference Include="..\Common.Core\Common.Core.csproj" />
+        <ProjectReference Include="..\Common.Bus.Abstractions\Common.Bus.Abstractions.csproj"/>
+        <ProjectReference Include="..\Common.Core\Common.Core.csproj"/>
     </ItemGroup>
 
 </Project>

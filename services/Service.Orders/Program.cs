@@ -1,59 +1,52 @@
-using System;
-using System.Reflection;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
+using Common.Bus.Abstractions;
+using Common.Core.Logging;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Sinks.Elasticsearch;
+using Service.Orders.Consumers;
 using Service.Orders.Extensions;
 
-namespace Service.Orders
+namespace Service.Orders;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        var host = Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((hostContext, configBuilder) =>
+            {
+                var settingsFileName = $"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json";
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-                .ConfigureLogging(logging =>
+                configBuilder
+                    .AddJsonFile(settingsFileName, false, true)
+                    .AddEnvironmentVariables()
+                    .Build();
+            })
+            .ConfigureServices((context, services) =>
+            {
+                services.AddMassTransit(config =>
                 {
-                    logging.ClearProviders();
-                    logging.AddConsole();
+                    config.AddConsumer<RandomCatalogItemsPostedEventConsumer>();
+                    config.AddConsumer<RandomCustomerPostedEventConsumer>();
 
-                    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                    var configuration = new ConfigurationBuilder()
-                        .AddJsonFile($"appsettings.{environment}.json")
-                        .Build();
+                    config.UsingRabbitMq((ct, cfg) =>
+                    {
+                        cfg.Host(context.Configuration["EventBus:HostAddress"]);
 
-                    var logger = new LoggerConfiguration()
-                        .Enrich.FromLogContext()
-                        .Enrich.WithMachineName()
-                        .WriteTo.Debug()
-                        .WriteTo.Console()
-                        .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
-                        {
-                            AutoRegisterTemplate = true,
-                            IndexFormat = $"kdemo-{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
-                        })
-                        .Enrich.WithProperty("Environment", environment)
-                        .ReadFrom.Configuration(configuration)
-                        .CreateLogger();
+                        cfg.ReceiveEndpoint(EventBusConstants.RandomCatalogItemsPosted,
+                            c => { c.ConfigureConsumer<RandomCatalogItemsPostedEventConsumer>(ct); });
+                        cfg.ReceiveEndpoint(EventBusConstants.RandomCustomerPosted,
+                            c => { c.ConfigureConsumer<RandomCustomerPostedEventConsumer>(ct); });
+                    });
+                });
 
-                    logging.AddSerilog(logger, dispose: true);
-                })
-                .ConfigureAppConfiguration(builder =>
-                {
+                services.ConfigureApplicationServices();
+                services.ConfigureWorker();
+            })
+            .UseSerilog(LoggingSetup.ConfigureLogger)
+            .Build();
 
-                })
-                .ConfigureContainer<ContainerBuilder>(builder => { builder.ConfigureBuilder(); })
-                .ConfigureServices((_, services) => { services.ConfigureWorker(); });
+        host.Run();
     }
-
-
 }

@@ -25,6 +25,25 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgredb
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - admin
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - admin
+            initialDelaySeconds: 15
+            periodSeconds: 20
       imagePullSecrets:
         - name: registry-credentials
       volumes:

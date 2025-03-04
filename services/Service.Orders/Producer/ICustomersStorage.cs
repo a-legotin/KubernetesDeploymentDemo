@@ -1,10 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using Common.Core.Models;
 
-namespace Service.Orders.Producer
+namespace Service.Orders.Producer;
+
+public interface ICustomersStorage
 {
-    public interface ICustomersStorage
-    {
-        BlockingCollection<Customer> Customers { get; }
-    }
+    BlockingCollection<Customer> Customers { get; }
 }

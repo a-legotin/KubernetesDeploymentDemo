@@ -2,14 +2,13 @@
 using System.Threading.Tasks;
 using Orders.Api.Database.Models;
 
-namespace Orders.Api.Database.Repository
+namespace Orders.Api.Database.Repository;
+
+public interface IOrdersRepository
 {
-    public interface IOrdersRepository
-    {
-        Task<List<OrderDto>> GetAll();
-        Task InsertAsync(OrderDto order);
-        Task<List<OrderDto>> GetLatest(int portion);
-        Task<int> GetOrdersCount();
-        Task<OrderDto> GetById(int orderId);
-    }
+    Task<List<OrderDto>> GetAll();
+    Task<OrderDto> InsertAsync(OrderDto order);
+    Task<List<OrderDto>> GetLatest(int portion);
+    Task<int> GetOrdersCount();
+    Task<OrderDto> GetById(int orderId);
 }

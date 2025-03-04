@@ -1,13 +1,12 @@
-﻿FROM  mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+﻿FROM  mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["api/Catalog.Api/Catalog.Api.csproj", "api/Catalog.Api/"]
 COPY ["common/Common.Core/Common.Core.csproj", "common/Common.Core/"]
 COPY ["common/Common.Bus.Abstractions/Common.Bus.Abstractions.csproj", "common/Common.Bus.Abstractions/"]
 COPY ["common/Common.Bus.Events/Common.Bus.Events.csproj", "common/Common.Bus.Events/"]
-COPY ["common/Common.Bus.RabbitMQ/Common.Bus.RabbitMQ.csproj", "common/Common.Bus.RabbitMQ/"]
 
 RUN dotnet restore "api/Catalog.Api/Catalog.Api.csproj"
 COPY . .

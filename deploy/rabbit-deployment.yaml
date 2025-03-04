@@ -22,3 +22,22 @@ spec:
           envFrom:
             - configMapRef:
                 name: kdemo-rabbitmq-config
+          readinessProbe:
+            exec:
+              command:
+                - rabbitmq-diagnostics
+                - -q
+                - ping
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          livenessProbe:
+              exec:
+                command:
+                  - rabbitmq-diagnostics
+                  - -q
+                  - ping
+              initialDelaySeconds: 30
+              periodSeconds: 20

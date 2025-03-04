@@ -7,4 +7,4 @@ metadata:
     app: kdemo-postgres
 data:
   POSTGRES_USER: admin
-  POSTGRES_PASSWORD: admin!@#
+  POSTGRES_PASSWORD: admin!Ww

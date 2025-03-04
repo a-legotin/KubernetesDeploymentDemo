@@ -1,9 +1,8 @@
 ﻿using Common.Core.Models;
 
-namespace Service.Orders.Producer
+namespace Service.Orders.Producer;
+
+public interface IOrderProducer
 {
-    public interface IOrderProducer
-    {
-        Order GetNextOrder();
-    }
+    Order GetNextOrder();
 }

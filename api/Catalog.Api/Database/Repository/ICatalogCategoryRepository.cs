@@ -1,10 +1,9 @@
 ﻿using Catalog.Api.Database.Models;
 
-namespace Catalog.Api.Database.Repository
+namespace Catalog.Api.Database.Repository;
+
+public interface ICatalogCategoryRepository
 {
-    public interface ICatalogCategoryRepository
-    {
-        CatalogCategoryDto GetByDescription(string description);
-        void Insert(CatalogCategoryDto category);
-    }
+    CatalogCategoryDto GetByDescription(string description);
+    void Insert(CatalogCategoryDto category);
 }

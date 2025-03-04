@@ -1,10 +1,8 @@
-﻿using Common.Bus.Abstractions;
-using Common.Core.Models;
+﻿using Common.Core.Models;
 
-namespace Common.Bus.Events
+namespace Common.Bus.Events;
+
+public class RandomCatalogItemsPostedEvent : BaseIntegrationMessage
 {
-    public class RandomCatalogItemsPostedEvent : IntegrationMessage
-    {
-        public CatalogItem[] Items { get; set; }
-    }
+    public CatalogItem[] Items { get; set; }
 }

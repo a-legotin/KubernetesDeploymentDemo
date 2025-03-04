@@ -1,64 +1,57 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <RootNamespace>Orders.Api</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\common\Common.Bus.Abstractions\Common.Bus.Abstractions.csproj" />
-      <ProjectReference Include="..\..\common\Common.Bus.Events\Common.Bus.Events.csproj" />
-      <ProjectReference Include="..\..\common\Common.Bus.RabbitMQ\Common.Bus.RabbitMQ.csproj" />
-      <ProjectReference Include="..\..\common\Common.Core\Common.Core.csproj" />
+        <ProjectReference Include="..\..\common\Common.Bus.Abstractions\Common.Bus.Abstractions.csproj"/>
+        <ProjectReference Include="..\..\common\Common.Bus.Events\Common.Bus.Events.csproj"/>
+        <ProjectReference Include="..\..\common\Common.Core\Common.Core.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Update="Data\**">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="appsettings.Development.json">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="appsettings.Production.json">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Properties\launchSettings.json">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-      </Content>
+        <Content Update="Data\**">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+        <Content Update="appsettings.Development.json">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+        <Content Update="appsettings.Production.json">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+        <Content Update="Properties\launchSettings.json">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </Content>
     </ItemGroup>
-    
+
     <ItemGroup>
-        <PackageReference Include="Autofac" Version="7.0.1" />
-        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-        <PackageReference Include="AutoMapper" Version="12.0.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9">
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1"/>
+        <PackageReference Include="AutoMapper" Version="14.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.13">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
-        <PackageReference Include="Sentry.AspNetCore" Version="3.34.0" />
-        <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
-        <PackageReference Include="Serilog.Enrichers.ClientInfo" Version="2.0.0" />
-        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
-        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
-        <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
-        <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11"/>
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.3"/>
+        <PackageReference Include="Serilog.Enrichers.ClientInfo" Version="2.1.2"/>
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1"/>
+        <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0"/>
+        <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0"/>
+        <PackageReference Include="MassTransit" Version="8.3.6"/>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.6"/>
     </ItemGroup>
-
+    
     <ItemGroup>
-        <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Migrations" />
+        <Folder Include="Migrations"/>
     </ItemGroup>
 </Project>

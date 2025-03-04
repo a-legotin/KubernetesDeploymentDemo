@@ -1,63 +1,63 @@
 stages:
-    - build
-    - deploy
+  - build
+  - deploy
 
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
 
 services:
-    - docker:23.0.6-dind
+  - docker:23.0.6-dind
 
 build:
-    stage: build
-    image: docker:stable
-    before_script:
-        - apk add --no-cache docker-compose
-        - docker info
-    tags:
-        - docker
-    script:
-        - echo "Building docker images"
-        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-        - docker-compose build
-        - echo $CI_REGISTRY_IMAGE
-        - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE/kdemo-postgres:$CI_COMMIT_SHA
-        - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE/kdemo-postgres:latest
-        - docker tag kdemo-customer-api:latest $CI_REGISTRY_IMAGE/kdemo-customer-api:$CI_COMMIT_SHA
-        - docker tag kdemo-catalog-api:latest $CI_REGISTRY_IMAGE/kdemo-catalog-api:$CI_COMMIT_SHA
-        - docker tag kdemo-orders-api:latest $CI_REGISTRY_IMAGE/kdemo-orders-api:$CI_COMMIT_SHA
-        - docker tag kdemo-orders-service:latest $CI_REGISTRY_IMAGE/kdemo-orders-service:$CI_COMMIT_SHA
-        - docker tag kdemo-customer-api:latest $CI_REGISTRY_IMAGE/kdemo-customer-api:latest
-        - docker tag kdemo-orders-api:latest $CI_REGISTRY_IMAGE/kdemo-orders-api:latest
-        - docker tag kdemo-catalog-api:latest $CI_REGISTRY_IMAGE/kdemo-catalog-api:latest
-        - docker tag kdemo-orders-service:latest $CI_REGISTRY_IMAGE/kdemo-orders-service:latest
-        - docker tag kdemo-web:latest $CI_REGISTRY_IMAGE/kdemo-web:$CI_COMMIT_SHA
-        - docker tag kdemo-web:latest $CI_REGISTRY_IMAGE/kdemo-web:latest
-        - echo "Pushing docker images to registry"
-        - docker push $CI_REGISTRY_IMAGE/kdemo-postgres:$CI_COMMIT_SHA
-        - docker push $CI_REGISTRY_IMAGE/kdemo-customer-api:$CI_COMMIT_SHA
-        - docker push $CI_REGISTRY_IMAGE/kdemo-catalog-api:$CI_COMMIT_SHA
-        - docker push $CI_REGISTRY_IMAGE/kdemo-orders-api:$CI_COMMIT_SHA
-        - docker push $CI_REGISTRY_IMAGE/kdemo-orders-service:$CI_COMMIT_SHA
-        - docker push $CI_REGISTRY_IMAGE/kdemo-postgres:latest
-        - docker push $CI_REGISTRY_IMAGE/kdemo-customer-api:latest
-        - docker push $CI_REGISTRY_IMAGE/kdemo-catalog-api:latest
-        - docker push $CI_REGISTRY_IMAGE/kdemo-orders-service:latest
-        - docker push $CI_REGISTRY_IMAGE/kdemo-orders-api:latest
-        - docker push $CI_REGISTRY_IMAGE/kdemo-web:$CI_COMMIT_SHA
-        - docker push $CI_REGISTRY_IMAGE/kdemo-web:latest
-        
+  stage: build
+  image: docker:stable
+  before_script:
+    - apk add --no-cache docker-compose
+    - docker info
+  tags:
+    - docker
+  script:
+    - echo "Building docker images"
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker-compose build
+    - echo $CI_REGISTRY_IMAGE
+    - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE/kdemo-postgres:$CI_COMMIT_SHA
+    - docker tag kdemo-postgres:latest $CI_REGISTRY_IMAGE/kdemo-postgres:latest
+    - docker tag kdemo-customer-api:latest $CI_REGISTRY_IMAGE/kdemo-customer-api:$CI_COMMIT_SHA
+    - docker tag kdemo-catalog-api:latest $CI_REGISTRY_IMAGE/kdemo-catalog-api:$CI_COMMIT_SHA
+    - docker tag kdemo-orders-api:latest $CI_REGISTRY_IMAGE/kdemo-orders-api:$CI_COMMIT_SHA
+    - docker tag kdemo-orders-service:latest $CI_REGISTRY_IMAGE/kdemo-orders-service:$CI_COMMIT_SHA
+    - docker tag kdemo-customer-api:latest $CI_REGISTRY_IMAGE/kdemo-customer-api:latest
+    - docker tag kdemo-orders-api:latest $CI_REGISTRY_IMAGE/kdemo-orders-api:latest
+    - docker tag kdemo-catalog-api:latest $CI_REGISTRY_IMAGE/kdemo-catalog-api:latest
+    - docker tag kdemo-orders-service:latest $CI_REGISTRY_IMAGE/kdemo-orders-service:latest
+    - docker tag kdemo-web:latest $CI_REGISTRY_IMAGE/kdemo-web:$CI_COMMIT_SHA
+    - docker tag kdemo-web:latest $CI_REGISTRY_IMAGE/kdemo-web:latest
+    - echo "Pushing docker images to registry"
+    - docker push $CI_REGISTRY_IMAGE/kdemo-postgres:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/kdemo-customer-api:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/kdemo-catalog-api:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/kdemo-orders-api:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/kdemo-orders-service:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/kdemo-postgres:latest
+    - docker push $CI_REGISTRY_IMAGE/kdemo-customer-api:latest
+    - docker push $CI_REGISTRY_IMAGE/kdemo-catalog-api:latest
+    - docker push $CI_REGISTRY_IMAGE/kdemo-orders-service:latest
+    - docker push $CI_REGISTRY_IMAGE/kdemo-orders-api:latest
+    - docker push $CI_REGISTRY_IMAGE/kdemo-web:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/kdemo-web:latest
+
 deploy:
-    stage: deploy
-    image: bitnami/kubectl:1.29
-    environment:
-        name: staging
-    tags:
-        - docker
-    script:
-        - kubectl config get-contexts
-        - kubectl config use-context ezlab/kubernetes-agent:leo
-        - kubectl apply -f deploy/kdemo-namespace.yaml
-        - kubectl delete secret docker-registry registry-credentials --ignore-not-found --namespace=kdemo
-        - kubectl create secret docker-registry registry-credentials --docker-server=$CI_REGISTRY --docker-username=$EZLAB_DEPLOY_USER --docker-password=$EZLAB_DEPLOY_PWD --namespace=kdemo
+  stage: deploy
+  image: bitnami/kubectl:1.29
+  environment:
+    name: staging
+  tags:
+    - docker
+  script:
+    - kubectl config get-contexts
+    - kubectl config use-context ezlab/kubernetes-agent:leo
+    - kubectl apply -f deploy/kdemo-namespace.yaml
+    - kubectl delete secret docker-registry registry-credentials --ignore-not-found --namespace=kdemo
+    - kubectl create secret docker-registry registry-credentials --docker-server=$CI_REGISTRY --docker-username=$EZLAB_DEPLOY_USER --docker-password=$EZLAB_DEPLOY_PWD --namespace=kdemo

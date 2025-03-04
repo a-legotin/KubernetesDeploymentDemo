@@ -1,10 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using Common.Core.Models;
 
-namespace Service.Orders.Producer
+namespace Service.Orders.Producer;
+
+public interface ICatalogItemsStorage
 {
-    public interface ICatalogItemsStorage
-    {
-        BlockingCollection<CatalogItem[]> Items { get; }
-    }
+    BlockingCollection<CatalogItem[]> Items { get; }
 }

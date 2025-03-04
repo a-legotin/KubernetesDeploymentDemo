@@ -7,5 +7,5 @@ metadata:
     app: kdemo-rabbitmq
 data:
   RABBITMQ_DEFAULT_USER: admin
-  RABBITMQ_DEFAULT_PASS: Admin!p@sS
+  RABBITMQ_DEFAULT_PASS: Admin!pW
   RABBIT_PORT: "5672"

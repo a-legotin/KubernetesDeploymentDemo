@@ -1,5 +1,3 @@
-version: '3.4'
-
 services:
   kdemo-customer-api:
     image: kdemo-customer-api
@@ -11,44 +9,51 @@ services:
     networks:
       - main-network
     depends_on:
-      - kdemo-postgres
-      - kdemo-rabbitmq
+      kdemo-postgres:
+        condition: service_healthy
+      kdemo-rabbitmq:
+        condition: service_healthy
   kdemo-catalog-api:
-   image: kdemo-catalog-api
-   build:
-     context: .
-     dockerfile: api/Catalog.Api/Dockerfile
-   restart: on-failure
-   env_file: .env
-   networks:
-     - main-network
-   depends_on:
-     - kdemo-postgres
-     - kdemo-rabbitmq
+    image: kdemo-catalog-api
+    build:
+      context: .
+      dockerfile: api/Catalog.Api/Dockerfile
+    restart: on-failure
+    env_file: .env
+    networks:
+      - main-network
+    depends_on:
+      kdemo-postgres:
+        condition: service_healthy
+      kdemo-rabbitmq:
+        condition: service_healthy
   kdemo-orders-api:
-   image: kdemo-orders-api
-   build:
-     context: .
-     dockerfile: api/Orders.Api/Dockerfile
-   restart: on-failure
-   env_file: .env
-   networks:
-     - main-network
-   depends_on:
-     - kdemo-postgres
-     - kdemo-rabbitmq
+    image: kdemo-orders-api
+    build:
+      context: .
+      dockerfile: api/Orders.Api/Dockerfile
+    restart: on-failure
+    env_file: .env
+    networks:
+      - main-network
+    depends_on:
+      kdemo-postgres:
+        condition: service_healthy
+      kdemo-rabbitmq:
+        condition: service_healthy
   kdemo-orders-service:
-   image: kdemo-orders-service
-   build:
-     context: .
-     dockerfile: services/Service.Orders/Dockerfile
-   restart: on-failure
-   env_file: .env
-   networks:
-     - main-network
-   depends_on:
-     - kdemo-postgres
-     - kdemo-rabbitmq
+    image: kdemo-orders-service
+    build:
+      context: .
+      dockerfile: services/Service.Orders/Dockerfile
+    restart: on-failure
+    env_file: .env
+    networks:
+      - main-network
+    depends_on:
+      - kdemo-orders-api
+      - kdemo-catalog-api
+      - kdemo-customer-api
   kdemo-nginx:
     image: nginx:alpine
     hostname: 'kdemo-nginx'
@@ -63,6 +68,7 @@ services:
       - kdemo-orders-api
       - kdemo-catalog-api
       - kdemo-customer-api
+      - kdemo-orders-service
     restart: always
     networks:
       - main-network
@@ -79,29 +85,31 @@ services:
       - main-network
 
   kdemo-postgres:
-   image: kdemo-postgres
-   build:
-     context: ./database
-     dockerfile: Dockerfile
-   env_file: .env
-   networks:
+    image: kdemo-postgres
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    env_file: .env
+    networks:
       - main-network
-   volumes:
-     - "kdemo-postgres-data:/var/lib/postgresql/data"
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U admin'" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      
   kdemo-rabbitmq:
-     image: rabbitmq:3-management
-     env_file: .env
-     networks:
-       - main-network
+    image: rabbitmq:3-management
+    env_file: .env
+    networks:
+      - main-network
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
 
 networks:
-   main-network:
-     driver: bridge
-     
-volumes:
-  kdemo-postgres-data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ~/dev/data/kdemo-postgres
+  main-network:
+    driver: bridge

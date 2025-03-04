@@ -22,6 +22,8 @@ spec:
           env:
             - name: "ASPNETCORE_ENVIRONMENT"
               value: Production
+            - name: "DOTNET_ENVIRONMENT"
+              value: Production
       imagePullSecrets:
         - name: registry-credentials
 ---
@@ -49,6 +51,8 @@ spec:
           env:
             - name: "ASPNETCORE_ENVIRONMENT"
               value: Production
+            - name: "DOTNET_ENVIRONMENT"
+              value: Production
       imagePullSecrets:
         - name: registry-credentials
 ---
@@ -75,6 +79,8 @@ spec:
             - containerPort: 8080
           env:
             - name: "ASPNETCORE_ENVIRONMENT"
+              value: Production
+            - name: "DOTNET_ENVIRONMENT"
               value: Production
       imagePullSecrets:
         - name: registry-credentials

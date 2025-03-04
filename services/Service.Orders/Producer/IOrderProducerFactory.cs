@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 
-namespace Service.Orders.Producer
+namespace Service.Orders.Producer;
+
+public interface IOrderProducerFactory
 {
-    public interface IOrderProducerFactory
-    {
-        IOrderProducer Construct(CancellationToken cancellationToken);
-    }
+    IOrderProducer Construct(CancellationToken cancellationToken);
 }

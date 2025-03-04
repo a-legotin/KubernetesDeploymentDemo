@@ -2,16 +2,15 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Catalog.Api.Database.Models
+namespace Catalog.Api.Database.Models;
+
+public class CatalogCategoryDto
 {
-    public class CatalogCategoryDto
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public long Id { get; set; }
 
-        public Guid Guid { get; set; }
+    public Guid Guid { get; set; }
 
-        public string Description { get; set; }
-    }
+    public string Description { get; set; }
 }

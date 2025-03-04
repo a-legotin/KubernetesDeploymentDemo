@@ -1,50 +1,80 @@
-using System;
-using System.Reflection;
-using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
+using Catalog.Api.Consumers;
+using Catalog.Api.Database;
+using Catalog.Api.Extensions;
+using Common.Bus.Abstractions;
+using Common.Core.Logging;
+using MassTransit;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Sinks.Elasticsearch;
 
-namespace Catalog.Api
+namespace Catalog.Api;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddCors(options =>
         {
-            CreateHostBuilder(args).Build().Run();
-        }
+            options.AddPolicy("CorsPolicy",
+                policy => { policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin(); });
+        });
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.AddConsole();
+        builder.Host.UseSerilog(LoggingSetup.ConfigureLogger);
+        builder.Services.AddControllers();
 
-                    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                    var configuration = new ConfigurationBuilder()
-                        .AddJsonFile($"appsettings.{environment}.json")
-                        .Build();
 
-                    var logger = new LoggerConfiguration()
-                        .Enrich.FromLogContext()
-                        .Enrich.WithMachineName()
-                        .WriteTo.Debug()
-                        .WriteTo.Console()
-                        .Enrich.WithProperty("Environment", environment)
-                        .ReadFrom.Configuration(configuration)
-                        .CreateLogger();
+        builder.Services.AddMassTransit(config =>
+        {
+            config.AddConsumer<RandomCatalogItemsRequestEventConsumer>();
+            config.UsingRabbitMq((ct, cfg) =>
+            {
+                cfg.Host(builder.Configuration["EventBus:HostAddress"]);
 
-                    logging.AddSerilog(logger, dispose: true);
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseSentry();
-                    webBuilder.UseStartup<Startup>();
-                });
+                cfg.ReceiveEndpoint(EventBusConstants.RandomCatalogItemsRequested,
+                    c => { c.ConfigureConsumer<RandomCatalogItemsRequestEventConsumer>(ct); });
+            });
+        });
+
+        var dbRetryCount = string.IsNullOrEmpty(builder.Configuration["DbRetryCount"])
+            ? 3
+            : int.Parse(builder.Configuration["DbRetryCount"]);
+
+        builder.Services.AddDbContext<CatalogDbContext>(options =>
+        {
+            options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection"),
+                sqlServerOptions => sqlServerOptions.EnableRetryOnFailure(dbRetryCount));
+        });
+
+        builder.Services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        });
+
+        builder.Services.ConfigureAppServices();
+
+        var app = builder.Build();
+
+        if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage();
+
+        ApplyMigrations(app);
+
+        app.UseCors("CorsPolicy");
+        app.UseAuthorization();
+        app.MapControllers();
+        app.Run();
+    }
+
+    private static void ApplyMigrations(IApplicationBuilder applicationBuilder)
+    {
+        using var scope = applicationBuilder.ApplicationServices.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
+        db.Database.Migrate();
     }
 }

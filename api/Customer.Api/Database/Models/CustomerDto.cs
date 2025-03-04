@@ -2,24 +2,23 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Customer.Api.Database.Models
+namespace Customer.Api.Database.Models;
+
+public class CustomerDto
 {
-    public class CustomerDto
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public long Id { get; set; }
 
-        public Guid Guid { get; set; }
+    public Guid Guid { get; set; }
 
-        public string FirstName { get; set; }
+    public string FirstName { get; set; }
 
-        public string LastName { get; set; }
+    public string LastName { get; set; }
 
-        public string Email { get; set; }
+    public string Email { get; set; }
 
-        public string Gender { get; set; }
+    public string Gender { get; set; }
 
-        public DateTime UpdatedTime { get; set; }
-    }
+    public DateTime UpdatedTime { get; set; }
 }

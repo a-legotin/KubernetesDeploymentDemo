@@ -28,7 +28,7 @@ data:
         include             /etc/nginx/mime.types;
         access_log /dev/stdout;
         error_log /dev/stdout;
-        
+    
         upstream frontend {
                 server          kdemo-web;
         }
@@ -63,7 +63,7 @@ data:
                 resolver 127.0.0.11 ipv6=off;
                 proxy_pass  http://catalog-api;
             }
-            
+    
             location / {
                  resolver 127.0.0.11 ipv6=off;
                         proxy_pass  http://frontend;
