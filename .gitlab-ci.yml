@@ -35,6 +35,8 @@ build:
     - docker tag kdemo-web:latest $CI_REGISTRY_IMAGE/kdemo-web:$CI_COMMIT_SHA
     - docker tag kdemo-web:latest $CI_REGISTRY_IMAGE/kdemo-web:latest
     - echo "Pushing docker images to registry"
+    - echo $CI_REGISTRY
+    - echo $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE/kdemo-postgres:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/kdemo-customer-api:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/kdemo-catalog-api:$CI_COMMIT_SHA

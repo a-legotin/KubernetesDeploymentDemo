@@ -1,7 +1,7 @@
-﻿FROM  mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+﻿FROM  mcr.microsoft.com/dotnet/aspnet:8.0-alpine3.21 AS base
 WORKDIR /app
 EXPOSE 80
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /src
 COPY ["api/Customer.Api/Customer.Api.csproj", "api/Customer.Api/"]
 COPY ["common/Common.Core/Common.Core.csproj", "common/Common.Core/"]

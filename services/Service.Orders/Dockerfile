@@ -1,6 +1,6 @@
-﻿FROM  mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+﻿FROM  mcr.microsoft.com/dotnet/aspnet:8.0-alpine3.21 AS base
 WORKDIR /app
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /src
 COPY ["services/Service.Orders/Service.Orders.csproj", "services/Service.Orders/"]
 COPY ["common/Common.Core/Common.Core.csproj", "common/Common.Core/"]
