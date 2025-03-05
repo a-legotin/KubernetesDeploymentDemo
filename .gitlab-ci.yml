@@ -52,7 +52,7 @@ build:
 
 deploy:
   stage: deploy
-  image: bitnami/kubectl:1.29
+  image: bitnami/kubectl:latest
   environment:
     name: staging
   tags:
