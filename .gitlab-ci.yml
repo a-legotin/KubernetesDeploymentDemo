@@ -52,7 +52,9 @@ build:
 
 deploy:
   stage: deploy
-  image: bitnami/kubectl:latest
+  image: 
+    name: bitnami/kubectl:latest
+    entrypoint: [""]
   environment:
     name: staging
   tags:
