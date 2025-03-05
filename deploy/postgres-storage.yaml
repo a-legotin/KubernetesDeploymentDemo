@@ -6,9 +6,9 @@ metadata:
   labels:
     app: kdemo-postgres
 spec:
-  storageClassName: microk8s-hostpath
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
+  storageClassName: local-path
