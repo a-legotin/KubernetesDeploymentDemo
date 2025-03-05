@@ -65,3 +65,4 @@ deploy:
     - kubectl apply -f deploy/kdemo-namespace.yaml
     - kubectl delete secret docker-registry registry-credentials --ignore-not-found --namespace=kdemo
     - kubectl create secret docker-registry registry-credentials --docker-server=$CI_REGISTRY --docker-username=$EZLAB_DEPLOY_USER --docker-password=$EZLAB_DEPLOY_PWD --namespace=kdemo
+    - kubectl apply -f deploy/
