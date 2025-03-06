@@ -66,3 +66,8 @@ deploy:
     - kubectl delete secret docker-registry registry-credentials --ignore-not-found --namespace=kdemo
     - kubectl create secret docker-registry registry-credentials --docker-server=$CI_REGISTRY --docker-username=$EZLAB_DEPLOY_USER --docker-password=$EZLAB_DEPLOY_PWD --namespace=kdemo
     - kubectl apply -f deploy/
+    - kubectl rollout restart deployment/kdemo-web-deployment --namespace=kdemo
+    - kubectl rollout restart deployment/kdemo-customer-api-deployment --namespace=kdemo
+    - kubectl rollout restart deployment/kdemo-catalog-api-deployment --namespace=kdemo
+    - kubectl rollout restart deployment/kdemo-orders-api-deployment --namespace=kdemo
+    - kubectl rollout restart deployment/kdemo-orders-service-deployment --namespace=kdemo
