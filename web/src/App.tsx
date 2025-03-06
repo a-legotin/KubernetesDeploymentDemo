@@ -34,11 +34,6 @@ class App extends Component<Props, State> {
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to={{ pathname: "https://metrics.kdemo.staging.codegarage.ru"}} target="_blank" className="nav-link">
-                Go to kibana
-              </Link>
-            </li>
           </ul>
         </header>
         <main>

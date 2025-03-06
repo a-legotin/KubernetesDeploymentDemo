@@ -1,83 +1,142 @@
-import {Component} from "react";
-import {Card} from "./orders-card.component";
+import { Component } from "react";
+import { Card } from "./orders-card.component";
 import LatestOrders from "./latest-orders.component";
-import {getTotalOrdersCount} from "../services/orders.service";
-import {getTotalCustomersCount} from "../services/customers.service";
-import {getTotalCatalogItemsCount} from "../services/catalog.service";
+import { getTotalOrdersCount } from "../services/orders.service";
+import { getTotalCustomersCount } from "../services/customers.service";
+import { getTotalCatalogItemsCount } from "../services/catalog.service";
 
-type Props = {};
+// Proper interface definitions
+interface Props {}
 
-type State = {
+interface State {
     content: string;
-    totalOrders: number,
-    totalCustomers: number,
-    totalCatalogItems: number
+    totalOrders: number;
+    totalCustomers: number;
+    totalCatalogItems: number;
+    loading: boolean;
+    error: string | null;
 }
 
 export default class Home extends Component<Props, State> {
+    private isMounted: boolean = false;
+
     constructor(props: Props) {
-      super(props);
-      
+        super(props);
         this.state = {
             content: "",
             totalOrders: 0,
             totalCustomers: 0,
-            totalCatalogItems: 0
+            totalCatalogItems: 0,
+            loading: false,
+            error: null
         };
     }
 
     componentDidMount() {
-        const fetchData = async () => {
-            const ordersTotal = await getTotalOrdersCount();
-            const customersTotal = await getTotalCustomersCount();
-            const catalogTotal = await getTotalCatalogItemsCount();
+        this.isMounted = true;
+        this.fetchData();
+    }
 
-            this.setState({
-                totalOrders: ordersTotal,
-                totalCustomers: customersTotal,
-                totalCatalogItems: catalogTotal
-            });
-        };
+    componentWillUnmount() {
+        this.isMounted = false;
+    }
 
-        fetchData().then(r => console.log("Loaded stat data"));
+    async fetchData() {
+        try {
+            this.setState({ loading: true, error: null });
+            
+            const [ordersTotal, customersTotal, catalogTotal] = await Promise.all([
+                getTotalOrdersCount(),
+                getTotalCustomersCount(),
+                getTotalCatalogItemsCount()
+            ]);
+
+            if (this.isMounted) {
+                this.setState({
+                    totalOrders: ordersTotal || 0,
+                    totalCustomers: customersTotal || 0,
+                    totalCatalogItems: catalogTotal || 0,
+                    loading: false
+                });
+                console.log("Loaded stat data");
+            }
+        } catch (error) {
+            if (this.isMounted) {
+                this.setState({
+                    loading: false,
+                    error: error instanceof Error ? error.message : 'Failed to load statistics'
+                });
+                console.error("Error loading stats:", error);
+            }
+        }
+    }
+
+    renderCard(title: string, value: number) {
+        return (
+            <div className="col">
+                <Card title={title} value={value} />
+            </div>
+        );
+    }
+
+    renderLoader() {
+        return (
+            <div className="col">
+                <div className="text-center">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    renderError() {
+        return (
+            <div className="alert alert-danger" role="alert">
+                {this.state.error}
+                <button 
+                    className="btn btn-link" 
+                    onClick={() => this.fetchData()}
+                >
+                    Retry
+                </button>
+            </div>
+        );
     }
 
     render() {
-        const {totalOrders, totalCatalogItems, totalCustomers} = this.state;
+        const { totalOrders, totalCustomers, totalCatalogItems, loading, error } = this.state;
 
-        const renderLoader = () => {
-          return <div className="text-center">
-              <div className="spinner-border" role="status" />
-          </div>
-        }
-
-        const renderCard = (title: string, value: number) => {
-            return <div className="col">
-                <Card title={title} value={value}/>
-            </div>
-        }
-
-        const renderOrdersTotal = () => {
-            return totalOrders ? renderCard("Orders total", this.state.totalOrders) : renderLoader();
-        }
-
-        const renderCustomersTotal = () => {
-            return totalCustomers ? renderCard("Customers total", this.state.totalCustomers) : renderLoader();
-
-        }
-
-        const renderCatalogItemsTotal = () => {
-            return totalCatalogItems ? renderCard("Catalog items", this.state.totalCatalogItems) : renderLoader();
+        if (error) {
+            return (
+                <div className="container">
+                    {this.renderError()}
+                </div>
+            );
         }
 
         return (
             <div className="container">
                 <div className="row row-cols-1 row-cols-md-3 mb-3">
-                    {renderOrdersTotal()}
-                    {renderCustomersTotal()}
-                    {renderCatalogItemsTotal()}
+                    {loading 
+                        ? (
+                            <>
+                                {this.renderLoader()}
+                                {this.renderLoader()}
+                                {this.renderLoader()}
+                            </>
+                        ) 
+                        : (
+                            <>
+                                {this.renderCard("Orders total", totalOrders)}
+                                {this.renderCard("Customers total", totalCustomers)}
+                                {this.renderCard("Catalog items", totalCatalogItems)}
+                            </>
+                        )
+                    }
                 </div>
-                <LatestOrders/>
+                <LatestOrders />
             </div>
         );
     }
