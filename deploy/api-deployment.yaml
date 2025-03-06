@@ -5,6 +5,11 @@ metadata:
   namespace: kdemo
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: kdemo-customer-api
@@ -34,6 +39,11 @@ metadata:
   namespace: kdemo
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: kdemo-catalog-api
@@ -63,6 +73,11 @@ metadata:
   namespace: kdemo
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: kdemo-orders-api
