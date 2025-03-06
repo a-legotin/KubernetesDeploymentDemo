@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Catalog.Api.Consumers;
 
-public class RandomCatalogItemsRequestEventConsumer : IConsumer<RandomCatalogItemsRequest>
+internal class RandomCatalogItemsRequestEventConsumer : IConsumer<RandomCatalogItemsRequest>
 {
     private readonly ICatalogItemsRepository _catalogItemsRepository;
     private readonly IBus _eventBus;

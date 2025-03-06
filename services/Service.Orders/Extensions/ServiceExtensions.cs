@@ -4,7 +4,7 @@ using Service.Orders.Producer;
 
 namespace Service.Orders.Extensions;
 
-public static class ServiceExtensions
+internal static class ServiceExtensions
 {
     public static void ConfigureApplicationServices(this IServiceCollection services)
     {

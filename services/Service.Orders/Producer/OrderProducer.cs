@@ -4,7 +4,7 @@ using Common.Core.Models;
 
 namespace Service.Orders.Producer;
 
-public class OrderProducer : IOrderProducer
+internal class OrderProducer : IOrderProducer
 {
     private readonly int _blockingTimeOutMilliseconds = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
     private readonly CancellationToken _cancellationToken;

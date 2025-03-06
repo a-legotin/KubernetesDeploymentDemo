@@ -3,7 +3,7 @@ using Common.Core.Models;
 
 namespace Service.Orders.Producer;
 
-public interface ICatalogItemsStorage
+internal interface ICatalogItemsStorage
 {
     BlockingCollection<CatalogItem[]> Items { get; }
 }

@@ -5,7 +5,7 @@ using Orders.Api.Database.Repository;
 
 namespace Orders.Api.Extensions;
 
-public static class ServiceExtensions
+internal static class ServiceExtensions
 {
     public static IServiceCollection ConfigureAppServices(this IServiceCollection services)
     {

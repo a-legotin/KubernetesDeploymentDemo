@@ -9,7 +9,7 @@ using Orders.Api.Database.Repository;
 
 namespace Orders.Api.Consumers;
 
-public class OrderPostedEventConsumer : IConsumer<OrderPostedEvent>
+internal class OrderPostedEventConsumer : IConsumer<OrderPostedEvent>
 {
     private readonly ILogger<OrderPostedEventConsumer> _logger;
     private readonly IMapper _mapper;

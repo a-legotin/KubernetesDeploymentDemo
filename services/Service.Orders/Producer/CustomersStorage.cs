@@ -3,7 +3,7 @@ using Common.Core.Models;
 
 namespace Service.Orders.Producer;
 
-public class CustomersStorage : ICustomersStorage
+internal class CustomersStorage : ICustomersStorage
 {
     public CustomersStorage()
     {

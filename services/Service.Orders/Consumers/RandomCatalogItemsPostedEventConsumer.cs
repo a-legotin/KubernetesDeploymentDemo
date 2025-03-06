@@ -7,7 +7,7 @@ using Service.Orders.Producer;
 
 namespace Service.Orders.Consumers;
 
-public class RandomCatalogItemsPostedEventConsumer : IConsumer<RandomCatalogItemsPostedEvent>
+internal class RandomCatalogItemsPostedEventConsumer : IConsumer<RandomCatalogItemsPostedEvent>
 {
     private readonly ICatalogItemsStorage _catalogItems;
     private readonly ILogger<RandomCatalogItemsPostedEventConsumer> _logger;

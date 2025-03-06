@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Customer.Api.Consumers;
 
-public class RandomCustomerRequestEventConsumer : IConsumer<RandomCustomerRequest>
+internal class RandomCustomerRequestEventConsumer : IConsumer<RandomCustomerRequest>
 {
     private readonly ICustomerRepository _customerRepository;
     private readonly IBus _eventBus;

@@ -5,23 +5,27 @@ using Common.Bus.Events;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Service.Orders.Producer;
+using Service.Orders.Settings;
 
 namespace Service.Orders;
 
-public class OrderGenerator : BackgroundService
+internal class OrderGenerator : BackgroundService
 {
     private readonly IBus _bus;
     private readonly ILogger<OrderGenerator> _logger;
     private readonly IOrderProducerFactory _orderProducerFactory;
-
+    private readonly IOptionsMonitor<OrderGeneratorSettings> _settingsMonitor;
+    
     public OrderGenerator(ILogger<OrderGenerator> logger,
         IOrderProducerFactory orderProducerFactory,
-        IBus bus)
+        IBus bus, IOptionsMonitor<OrderGeneratorSettings> settingsMonitor)
     {
         _logger = logger;
         _orderProducerFactory = orderProducerFactory;
         _bus = bus;
+        _settingsMonitor = settingsMonitor;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -42,7 +46,7 @@ public class OrderGenerator : BackgroundService
                 _logger.LogDebug("Created order {CustomerGuid} for {CustomerName}", order.Guid, order.Customer);
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(3), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(_settingsMonitor.CurrentValue.DelayMinutes), stoppingToken);
         }
     }
 }

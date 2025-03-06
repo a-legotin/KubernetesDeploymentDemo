@@ -3,7 +3,7 @@ using Common.Core.Models;
 
 namespace Service.Orders.Producer;
 
-public class CatalogItemsStorage : ICatalogItemsStorage
+internal class CatalogItemsStorage : ICatalogItemsStorage
 {
     public CatalogItemsStorage()
     {

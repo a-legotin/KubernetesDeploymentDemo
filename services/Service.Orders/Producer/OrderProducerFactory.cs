@@ -2,7 +2,7 @@
 
 namespace Service.Orders.Producer;
 
-public class OrderProducerFactory : IOrderProducerFactory
+internal class OrderProducerFactory : IOrderProducerFactory
 {
     private readonly ICatalogItemsStorage _catalogItems;
     private readonly ICustomersStorage _customers;

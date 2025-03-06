@@ -14,7 +14,7 @@ using Serilog;
 
 namespace Customer.Api;
 
-public class Program
+internal class Program
 {
     public static void Main(string[] args)
     {

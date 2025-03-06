@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Customer.Api.Extensions;
 
-public static class ServiceExtensions
+internal static class ServiceExtensions
 {
     public static IServiceCollection ConfigureAppServices(this IServiceCollection services)
     {

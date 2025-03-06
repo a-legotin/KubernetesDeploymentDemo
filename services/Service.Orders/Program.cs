@@ -2,14 +2,16 @@ using Common.Bus.Abstractions;
 using Common.Core.Logging;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Service.Orders.Consumers;
 using Service.Orders.Extensions;
+using Service.Orders.Settings;
 
 namespace Service.Orders;
 
-public class Program
+internal class Program
 {
     public static void Main(string[] args)
     {
@@ -25,6 +27,11 @@ public class Program
             })
             .ConfigureServices((context, services) =>
             {
+                services.AddOptions<OrderGeneratorSettings>()
+                    .Bind(context.Configuration.GetSection("OrderGeneratorSettings"))
+                    .ValidateDataAnnotations()
+                    .ValidateOnStart();
+                    
                 services.AddMassTransit(config =>
                 {
                     config.AddConsumer<RandomCatalogItemsPostedEventConsumer>();

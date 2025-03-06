@@ -2,7 +2,7 @@
 
 namespace Service.Orders.Producer;
 
-public interface IOrderProducer
+internal interface IOrderProducer
 {
     Order GetNextOrder();
 }

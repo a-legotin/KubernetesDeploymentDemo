@@ -7,7 +7,7 @@ using Service.Orders.Producer;
 
 namespace Service.Orders.Consumers;
 
-public class RandomCustomerPostedEventConsumer : IConsumer<RandomCustomerPostedEvent>
+internal class RandomCustomerPostedEventConsumer : IConsumer<RandomCustomerPostedEvent>
 {
     private readonly ICustomersStorage _customers;
     private readonly ILogger<RandomCustomerPostedEventConsumer> _logger;
