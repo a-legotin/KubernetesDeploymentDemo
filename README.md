@@ -6,7 +6,7 @@ Playground project demonstrating docker compose and kubernetes deployment of mul
 
 # Service diagram
 
-![Diagram](https://raw.githubusercontent.com/a-legotin/KubernetesLoadBalancing/main/assets/service-diagram.svg)
+![Diagram](https://github.com/a-legotin/KubernetesDeploymentDemo/blob/master/assets/service-diagram.svg)
 
 
 # Description
