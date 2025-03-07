@@ -18,7 +18,7 @@ interface State {
 }
 
 export default class Home extends Component<Props, State> {
-    private isMounted: boolean = false;
+    private _isMounted: boolean = false;
 
     constructor(props: Props) {
         super(props);
@@ -33,12 +33,12 @@ export default class Home extends Component<Props, State> {
     }
 
     componentDidMount() {
-        this.isMounted = true;
+        this._isMounted = true;
         this.fetchData();
     }
 
     componentWillUnmount() {
-        this.isMounted = false;
+        this._isMounted = false;
     }
 
     async fetchData() {
@@ -51,7 +51,7 @@ export default class Home extends Component<Props, State> {
                 getTotalCatalogItemsCount()
             ]);
 
-            if (this.isMounted) {
+            if (this._isMounted) {
                 this.setState({
                     totalOrders: ordersTotal || 0,
                     totalCustomers: customersTotal || 0,
@@ -61,7 +61,7 @@ export default class Home extends Component<Props, State> {
                 console.log("Loaded stat data");
             }
         } catch (error) {
-            if (this.isMounted) {
+            if (this._isMounted) {
                 this.setState({
                     loading: false,
                     error: error instanceof Error ? error.message : 'Failed to load statistics'
