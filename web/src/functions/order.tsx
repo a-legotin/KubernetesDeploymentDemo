@@ -75,7 +75,7 @@ const Order: React.FC = () => {
     return (
         <div>
             <h2>Order #{order.id}</h2>
-            <h4>{moment(order.updatedAt).format('LLLL')}</h4>
+            <h4>{moment(order.updatedTime).format('LLLL')}</h4>
             <div className="row">
                 <CustomerComponent order={order} />
             </div>
