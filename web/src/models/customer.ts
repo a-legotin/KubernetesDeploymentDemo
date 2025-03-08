@@ -5,5 +5,5 @@ export default interface ICustomer{
     last_name: string,
     email: string,
     gender: string,
-    updatedAt: string,
+    updatedTime: string,
 }

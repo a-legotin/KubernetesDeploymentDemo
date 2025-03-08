@@ -18,7 +18,7 @@ public class OrdersDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<OrderDto>().HasKey(m => m.Id);
-        builder.Entity<OrderDto>().Property<DateTime>("UpdatedTime");
+        builder.Entity<OrderDto>().Property("UpdatedTime").IsConcurrencyToken();
         base.OnModelCreating(builder);
     }
 

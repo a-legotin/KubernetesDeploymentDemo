@@ -4,6 +4,6 @@ export default interface IOrder {
     customerName: string,
     customerGuid: string,
     itemGuids: string[],
-    updatedAt: string
+    updatedTime: string
 }
 

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import IOrder from "../models/order";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootswatch/dist/zephyr/bootstrap.min.css';
+import moment from 'moment';
 
 interface Props {}
 
@@ -81,6 +82,7 @@ export default class LatestOrders extends Component<Props, State> {
                                 <th scope="col">Guid</th>
                                 <th scope="col">Customer</th>
                                 <th scope="col">Items</th>
+                                <th scope="col">Updated</th>
                                 <th scope="col">Details</th>
                             </tr>
                         </thead>
@@ -91,6 +93,7 @@ export default class LatestOrders extends Component<Props, State> {
                                     <td>{order.guid}</td>
                                     <td>{order.customerName}</td>
                                     <td>{order.itemGuids.length}</td>
+                                    <td>{moment(order.updatedTime).format('dddd, MMMM D [at] h:mm A')}</td>
                                     <td>
                                         <Link to={`order/${order.id}`}>
                                             <i className="bi bi-arrow-right-circle"></i>

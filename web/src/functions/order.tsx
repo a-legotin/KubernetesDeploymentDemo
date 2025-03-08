@@ -4,10 +4,12 @@ import { getOrderById } from "../services/orders.service";
 import IOrder from "../models/order";
 import OrderItemsComponent from "../components/order-items.component";
 import CustomerComponent from "../components/customer.component";
+import moment from 'moment';
 
 const Order: React.FC = () => {
     const { orderId } = useParams<{ orderId?: string }>(); 
-    
+    const userLocale = navigator.language;
+    moment.locale(userLocale);
     
     const [order, setOrder] = useState<IOrder | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -73,6 +75,7 @@ const Order: React.FC = () => {
     return (
         <div>
             <h2>Order #{order.id}</h2>
+            <h4>{moment(order.updatedAt).format('LLLL')}</h4>
             <div className="row">
                 <CustomerComponent order={order} />
             </div>
