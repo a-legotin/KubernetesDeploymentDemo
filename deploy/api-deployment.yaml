@@ -29,6 +29,8 @@ spec:
               value: Production
             - name: "DOTNET_ENVIRONMENT"
               value: Production
+            - name: "Elastic__Uri"
+              value: "$EZLAB_ELASTIC_STAGING"
       imagePullSecrets:
         - name: registry-credentials
 ---
@@ -63,6 +65,8 @@ spec:
               value: Production
             - name: "DOTNET_ENVIRONMENT"
               value: Production
+            - name: "Elastic__Uri"
+              value: "$EZLAB_ELASTIC_STAGING"
       imagePullSecrets:
         - name: registry-credentials
 ---
@@ -97,5 +101,7 @@ spec:
               value: Production
             - name: "DOTNET_ENVIRONMENT"
               value: Production
+            - name: "Elastic__Uri"
+              value: "$EZLAB_ELASTIC_STAGING"
       imagePullSecrets:
         - name: registry-credentials

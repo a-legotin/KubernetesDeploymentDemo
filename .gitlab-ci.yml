@@ -57,6 +57,8 @@ deploy:
     entrypoint: [""]
   environment:
     name: staging
+  variables:
+    EZLAB_ELASTIC_STAGING: "$EZLAB_ELASTIC_STAGING"
   tags:
     - docker
   script:
@@ -65,7 +67,8 @@ deploy:
     - kubectl apply -f deploy/kdemo-namespace.yaml
     - kubectl delete secret docker-registry registry-credentials --ignore-not-found --namespace=kdemo
     - kubectl create secret docker-registry registry-credentials --docker-server=$CI_REGISTRY --docker-username=$EZLAB_DEPLOY_USER --docker-password=$EZLAB_DEPLOY_PWD --namespace=kdemo
-    - kubectl apply -f deploy/
+    - cd deploy
+    - for f in *.yaml; do envsubst < $f | kubectl apply -f -; done
     - kubectl rollout restart deployment/kdemo-web-deployment --namespace=kdemo
     - kubectl rollout restart deployment/kdemo-customer-api-deployment --namespace=kdemo
     - kubectl rollout restart deployment/kdemo-catalog-api-deployment --namespace=kdemo
